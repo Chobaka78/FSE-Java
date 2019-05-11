@@ -18,7 +18,7 @@ public class Main extends ApplicationAdapter {
 	Map tiledMap;
 	Open_Player world;
 	private int mx,my, vx, vy;
-	public static int moves;
+	public static int moves,moves1;
 	public static final int Attack = 0, Kick = 1;
 	static boolean animation;
 	static String Game = "Menu", Mode; // this is a String that will determine what the current mode is(main menu, level, etc.)
@@ -26,7 +26,6 @@ public class Main extends ApplicationAdapter {
     public static OrthographicCamera camera;
     public static final int UP = 0, Down = 1, Left = 2, Right = 3;
     static boolean animation1;
-    public static int moves1;
 
 	@Override
 	public void create () {
