@@ -11,7 +11,7 @@ public class Player {
     static ArrayList<Texture> tmp;
     static ArrayList<ArrayList<Texture>> sprites = new ArrayList<ArrayList<Texture>>();
     int [] list = new int []{7,7};
-    String [] movement = new String[]{"attackg","kameg"};
+    private String [] movement = new String[]{"attackg","kameg"};
     private static int frame = 0;
     int t = 0;
 
@@ -24,7 +24,7 @@ public class Player {
         this.x = x;
         this.y = y;
         Goku = new Sprite();
-
+        // loading regular goku sprites
         for(int k = 0; k < list.length; k ++) {
             for (String i : movement) {
                 tmp = new ArrayList<Texture>();
@@ -74,7 +74,7 @@ public class Player {
         return frame;
     }
 
-    public void update(SpriteBatch batch){
+    public void update(SpriteBatch batch, int x, int y){
         if(Main.animation && Main.moves == Main.Attack){
             moveFrames();
         }
@@ -85,8 +85,6 @@ public class Player {
             moveStance();
         }
 
-
-        System.out.println(t + "," + frame);
         Goku.set(new Sprite(sprites.get(Main.moves).get(frame)));
         render(batch);
     }

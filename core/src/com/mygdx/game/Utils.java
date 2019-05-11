@@ -14,28 +14,29 @@ public class Utils {
     ShapeRenderer shape;
     Music music,level1;
     ArrayList<ArrayList<Texture>> Fonts = new ArrayList<ArrayList<Texture>>();
-    ArrayList<Texture> tmp;
+    ArrayList<Texture> play;
     static int choice;
     public Utils(){
         this.x = x;
         this.y = y;
         Font = new Sprite();
         music = Gdx.audio.newMusic(Gdx.files.internal("Assets/Music/Mainmenu.mp3"));
-        tmp = new ArrayList<Texture>();
-        tmp.add(new Texture("Assets/Fonts/play.png"));
-        tmp.add(new Texture("Assets/Fonts/play1.png"));
-        Fonts.add(tmp);
+
+        play = new ArrayList<Texture>();
+        play.add(new Texture("Assets/Buttons/Play/play0.png"));
+        play.add(new Texture("Assets/Buttons/Play/play1.png"));
+        Fonts.add(play);
 
     }
 
     public void render(SpriteBatch batch){
         Font.draw(batch);
+
     }
 
-    public void update(SpriteBatch batch,int x, int y){
+    public void update(SpriteBatch batch, int x, int y){
         Font.set(new Sprite(Fonts.get(0).get(choice)));
         Font.setPosition(x,y);
-
         render(batch);
     }
 }
