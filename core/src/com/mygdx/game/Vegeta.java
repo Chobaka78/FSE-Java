@@ -64,6 +64,23 @@ public class Vegeta {
         return framev;
     }
 
+
+    public int moveStance(){ // this is the animation for the stance of the character
+        if(framev < 3) {
+            if (t < 3) {
+                t++;
+                if (t == 3) {
+                    framev += 1;
+                    if (framev == 3) {
+                        framev = 0;
+                        Main.animation = false;
+                    }
+                    t = 0;
+                }
+            }
+        }
+        return framev;
+    }
     public void update(SpriteBatch batch, int x, int y) {
         if (Main.animation && Main.movesv == Main.Attack) {
 
