@@ -1,7 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,20 +7,21 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ArrayList;
 
 public class Open_Player {
-    private static int x, y , vx, vy;
-    static Sprite Goku;
+    private static int x, y;
+    public Sprite Goku;
     static ArrayList<Texture> tmp;
     static ArrayList<ArrayList<Texture>> sprites = new ArrayList<ArrayList<Texture>>();
     private String [] open_Movement = new String[]{"Up", "Down", "Left", "Right"};
     int [] open_list = new int [] {5,5,5,5};
     public int frames = 0;
     int t = 0;
+    Map map;
 
     public Open_Player(int x, int y){
             this.x = x;
             this.y = y;
-
-                Goku = new Sprite();
+            map = new Map();
+            Goku = new Sprite();
         //loading sprites for open
         for(int i = 0; i < open_list.length; i ++ ){
             for(String w : open_Movement){
@@ -37,9 +36,9 @@ public class Open_Player {
 
         public int moveFrames(){ // this is the animation for the movement frames the character
         if(frames < open_list[Main.moves1]){
-            if(t < 3) {
+            if(t < 2) {
                 t ++;
-                if(t == 3) {
+                if(t == 2) {
                     frames += 1;
                     if (frames == open_list[Main.moves1]) {
                         frames = 0;
@@ -52,7 +51,7 @@ public class Open_Player {
         return frames;
     }
 
-    public void update(SpriteBatch batch, int vx, int vy){
+    public void update(SpriteBatch batch, int x, int y){
 
         if(Main.animation1 && Main.moves1 == Main.UP){
             moveFrames();
@@ -70,8 +69,9 @@ public class Open_Player {
             frames = 0;
         }
 
+
         Goku.set(new Sprite(sprites.get(Main.moves1).get(frames)));
-        Goku.setPosition(vx,vy);
+        Goku.setPosition(x,y);
         render(batch);
     }
     public void render(SpriteBatch batch){
