@@ -65,7 +65,7 @@ public class Main extends ApplicationAdapter {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             utils.music.play();
             mx = Gdx.input.getX();
-            my = Gdx.input.getY();
+            my = Math.abs(660 - Gdx.input.getY());
             rect = new Rectangle(mx,my,3,3); // mouse rect made for collision (1 by 1 square)
             if(Utils.Font.getBoundingRectangle().overlaps(rect)){
                 Utils.choice = 1;
