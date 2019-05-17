@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import static com.mygdx.game.Utils.Font;
-import static com.mygdx.game.Utils.contin;
+
+import static com.mygdx.game.Utils.*;
 
 public class Main extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -23,7 +23,7 @@ public class Main extends ApplicationAdapter {
 	static Utils utils;
 	Map tiledMap;
 	Open_Player world;
-	private int mx,my, vx=192, vy=175;
+	static int mx,my, vx=192, vy=175;
 	static String mode;
 
 	public static final int Attack = 0, Kick = 1;
@@ -34,7 +34,7 @@ public class Main extends ApplicationAdapter {
     static Rectangle rect;
     public static OrthographicCamera camera;
     public static final int UP = 0, Down = 1, Left = 2, Right = 3;
-    static boolean animation1;
+    static boolean animation1, contact;
     public static int moves1;
 
 	@Override
@@ -44,7 +44,7 @@ public class Main extends ApplicationAdapter {
 		goku = new Player(200,200);
 		vegeta = new Vegeta(600,100);
 		utils = new Utils();
-		world = new Open_Player(200,200);
+		world = new Open_Player();
 		background = new Texture("Assets/Backgrounds/Mainmenu.png");
 		city = new Texture("Assets/Backgrounds/city.png");
 		stage = new Texture("Assets/Backgrounds/stage.png");
@@ -127,11 +127,12 @@ public class Main extends ApplicationAdapter {
             Gdx.gl.glClearColor(225,225,225,0);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-            tiledMap.render(camera);
+            tiledMap.update(camera);
             mx = Gdx.input.getX();
             my = Gdx.input.getY();
-            System.out.println(vx);
-            // System.out.println(mx + ", " + my);
+//            System.out.println(vx);
+//            System.out.println(tiledMap.body1.getPosition());
+            System.out.println(contact);
 
 
             if(Gdx.input.isKeyPressed(Input.Keys.UP)){
@@ -159,7 +160,7 @@ public class Main extends ApplicationAdapter {
                 world.frames = 0;
             }
             batch.begin();
-            world.update(batch, vx, vy);
+            world.update(batch,(int)tiledMap.body1.getPosition().x-8,(int)tiledMap.body1.getPosition().y-15);
             batch.end();
         }
     }
