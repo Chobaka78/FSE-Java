@@ -17,22 +17,14 @@ public class Open_Player {
     int [] open_list = new int [] {5,5,5,5};
     public int frames = 0;
     int t = 0;
-    private Box2DDebugRenderer b2dr;
+    static  Box2DDebugRenderer b2dr;
     public Body body;
+    Rectangle rect;
 
 
     public Open_Player(){
-            Goku = new Sprite();
-        //loading sprites for open
-        for(int i = 0; i < open_list.length; i ++ ){
-            for(String w : open_Movement){
-                tmp = new ArrayList<Texture>();
-                for(int k = 0; k < open_list[i]; k ++){
-                    tmp.add(new Texture("Assets/Sprites/" + w + "/" + w + k + ".png"));
-                }
-                sprites.add(tmp);
-            }
-        }
+        Goku = new Sprite();
+        Load();
         createBody();
     }
 
@@ -53,19 +45,36 @@ public class Open_Player {
         return frames;
     }
 
+    public void Load(){
+        for(int i = 0; i < open_list.length; i ++ ){
+            for(String w : open_Movement){
+                tmp = new ArrayList<Texture>();
+                for(int k = 0; k < open_list[i]; k ++){
+                    tmp.add(new Texture("Assets/Sprites/" + w + "/" + w + k + ".png"));
+                }
+                sprites.add(tmp);
+            }
+        }
+    }
+
     public void createBody(){
         Goku.setPosition(192,175);
 
+        rect = new Rectangle((int) Goku.getX(), (int) Goku.getY(), (int) Goku.getWidth(), (int) Goku.getHeight());
+
         b2dr = new Box2DDebugRenderer();
+
         BodyDef bdef2 = new BodyDef();
         bdef2.type = BodyDef.BodyType.DynamicBody;
-        PolygonShape shape1 = new PolygonShape();
-        shape1.setAsBox(5 ,10);
+        PolygonShape shape = new PolygonShape();
         FixtureDef fdef1 = new FixtureDef();
-        fdef1.shape = shape1;
+        fdef1.shape = shape;
+        shape.setAsBox(rect.width * (float) Math.pow(Main.PPM, 2), rect.height * (float) Math.pow(Main.PPM, 2));
+
         body = Main.world.createBody(bdef2);
-        body.setTransform(192,175,0);
         body.createFixture(fdef1).setUserData("Player");
+        body.setTransform((float) rect.getX() * Main.PPM, (float) rect.getY() * Main.PPM, 0);
+
 
     }
 
@@ -93,7 +102,8 @@ public class Open_Player {
         render(batch);
     }
     public void render(SpriteBatch batch){
-        batch.draw(Goku,body.getPosition().x - Goku.getWidth(),body.getPosition().y - Goku.getHeight());
+        batch.draw(Goku,body.getPosition().x - Goku.getWidth() * (float) Math.pow(Main.PPM,2),body.getPosition().y - Goku.getHeight() * (float) Math.pow(Main.PPM, 2), Goku.getWidth() * (float) Math.pow(Main.PPM, 2) * 3, Goku.getHeight() * (float) Math.pow(Main.PPM, 2) * 3);
+
     }
 
     public void setX(float x) {

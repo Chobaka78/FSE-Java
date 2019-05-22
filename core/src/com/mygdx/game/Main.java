@@ -17,21 +17,23 @@ import com.badlogic.gdx.physics.box2d.*;
 import static com.mygdx.game.Utils.*;
 
 public class Main extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture background;
-	Texture city;
-	Texture stage;
-	Texture over;
+	private SpriteBatch batch;
+	private Texture background;
+    private Texture city;
+    private Texture stage;
+    private Texture over;
 
-	Player goku;
-	Vegeta vegeta;
-	Open_Player player;
+    private Player goku;
+    private Vegeta vegeta;
+    private Open_Player player;
 	static Utils utils;
-	static WorldCreator worldcreator;
-	int mx, my, speed = 1000;
+    static WorldCreator worldcreator;
+	int mx, my, speed = 5000;
 	static String mode;
 
 	public static final int Attack = 0, Kick = 1;
+	public static final float PPM = 0.3f;
+	public static final int Tile = 20;
     public static int movesg;
     public static int movesv =2;
     static boolean animation;
@@ -42,13 +44,11 @@ public class Main extends ApplicationAdapter {
     static boolean animation1;
     public static int moves1;
 
-    private int width  = 1100, height = 660;
-
     private TmxMapLoader mapLoader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
+    Box2DDebugRenderer b2dr;
     public static World world;
-    private Box2DDebugRenderer b2dr;
 
 
 	@Override
@@ -65,17 +65,15 @@ public class Main extends ApplicationAdapter {
 		stage = new Texture("Assets/Backgrounds/stage.png");
         over = new Texture("Assets/Backgrounds/gameover.png");
 
-        camera = new OrthographicCamera();
+        b2dr = new Box2DDebugRenderer();
 
-        camera.setToOrtho(false,width,height);
+        camera = new OrthographicCamera(366f,220f);
 
         mapLoader = new TmxMapLoader();
 
         map = mapLoader.load("Assets/Maps/World map.tmx");
 
-        renderer = new OrthogonalTiledMapRenderer(map);
-
-        b2dr = new Box2DDebugRenderer();
+        renderer = new OrthogonalTiledMapRenderer(map, PPM);
 
         worldcreator = new WorldCreator(world,map);
 
@@ -143,9 +141,9 @@ public class Main extends ApplicationAdapter {
         }
 
         if (Game.equals("Level1")&& mode.equals ("open")) {
+            camera.zoom = PPM;
             //Rendering the map
-            world.step(1.60f,6,2);
-            Gdx.gl.glClearColor(0.5f, 0.7f, 0.9f, 1);
+            world.step(1/60f,6,2);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
             camera.update();
@@ -153,7 +151,9 @@ public class Main extends ApplicationAdapter {
             renderer.setView(camera);
             renderer.render();
             batch.setProjectionMatrix(camera.combined);
+            b2dr.render(world,camera.combined);
 
+            System.out.println("[" + (int)Open_Player.Goku.getX() + "," + (int)Open_Player.Goku.getY() + "]" + ", " + "[" + (int)player.body.getPosition().x + "," + (int)player.body.getPosition().y + "]");
 
             utils.worldmusic.play();
 
@@ -176,7 +176,7 @@ public class Main extends ApplicationAdapter {
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
             moves1 = UP;
-            player.body.applyForce(new Vector2(0,speed*5),player.body.getWorldCenter(),true);
+            player.body.applyLinearImpulse(new Vector2(0,speed*5),player.body.getWorldCenter(),true);
             animation1 = true;
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
@@ -195,9 +195,16 @@ public class Main extends ApplicationAdapter {
             animation1 = true;
         }
         else{
+            player.body.applyLinearImpulse(new Vector2(player.body.getLinearVelocity().x * -1, player.body.getLinearVelocity().y * -1), player.body.getWorldCenter(), true);
             animation1 = false;
             player.frames = 0;
         }
+
+        player.setX(player.body.getPosition().x);
+        player.setY(player.body.getPosition().y);
+
+        camera.position.x = player.getX();
+        camera.position.y = player.getY();
     }
 
 	@Override
