@@ -5,17 +5,14 @@ import com.badlogic.gdx.physics.box2d.*;
 
 
 public class WorldContactListener implements ContactListener {
-
     @Override
     public void beginContact(Contact contact) {
         Gdx.app.log("Begin Contact", "");
-        Main.contact = true;
-
     }
 
     @Override
     public void endContact(Contact contact) {
-        Main.contact = false;
+
         Gdx.app.log("End Contact", "");
     }
 

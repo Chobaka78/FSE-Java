@@ -3,6 +3,9 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.*;
+
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Open_Player {
@@ -14,6 +17,8 @@ public class Open_Player {
     int [] open_list = new int [] {5,5,5,5};
     public int frames = 0;
     int t = 0;
+    private Box2DDebugRenderer b2dr;
+    public Body body;
 
 
     public Open_Player(){
@@ -28,8 +33,7 @@ public class Open_Player {
                 sprites.add(tmp);
             }
         }
-
-
+        createBody();
     }
 
         public int moveFrames(){ // this is the animation for the movement frames the character
@@ -49,7 +53,25 @@ public class Open_Player {
         return frames;
     }
 
-    public void update(SpriteBatch batch, int x, int y){
+    public void createBody(){
+        Goku.setPosition(192,175);
+
+        b2dr = new Box2DDebugRenderer();
+        BodyDef bdef2 = new BodyDef();
+        bdef2.type = BodyDef.BodyType.DynamicBody;
+        PolygonShape shape1 = new PolygonShape();
+        shape1.setAsBox(5 ,10);
+        FixtureDef fdef1 = new FixtureDef();
+        fdef1.shape = shape1;
+        body = Main.world.createBody(bdef2);
+        body.setTransform(192,175,0);
+        body.createFixture(fdef1).setUserData("Player");
+
+    }
+
+    public void update(SpriteBatch batch){
+
+        Goku.setPosition(body.getPosition().x,body.getPosition().y);
 
         if(Main.animation1 && Main.moves1 == Main.UP){
             moveFrames();
@@ -68,10 +90,25 @@ public class Open_Player {
         }
 
         Goku.set(new Sprite(sprites.get(Main.moves1).get(frames)));
-        Goku.setPosition(x,y);
         render(batch);
     }
     public void render(SpriteBatch batch){
-        Goku.draw(batch);
+        batch.draw(Goku,body.getPosition().x - Goku.getWidth(),body.getPosition().y - Goku.getHeight());
+    }
+
+    public void setX(float x) {
+        Goku.setX(x);
+    }
+
+    public void setY(float y) {
+        Goku.setY(y);
+    }
+
+    public float getX() {
+        return Goku.getX();
+    }
+
+    public float getY() {
+        return Goku.getY();
     }
 }

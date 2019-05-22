@@ -6,7 +6,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
+
 
 import static com.mygdx.game.Utils.*;
 
@@ -16,14 +22,13 @@ public class Main extends ApplicationAdapter {
 	Texture city;
 	Texture stage;
 	Texture over;
-	Texture title;
 
 	Player goku;
 	Vegeta vegeta;
+	Open_Player player;
 	static Utils utils;
-	Map tiledMap;
-	Open_Player world;
-	static int mx,my, vx=192, vy=175;
+	static WorldCreator worldcreator;
+	int mx, my, speed = 1000;
 	static String mode;
 
 	public static final int Attack = 0, Kick = 1;
@@ -34,28 +39,47 @@ public class Main extends ApplicationAdapter {
     static Rectangle rect;
     public static OrthographicCamera camera;
     public static final int UP = 0, Down = 1, Left = 2, Right = 3;
-    static boolean animation1, contact;
+    static boolean animation1;
     public static int moves1;
+
+    private int width  = 1100, height = 660;
+
+    private TmxMapLoader mapLoader;
+    private TiledMap map;
+    private OrthogonalTiledMapRenderer renderer;
+    public static World world;
+    private Box2DDebugRenderer b2dr;
+
 
 	@Override
 	public void create () {
-        tiledMap = new Map();
+        world = new World(new Vector2(0,0),true);
         batch = new SpriteBatch();
 		goku = new Player(200,200);
 		vegeta = new Vegeta(600,100);
 		utils = new Utils();
-		world = new Open_Player();
+		player = new Open_Player();
+
 		background = new Texture("Assets/Backgrounds/Mainmenu.png");
 		city = new Texture("Assets/Backgrounds/city.png");
 		stage = new Texture("Assets/Backgrounds/stage.png");
         over = new Texture("Assets/Backgrounds/gameover.png");
 
-
-
-
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,0,0);
-        camera.update();
+
+        camera.setToOrtho(false,width,height);
+
+        mapLoader = new TmxMapLoader();
+
+        map = mapLoader.load("Assets/Maps/World map.tmx");
+
+        renderer = new OrthogonalTiledMapRenderer(map);
+
+        b2dr = new Box2DDebugRenderer();
+
+        worldcreator = new WorldCreator(world,map);
+
+        world.setContactListener(new WorldContactListener());
 
 	}
 
@@ -84,7 +108,8 @@ public class Main extends ApplicationAdapter {
 
             }
         }
-        if (vx >513 && vy > 327 && mode != "gameover" && Player.fstat[0] >0 ) {
+
+        if (player.body.getPosition().x >513 && player.body.getPosition().y > 327 && mode != "gameover" && Player.fstat[0] >0 ) {
             utils.worldmusic.stop();
             mode = "battle";
             battle.battle();
@@ -96,6 +121,7 @@ public class Main extends ApplicationAdapter {
             Utils.attacks.draw(batch);
             batch.end();
         }
+
         if (Player.fstat[0] <0 && mode != "open"){
             utils.bossbattle.stop();
             utils.victory.play();
@@ -116,52 +142,61 @@ public class Main extends ApplicationAdapter {
 
         }
 
-
-
-
-
-
-
         if (Game.equals("Level1")&& mode.equals ("open")) {
-            utils.worldmusic.play();
-            Gdx.gl.glClearColor(225,225,225,0);
+            //Rendering the map
+            world.step(1.60f,6,2);
+            Gdx.gl.glClearColor(0.5f, 0.7f, 0.9f, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-            tiledMap.update(camera);
+            camera.update();
+
+            renderer.setView(camera);
+            renderer.render();
+            batch.setProjectionMatrix(camera.combined);
+
+
+            utils.worldmusic.play();
+
             mx = Gdx.input.getX();
             my = Gdx.input.getY();
-//            System.out.println(vx);
-//            System.out.println(tiledMap.body1.getPosition());
-            System.out.println(contact);
 
-
-            if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-                moves1 = UP;
-                vy +=5;
-                animation1 = true;
-            }
-            else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-                moves1 = Down;
-                vy -=5;
-                animation1 = true;
-            }
-            else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-                moves1 = Left;
-                vx -= 5;
-                animation1 = true;
-            }
-            else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-                moves1 = Right;
-                vx +=5;
-                animation1 = true;
-            }
-            else{
-                animation1 = false;
-                world.frames = 0;
-            }
             batch.begin();
-            world.update(batch,(int)tiledMap.body1.getPosition().x-8,(int)tiledMap.body1.getPosition().y-15);
+            update();
             batch.end();
+            move();
+        }
+    }
+
+    public void update(){
+        player.update(batch);
+    }
+
+    public void move(){
+        player.body.setLinearVelocity(0,0);
+
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+            moves1 = UP;
+            player.body.applyForce(new Vector2(0,speed*5),player.body.getWorldCenter(),true);
+            animation1 = true;
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            moves1 = Down;
+            player.body.applyLinearImpulse(new Vector2(0,-speed*5),player.body.getWorldCenter(),true);
+            animation1 = true;
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            moves1 = Left;
+            player.body.applyLinearImpulse(new Vector2(-speed*5,0),player.body.getWorldCenter(),true);
+            animation1 = true;
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            moves1 = Right;
+            player.body.applyLinearImpulse(new Vector2(speed*5,0),player.body.getWorldCenter(),true);
+            animation1 = true;
+        }
+        else{
+            animation1 = false;
+            player.frames = 0;
         }
     }
 
@@ -169,5 +204,6 @@ public class Main extends ApplicationAdapter {
 	public void dispose (){
 		batch.dispose();
 		utils.music.dispose();
+		renderer.dispose();
 	}
 }
