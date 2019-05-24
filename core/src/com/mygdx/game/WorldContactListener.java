@@ -7,6 +7,9 @@ import com.badlogic.gdx.physics.box2d.*;
 public class WorldContactListener implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
+        if(contact.getFixtureA().getUserData() == "Player" && contact.getFixtureB().getUserData() == "Frieza" && Main.mode != "gameover" && Goku.fstat[0] >0){
+            Main.mode = "battle";
+        }
         Gdx.app.log("Begin Contact", "");
     }
 

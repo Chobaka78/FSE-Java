@@ -18,28 +18,48 @@ import static com.mygdx.game.Utils.*;
 
 public class Main extends ApplicationAdapter {
 	private SpriteBatch batch;
+
 	private Texture background;
+
     private Texture city;
+
     private Texture stage;
+
     private Texture over;
 
-    private Player goku;
-    private Vegeta vegeta;
-    private Open_Player player;
-	static Utils utils;
-    static WorldCreator worldcreator;
-	int mx, my, speed = 5000;
-	static String mode;
+    private Goku goku;
 
-	public static final int Attack = 0, Kick = 1;
+    private Vegeta vegeta;
+
+    private Player player;
+
+	static Utils utils;
+
+	private Frieza frieza;
+
+    static WorldCreator worldcreator;
+
+	int mx, my, speed = 5000;
+
+	static String mode = "";
+
+	public static final int Attack = 0;
+
 	public static final float PPM = 0.3f;
-	public static final int Tile = 20;
+
     public static int movesg;
+
     public static int movesv =2;
+
     static boolean animation;
-	static String Game = "Menu", Mode; // this is a String that will determine what the current mode is(main menu, level, etc.)
+
+    static float width = 366f, height = 220f;
+
+	static String Game = "Menu"; // this is a String that will determine what the current mode is(main menu, level, etc.)
+
     static Rectangle rect;
-    public static OrthographicCamera camera;
+
+    public static OrthographicCamera camera, camera2;
     public static final int UP = 0, Down = 1, Left = 2, Right = 3;
     static boolean animation1;
     public static int moves1;
@@ -55,10 +75,11 @@ public class Main extends ApplicationAdapter {
 	public void create () {
         world = new World(new Vector2(0,0),true);
         batch = new SpriteBatch();
-		goku = new Player(200,200);
+		goku = new Goku(200,200);
 		vegeta = new Vegeta(600,100);
 		utils = new Utils();
-		player = new Open_Player();
+		player = new Player();
+		frieza = new Frieza();
 
 		background = new Texture("Assets/Backgrounds/Mainmenu.png");
 		city = new Texture("Assets/Backgrounds/city.png");
@@ -67,7 +88,7 @@ public class Main extends ApplicationAdapter {
 
         b2dr = new Box2DDebugRenderer();
 
-        camera = new OrthographicCamera(366f,220f);
+        camera = new OrthographicCamera(width, height);
 
         mapLoader = new TmxMapLoader();
 
@@ -83,6 +104,7 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+        System.out.println(mode);
         if (Game.equals("Menu")) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             utils.music.play();
@@ -107,9 +129,8 @@ public class Main extends ApplicationAdapter {
             }
         }
 
-        if (player.body.getPosition().x >513 && player.body.getPosition().y > 327 && mode != "gameover" && Player.fstat[0] >0 ) {
+        if (mode.equals("battle")) {
             utils.worldmusic.stop();
-            mode = "battle";
             battle.battle();
             rect  = new Rectangle(200,200,20,20);
             batch.begin();
@@ -120,7 +141,7 @@ public class Main extends ApplicationAdapter {
             batch.end();
         }
 
-        if (Player.fstat[0] <0 && mode != "open"){
+        if (Goku.fstat[0] <0 && mode != "open"){
             utils.bossbattle.stop();
             utils.victory.play();
 
@@ -142,6 +163,8 @@ public class Main extends ApplicationAdapter {
 
         if (Game.equals("Level1")&& mode.equals ("open")) {
             camera.zoom = PPM;
+
+
             //Rendering the map
             world.step(1/60f,6,2);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -151,9 +174,6 @@ public class Main extends ApplicationAdapter {
             renderer.setView(camera);
             renderer.render();
             batch.setProjectionMatrix(camera.combined);
-            b2dr.render(world,camera.combined);
-
-            System.out.println("[" + (int)Open_Player.Goku.getX() + "," + (int)Open_Player.Goku.getY() + "]" + ", " + "[" + (int)player.body.getPosition().x + "," + (int)player.body.getPosition().y + "]");
 
             utils.worldmusic.play();
 
@@ -169,6 +189,7 @@ public class Main extends ApplicationAdapter {
 
     public void update(){
         player.update(batch);
+        frieza.update(batch);
     }
 
     public void move(){
@@ -176,26 +197,26 @@ public class Main extends ApplicationAdapter {
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
             moves1 = UP;
-            player.body.applyLinearImpulse(new Vector2(0,speed*5),player.body.getWorldCenter(),true);
+            player.getBody().applyLinearImpulse(new Vector2(0,speed*2), player.getBody().getWorldCenter(),true);
             animation1 = true;
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             moves1 = Down;
-            player.body.applyLinearImpulse(new Vector2(0,-speed*5),player.body.getWorldCenter(),true);
+            player.getBody().applyLinearImpulse(new Vector2(0,-speed*2), player.getBody().getWorldCenter(),true);
             animation1 = true;
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             moves1 = Left;
-            player.body.applyLinearImpulse(new Vector2(-speed*5,0),player.body.getWorldCenter(),true);
+            player.getBody().applyLinearImpulse(new Vector2(-speed*2,0), player.getBody().getWorldCenter(),true);
             animation1 = true;
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             moves1 = Right;
-            player.body.applyLinearImpulse(new Vector2(speed*5,0),player.body.getWorldCenter(),true);
+            player.getBody().applyLinearImpulse(new Vector2(speed*2,0), player.getBody().getWorldCenter(),true);
             animation1 = true;
         }
         else{
-            player.body.applyLinearImpulse(new Vector2(player.body.getLinearVelocity().x * -1, player.body.getLinearVelocity().y * -1), player.body.getWorldCenter(), true);
+            player.getBody().applyLinearImpulse(new Vector2(player.getBody().getLinearVelocity().x * -1, player.getBody().getLinearVelocity().y * -1), player.getBody().getWorldCenter(), true);
             animation1 = false;
             player.frames = 0;
         }

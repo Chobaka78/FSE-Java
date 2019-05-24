@@ -3,113 +3,134 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import org.w3c.dom.Text;
+import com.badlogic.gdx.physics.box2d.*;
 
-import javax.swing.text.Position;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Player {
+    private static int x, y;
     static Sprite Goku;
-    private static int x,y;
-    static ArrayList<Texture> tmpg;
+    static ArrayList<Texture> tmp;
     static ArrayList<ArrayList<Texture>> sprites = new ArrayList<ArrayList<Texture>>();
-    int [] list = new int []{7,7};
-    private String [] movement = new String[]{"attackg","kameg"};
-    private static int frame = 0;
-    int t = 0, r =0;
+    int [] open_list = new int [] {5,5,5,5};
+    public int frames = 0;
+    int t = 0;
+    Body body;
+    Rectangle rect;
 
-    static int[] gstat = {8000, 300, 8000, 200}; // hp,ki,attack,def
-    static int[] vstat = {7000, 500, 10000, 150};
-    static int[] gostat = {6500, 350, 300, 300};
-    static int[] fstat = {50000, 500, 500, 400};
 
-    public Player(int x, int y){
-        this.x = x;
-        this.y = y;
+    public Player(){
         Goku = new Sprite();
-
-        // loading regular goku sprites
-        for(int k = 0; k < list.length; k ++) {
-            for (String i : movement) {
-                tmpg = new ArrayList<Texture>();
-                for (int j = 0; j < list[k]; j++) {
-                    tmpg.add(new Texture("Assets/Sprites/" + i + "/" + i + j + ".png"));
-                }
-                sprites.add(tmpg);
-            }
-        }
+        createBody();
+        Load();
     }
+
     public void render(SpriteBatch batch){
-        Goku.draw(batch);
+        batch.draw(Goku,body.getPosition().x - Goku.getWidth() * (float) Math.pow(Main.PPM,2),body.getPosition().y - Goku.getHeight() * (float) Math.pow(Main.PPM, 2), Goku.getWidth() * (float) Math.pow(Main.PPM, 2) * 3, Goku.getHeight() * (float) Math.pow(Main.PPM, 2) * 3);
 
     }
 
-    public int moveFrames(){ // this is the animation for the movement of the character
-        if(frame < list[Main.movesg]){
-            //System.out.println("FAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACCCCCCCCCCCCCCCCCCCCTTTTTTTTS");
-            if(r < 3) {
-                r ++;
-                if(r == 3) {
-                    frame += 1;
-                    if (frame == list[Main.movesg]) {
-                        System.out.println(" it is " + battle.turn+"turn");
-                        fstat[0] = fstat[0] + ((fstat[3]*1/2) - gstat[2]);
-                        frame = 0;
-                        System.out.println(fstat[0]);
-                        Main.animation = false;
-                        battle.turn = "vegeta";
-                        Main.movesg = 2;
-
-                    }
-                    r = 0;
-                }
-            }
-        }
-
-        return frame;
-    }
-
-    public int moveStance(){ // this is the animation for the stance of the character
-        if(frame < 3) {
-            if (t < 3) {
-                t++;
-                if (t == 3) {
-                    frame += 1;
-                    if (frame == 3) {
-                        frame = 0;
-                        Main.animation = false;
+    public int moveFrames(){ // this is the animation for the movement frames the character
+        if(frames < open_list[Main.moves1]){
+            if(t < 2) {
+                t ++;
+                if(t == 2) {
+                    frames += 1;
+                    if (frames == open_list[Main.moves1]) {
+                        frames = 0;
+                        Main.animation1 = false;
                     }
                     t = 0;
                 }
             }
         }
-        return frame;
+        return frames;
     }
-    public void update(SpriteBatch batch, int x, int y){
-        if(Main.animation && Main.movesg == Main.Attack){
+
+    public void Load(){
+        for(int i = 0; i < open_list.length; i ++ ){
+            for(String w : new String[]{"Up", "Down", "Left", "Right"}){
+                tmp = new ArrayList<Texture>();
+                for(int k = 0; k < open_list[i]; k ++){
+                    tmp.add(new Texture("Assets/Sprites/" + w + "/" + w + k + ".png"));
+                }
+                sprites.add(tmp);
+            }
+        }
+    }
+
+    public void createBody(){
+        Goku.setPosition(192,175);
+
+        rect = new Rectangle((int) Goku.getX(), (int) Goku.getY(), (int) Goku.getWidth(), (int) Goku.getHeight());
+
+        BodyDef bdef = new BodyDef();
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        this.body = Main.world.createBody(bdef);
+
+        FixtureDef fdef = new FixtureDef();
+        PolygonShape shape = new PolygonShape();
+
+        fdef.shape = shape;
+
+        shape.setAsBox(5 * (float) Math.pow(Main.PPM, 2), 10 * (float) Math.pow(Main.PPM, 2));
+
+        this.body.createFixture(fdef);
+
+        this.body.getFixtureList().get(0).setUserData("Player");
+        this.body.getFixtureList().get(0).setUserData("Player");
+
+        this.body.setTransform((float) rect.getX() * Main.PPM, (float) rect.getY() * Main.PPM, 0);
+
+        MassData thiccc = new MassData();
+        thiccc.mass = 90f;//in kg
+        this.body.setMassData(thiccc);
+
+
+    }
+
+    public void update(SpriteBatch batch){
+
+        Goku.setPosition(body.getPosition().x,body.getPosition().y);
+
+        if(Main.animation1 && Main.moves1 == Main.UP){
+            moveFrames();
+        }
+        else if(Main.animation1 && Main.moves1 == Main.Down){
+            moveFrames();
+        }
+        else if(Main.animation1 && Main.moves1 == Main.Left){
+            moveFrames();
+        }
+        else if(Main.animation1 && Main.moves1 == Main.Right){
             moveFrames();
         }
         else{
-            frame = 0;
+            frames = 0;
         }
-        Goku.set(new Sprite(sprites.get(Main.movesg).get(frame)));
-        Goku.setPosition(500,200);
-        render(batch);
 
+        Goku.set(new Sprite(sprites.get(Main.moves1).get(frames)));
+        this.render(batch);
     }
 
-    public static int getX(){
-        return x;
+    public void setX(float x) {
+        Goku.setX(x);
     }
 
-    // gets the y of player
-    public static int getY(){
-        return y;
+    public void setY(float y) {
+        Goku.setY(y);
     }
 
-    // sets the x of player
-    public void setX(int x){
-        Player.x = x;
+    public float getX() {
+        return Goku.getX();
     }
 
+    public float getY() {
+        return Goku.getY();
+    }
+
+    public Body getBody() {
+        return body;
+    }
 }

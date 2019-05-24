@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="55" height="33" tilewidth="20" tileheight="20" infinite="0" nextlayerid="19" nextobjectid="191">
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="55" height="33" tilewidth="20" tileheight="20" infinite="0" nextlayerid="23" nextobjectid="218">
  <tileset firstgid="1" source="city0.tsx"/>
  <layer id="8" name="Background" width="55" height="33">
   <data encoding="csv">
@@ -142,11 +142,7 @@
   <object id="132" x="1100.5" y="0" width="15.5" height="305"/>
  </objectgroup>
  <objectgroup id="14" name="Interactions">
-  <object id="133" x="504.5" y="310.5" width="33.5" height="30">
-   <ellipse/>
-  </object>
-  <object id="135" x="165" y="460.5" width="65" height="49.5">
-   <ellipse/>
-  </object>
+  <object id="191" x="167" y="459" width="64" height="55"/>
+  <object id="192" x="505.75" y="312.875" width="32.25" height="27"/>
  </objectgroup>
 </map>
