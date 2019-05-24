@@ -54,7 +54,7 @@ public class Utils {
 
     public void update(SpriteBatch batch,int x, int y){
         Font.set(new Sprite(Fonts.get(0).get(choice)));
-        attacks.setPosition(200,150);
+        attacks.setPosition(500,50);
         contin.setPosition(360,50);
         t.setPosition(440,500);
         Font.setPosition(x,y);

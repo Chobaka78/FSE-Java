@@ -18,10 +18,10 @@ public class Player {
     private static int frame = 0;
     int t = 0, r =0;
 
-    static int[] gstat = {8000, 300, 8000, 200}; // hp,ki,attack,def
-    static int[] vstat = {7000, 500, 10000, 150};
+    static int[] gstat = {8000, 300, 800, 200}; // hp,ki,attack,def
+    static int[] vstat = {7000, 500, 1000, 150};
     static int[] gostat = {6500, 350, 300, 300};
-    static int[] fstat = {50000, 500, 500, 400};
+    static int[] fstat = {20000, 500, 250, 400};
 
     public Player(int x, int y){
         this.x = x;
@@ -55,7 +55,7 @@ public class Player {
                         System.out.println(" it is " + battle.turn+"turn");
                         fstat[0] = fstat[0] + ((fstat[3]*1/2) - gstat[2]);
                         frame = 0;
-                        System.out.println(fstat[0]);
+                        System.out.println("frieza health : " + fstat[0]);
                         Main.animation = false;
                         battle.turn = "vegeta";
                         Main.movesg = 2;
@@ -90,10 +90,10 @@ public class Player {
             moveFrames();
         }
         else{
-            frame = 0;
+            frame = 0 ;
         }
         Goku.set(new Sprite(sprites.get(Main.movesg).get(frame)));
-        Goku.setPosition(500,200);
+        Goku.setPosition(700,450);
         render(batch);
 
     }
