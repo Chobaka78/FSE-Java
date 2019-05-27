@@ -74,7 +74,7 @@ public class Frieza {
         rect = new Rectangle((int) Frieza.getX(), (int) Frieza.getY(), (int) Frieza.getWidth(), (int) Frieza.getHeight());
 
         BodyDef bdef = new BodyDef();
-        bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.type = BodyDef.BodyType.StaticBody;
         body = Main.world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
@@ -82,7 +82,7 @@ public class Frieza {
 
         fdef.shape = shape;
 
-        shape.setAsBox(5 * (float) Math.pow(Main.PPM, 2), 10 * (float) Math.pow(Main.PPM, 2));
+        shape.setAsBox(136 * (float) Math.pow(Main.PPM, 2), 116 * (float) Math.pow(Main.PPM, 2));
 
         body.createFixture(fdef).setUserData("Frieza");
 

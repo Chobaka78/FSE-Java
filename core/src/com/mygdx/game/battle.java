@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 
 
 public class battle {
@@ -12,8 +11,6 @@ public class battle {
     static String turn = "goku";
 
     public static void battle() {
-
-
         //this.mode = mode;
         if (Main.Game.equals("Level1")) {
 

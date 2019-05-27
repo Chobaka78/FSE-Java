@@ -88,10 +88,16 @@ public class Main extends ApplicationAdapter {
 
         b2dr = new Box2DDebugRenderer();
 
-        camera = new OrthographicCamera(width, height);
-
         mapLoader = new TmxMapLoader();
 
+        if(Game.equals("Level1")&& mode.equals ("open")) {
+            camera = new OrthographicCamera(width,height);
+
+        }
+        else{
+            camera = new OrthographicCamera();
+            camera.setToOrtho(false,1100,660);
+        }
         map = mapLoader.load("Assets/Maps/World map.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, PPM);
@@ -104,7 +110,7 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-        System.out.println(mode);
+        System.out.println(mode + ", " + (int)player.getBody().getPosition().x +", " +  (int)player.getBody().getPosition().y);
         if (Game.equals("Menu")) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             utils.music.play();
@@ -130,10 +136,12 @@ public class Main extends ApplicationAdapter {
         }
 
         if (mode.equals("battle")) {
+            camera.zoom = 0f;
             utils.worldmusic.stop();
             battle.battle();
             rect  = new Rectangle(200,200,20,20);
             batch.begin();
+
             batch.draw(stage,0,0);
             goku.update(batch,600,200);
             vegeta.update(batch,600,300);
@@ -163,8 +171,6 @@ public class Main extends ApplicationAdapter {
 
         if (Game.equals("Level1")&& mode.equals ("open")) {
             camera.zoom = PPM;
-
-
             //Rendering the map
             world.step(1/60f,6,2);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

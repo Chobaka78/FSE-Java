@@ -74,7 +74,7 @@ public class Player {
 
         fdef.shape = shape;
 
-        shape.setAsBox(5 * (float) Math.pow(Main.PPM, 2), 10 * (float) Math.pow(Main.PPM, 2));
+        shape.setAsBox(5 * (float) Math.pow(Main.PPM, 2),10 * (float) Math.pow(Main.PPM, 2));
 
         this.body.createFixture(fdef);
 
