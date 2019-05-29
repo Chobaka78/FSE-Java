@@ -6,61 +6,112 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import static com.mygdx.game.Utils.Font;
-import static com.mygdx.game.Utils.contin;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
+
+
+import static com.mygdx.game.Utils.*;
 
 public class Main extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture background;
-	Texture city;
-	Texture stage;
-	Texture over;
-	Texture title;
+	private SpriteBatch batch;
 
-	Player goku;
-	Vegeta vegeta;
+	private Texture background;
+
+    private Texture city;
+
+    private Texture stage;
+
+    private Texture over;
+
+    private Goku goku;
+
+    private Vegeta vegeta;
+
+    private Player player;
+
 	static Utils utils;
-	Map tiledMap;
-	Open_Player world;
-	private int mx,my, vx=192, vy=175;
-	static String mode;
 
-	public static final int Attack = 0, Kick = 1;
+	private Frieza frieza;
+
+    static WorldCreator worldcreator;
+
+	int mx, my, speed = 5000;
+
+	static String mode = "";
+
+	public static final int Attack = 0;
+
+	public static final float PPM = 0.3f;
+
     public static int movesg;
+
     public static int movesv =2;
+    public static int movef =2;
+    public static int movego = 2;
     static boolean animation;
-	static String Game = "Menu", Mode; // this is a String that will determine what the current mode is(main menu, level, etc.)
+
+    static float width = 366f, height = 220f;
+
+	static String Game = "Menu"; // this is a String that will determine what the current mode is(main menu, level, etc.)
+
     static Rectangle rect;
-    public static OrthographicCamera camera;
+
+    public static OrthographicCamera camera, camera2;
     public static final int UP = 0, Down = 1, Left = 2, Right = 3;
     static boolean animation1;
     public static int moves1;
 
+    private TmxMapLoader mapLoader;
+    private TiledMap map;
+    private OrthogonalTiledMapRenderer renderer;
+    Box2DDebugRenderer b2dr;
+    public static World world;
+
+
 	@Override
 	public void create () {
-        tiledMap = new Map();
+        world = new World(new Vector2(0,0),true);
         batch = new SpriteBatch();
-		goku = new Player(200,200);
+		goku = new Goku(200,200);
 		vegeta = new Vegeta(600,100);
 		utils = new Utils();
-		world = new Open_Player(200,200);
+		player = new Player();
+		frieza = new Frieza();
+
 		background = new Texture("Assets/Backgrounds/Mainmenu.png");
 		city = new Texture("Assets/Backgrounds/city.png");
 		stage = new Texture("Assets/Backgrounds/stage.png");
         over = new Texture("Assets/Backgrounds/gameover.png");
 
+        b2dr = new Box2DDebugRenderer();
 
+        mapLoader = new TmxMapLoader();
 
+        if(Game.equals("Level1")&& mode.equals ("open")) {
+            camera = new OrthographicCamera(width,height);
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false,0,0);
-        camera.update();
+        }
+        else{
+            camera = new OrthographicCamera();
+            camera.setToOrtho(false,1100,660);
+        }
+        map = mapLoader.load("Assets/Maps/World map.tmx");
+
+        renderer = new OrthogonalTiledMapRenderer(map, PPM);
+
+        worldcreator = new WorldCreator(world,map);
+
+        world.setContactListener(new WorldContactListener());
 
 	}
 
 	@Override
 	public void render () {
+        System.out.println(mode + ", " + (int)player.getBody().getPosition().x +", " +  (int)player.getBody().getPosition().y);
         if (Game.equals("Menu")) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             utils.music.play();
@@ -84,19 +135,22 @@ public class Main extends ApplicationAdapter {
 
             }
         }
-        if (vx >513 && vy > 327 && mode != "gameover" && Player.fstat[0] >0 ) {
+
+        if (mode.equals("battle")) {
+            camera.zoom = 0f;
             utils.worldmusic.stop();
-            mode = "battle";
             battle.battle();
             rect  = new Rectangle(200,200,20,20);
             batch.begin();
+
             batch.draw(stage,0,0);
             goku.update(batch,600,200);
             vegeta.update(batch,600,300);
             Utils.attacks.draw(batch);
             batch.end();
         }
-        if (Player.fstat[0] <0 && mode != "open"){
+
+        if (Goku.fstat[0] <0 && mode != "open"){
             utils.bossbattle.stop();
             utils.victory.play();
 
@@ -116,57 +170,75 @@ public class Main extends ApplicationAdapter {
 
         }
 
-
-
-
-
-
-
         if (Game.equals("Level1")&& mode.equals ("open")) {
-            utils.worldmusic.play();
-            Gdx.gl.glClearColor(225,225,225,0);
+            camera.zoom = PPM;
+            //Rendering the map
+            world.step(1/60f,6,2);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-            tiledMap.render(camera);
+            camera.update();
+
+            renderer.setView(camera);
+            renderer.render();
+            batch.setProjectionMatrix(camera.combined);
+
+            utils.worldmusic.play();
+
             mx = Gdx.input.getX();
             my = Gdx.input.getY();
-            System.out.println(vx);
-            // System.out.println(mx + ", " + my);
 
-
-            if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-                moves1 = UP;
-                vy +=5;
-                animation1 = true;
-            }
-            else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-                moves1 = Down;
-                vy -=5;
-                animation1 = true;
-            }
-            else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-                moves1 = Left;
-                vx -= 5;
-                animation1 = true;
-            }
-            else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-                moves1 = Right;
-                vx +=5;
-                animation1 = true;
-            }
-            else{
-                animation1 = false;
-                world.frames = 0;
-            }
             batch.begin();
-            world.update(batch, vx, vy);
+            update();
             batch.end();
+            move();
         }
+    }
+
+    public void update(){
+        player.update(batch);
+        frieza.update(batch);
+    }
+
+    public void move(){
+        player.body.setLinearVelocity(0,0);
+
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+            moves1 = UP;
+            player.getBody().applyLinearImpulse(new Vector2(0,speed*2), player.getBody().getWorldCenter(),true);
+            animation1 = true;
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            moves1 = Down;
+            player.getBody().applyLinearImpulse(new Vector2(0,-speed*2), player.getBody().getWorldCenter(),true);
+            animation1 = true;
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            moves1 = Left;
+            player.getBody().applyLinearImpulse(new Vector2(-speed*2,0), player.getBody().getWorldCenter(),true);
+            animation1 = true;
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            moves1 = Right;
+            player.getBody().applyLinearImpulse(new Vector2(speed*2,0), player.getBody().getWorldCenter(),true);
+            animation1 = true;
+        }
+        else{
+            player.getBody().applyLinearImpulse(new Vector2(player.getBody().getLinearVelocity().x * -1, player.getBody().getLinearVelocity().y * -1), player.getBody().getWorldCenter(), true);
+            animation1 = false;
+            player.frames = 0;
+        }
+
+        player.setX(player.body.getPosition().x);
+        player.setY(player.body.getPosition().y);
+
+        camera.position.x = player.getX();
+        camera.position.y = player.getY();
     }
 
 	@Override
 	public void dispose (){
 		batch.dispose();
 		utils.music.dispose();
+		renderer.dispose();
 	}
 }

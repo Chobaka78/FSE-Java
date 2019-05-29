@@ -49,7 +49,7 @@ public class Vegeta {
                     if (framev == listv[Main.movesv]) {
                         System.out.println("work4");
                         System.out.println(" it is " + battle.turn+"turn");
-                        Player.fstat[0] = Player.fstat[0] +(Player.fstat[3]*1/2 - Player.vstat[2]);
+                        Goku.fstat[0] = Goku.fstat[0] +(Goku.fstat[3]*1/2 - Goku.vstat[2]);
                         framev = 0;
                         System.out.println("ITSSSSSSSSSSSSS VEGETA TIME");
                         Main.animation = false;

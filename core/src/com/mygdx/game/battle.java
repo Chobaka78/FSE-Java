@@ -2,15 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 
 
 public class battle {
@@ -20,7 +11,6 @@ public class battle {
     static String turn = "goku";
 
     public static void battle() {
-
         //this.mode = mode;
         if (Main.Game.equals("Level1")) {
 
@@ -31,7 +21,7 @@ public class battle {
                 System.out.println("goku attack");
                 System.out.println(turn);
                 stats = "attack";
-                System.out.println(Player.fstat[0]);
+                System.out.println(Goku.fstat[0]);
                 Main.movesg = Main.Attack;
                 Main.animation = true;
 
@@ -45,7 +35,7 @@ public class battle {
                 stats = "attack";
                 Main.movesv = Main.Attack;
                 Main.animation = true;
-                System.out.println(Player.fstat[0]);
+                System.out.println(Goku.fstat[0]);
 
 
             }

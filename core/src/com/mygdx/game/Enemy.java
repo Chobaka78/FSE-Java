@@ -48,7 +48,7 @@ public class Enemy {
                         framef += 1;
                         if (framef == listf[Main.movef]) {
                             System.out.println(" it is " + battle.turn+"turn");
-                            Player.gstat[0] = Player.gstat[0] + (Player.gstat[3]*1/3 - Player.fstat[2]);
+                            Goku.gstat[0] = Goku.gstat[0] + (Goku.gstat[3]*1/3 - Goku.fstat[2]);
                             framef = 0;
                             Main.animation = false;
                             battle.turn = "goku";;
