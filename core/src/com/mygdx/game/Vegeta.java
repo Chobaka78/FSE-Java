@@ -28,26 +28,32 @@ public class Vegeta {
                 }
                 spritesv.add(tmpv);
             }
+
         }
+
     }
     public void render(SpriteBatch batch){
         V.draw(batch);
+
     }
 
     public int moveFramesv(){ // this is the animation for the movement of the character
         if(framev < listv[Main.movesv] ){
+            System.out.println("Work1");
             if(t < 3) {
+                System.out.println("work2");
                 t ++ ;
                 if(t == 3) {
+                    System.out.println("work3");
                     framev += 1;
                     if (framev == listv[Main.movesv]) {
+                        System.out.println("work4");
                         System.out.println(" it is " + battle.turn+"turn");
-
-                        Player.fstat[0] = Player.fstat[0] + (Player.fstat[3]*1/2 - Player.vstat[2]);
+                        Player.fstat[0] = Player.fstat[0] +(Player.fstat[3]*1/2 - Player.vstat[2]);
                         framev = 0;
-                        System.out.println("frieza health : " + Player.fstat[0]);
+                        System.out.println("ITSSSSSSSSSSSSS VEGETA TIME");
                         Main.animation = false;
-                        battle.turn = "gohan";
+                        battle.turn = "goku";
                         Main.movesv = 2;
                     }
                     t = 0;
@@ -85,7 +91,7 @@ public class Vegeta {
             framev = 0;
         }
         V.set(new Sprite(spritesv.get(Main.movesv).get(framev)));
-        V.setPosition(700,300);
+        V.setPosition(500,100);
         render(batch);
     }
 

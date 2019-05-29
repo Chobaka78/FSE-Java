@@ -8,7 +8,7 @@ import org.w3c.dom.Text;
 import javax.swing.text.Position;
 import java.util.ArrayList;
 
-public class Player {
+public class Goku {
     static Sprite Goku;
     private static int x,y;
     static ArrayList<Texture> tmpg;
@@ -23,7 +23,7 @@ public class Player {
     static int[] gostat = {6500, 350, 300, 300};
     static int[] fstat = {50000, 500, 500, 400};
 
-    public Player(int x, int y){
+    public Goku(int x, int y){
         this.x = x;
         this.y = y;
         Goku = new Sprite();
@@ -109,7 +109,7 @@ public class Player {
 
     // sets the x of player
     public void setX(int x){
-        Player.x = x;
+        this.x = x;
     }
 
 }
