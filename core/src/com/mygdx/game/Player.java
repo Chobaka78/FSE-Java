@@ -18,9 +18,9 @@ public class Player {
     private static int frame = 0;
     int t = 0, r =0;
 
-    static int[] gstat = {8000, 300, 800, 200}; // hp,ki,attack,def
-    static int[] vstat = {7000, 500, 1000, 150};
-    static int[] gostat = {6500, 350, 300, 300};
+    static int[] gstat = {8000, 300, 800, 600}; // hp,ki,attack,def
+    static int[] vstat = {7000, 500, 1000, 500};
+    static int[] gostat = {6500, 350, 700, 700};
     static int[] fstat = {20000, 500, 250, 400};
 
     public Player(int x, int y){

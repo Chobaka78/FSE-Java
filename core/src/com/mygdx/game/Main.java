@@ -47,6 +47,7 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+
         tiledMap = new Map();
         batch = new SpriteBatch();
 		goku = new Player(200,200);
@@ -55,11 +56,11 @@ public class Main extends ApplicationAdapter {
 		frieza = new Enemy(700,300);
 		utils = new Utils();
 		world = new Open_Player(200,200);
+
 		background = new Texture("Assets/Backgrounds/Mainmenu.png");
 		city = new Texture("Assets/Backgrounds/city.png");
 		stage = new Texture("Assets/Backgrounds/stage.png");
         over = new Texture("Assets/Backgrounds/gameover.png");
-
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,0,0);

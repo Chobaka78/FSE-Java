@@ -46,9 +46,6 @@ public class battle {
 
             }
            if (turn.equals("frieza")){
-                System.out.println("Goku health " + Player.gstat[0]);
-                System.out.println("vegeta health" + Player.vstat[0]);
-                System.out.println("frieza is on");
                 Main.movef = Main.Attack;
                 Main.animation = true;
             }

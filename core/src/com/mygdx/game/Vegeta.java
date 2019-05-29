@@ -42,8 +42,10 @@ public class Vegeta {
                     framev += 1;
                     if (framev == listv[Main.movesv]) {
                         System.out.println(" it is " + battle.turn+"turn");
-                        Player.fstat[0] = Player.fstat[0] +(Player.fstat[3]*1/2 - Player.vstat[2]);
+
+                        Player.fstat[0] = Player.fstat[0] + (Player.fstat[3]*1/2 - Player.vstat[2]);
                         framev = 0;
+                        System.out.println("frieza health : " + Player.fstat[0]);
                         Main.animation = false;
                         battle.turn = "gohan";
                         Main.movesv = 2;

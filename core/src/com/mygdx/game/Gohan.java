@@ -44,7 +44,9 @@ public class Gohan {
                     framego += 1;
                     if (framego == listgo[Main.movego]) {
                         System.out.println(" it is " + battle.turn+"turn");
+
                         Player.fstat[0] = Player.fstat[0] +(Player.fstat[3]*1/2 - Player.gostat[2]);
+                        System.out.println("frieza health : " + Player.fstat[0]);
                         framego = 0;
                         Main.animation = false;
                         battle.turn = "frieza";
