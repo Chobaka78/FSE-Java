@@ -29,13 +29,17 @@ public class Main extends ApplicationAdapter {
 
     private Goku goku;
 
+    private Gohan gohan;
+
     private Vegeta vegeta;
 
     private Player player;
 
 	static Utils utils;
 
-	private Frieza frieza;
+	private Frieza frieza_open;
+
+	private Enemy frieza;
 
     static WorldCreator worldcreator;
 
@@ -45,7 +49,7 @@ public class Main extends ApplicationAdapter {
 
 	public static final int Attack = 0;
 
-	public static final float PPM = 0.3f;
+//	public static final float PPM = 1;
 
     public static int movesg;
 
@@ -54,13 +58,12 @@ public class Main extends ApplicationAdapter {
     public static int movego = 2;
     static boolean animation;
 
-    static float width = 366f, height = 220f;
-
 	static String Game = "Menu"; // this is a String that will determine what the current mode is(main menu, level, etc.)
 
     static Rectangle rect;
 
-    public static OrthographicCamera camera, camera2;
+    public static OrthographicCamera camera;
+
     public static final int UP = 0, Down = 1, Left = 2, Right = 3;
     static boolean animation1;
     public static int moves1;
@@ -68,8 +71,10 @@ public class Main extends ApplicationAdapter {
     private TmxMapLoader mapLoader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
-    Box2DDebugRenderer b2dr;
+
     public static World world;
+
+    Box2DDebugRenderer b2dr;
 
 
 	@Override
@@ -80,32 +85,28 @@ public class Main extends ApplicationAdapter {
 		vegeta = new Vegeta(600,100);
 		utils = new Utils();
 		player = new Player();
-		frieza = new Frieza();
+		frieza_open = new Frieza();
+        gohan = new Gohan (600,50);
+        frieza = new Enemy(700,300);
 
 		background = new Texture("Assets/Backgrounds/Mainmenu.png");
 		city = new Texture("Assets/Backgrounds/city.png");
 		stage = new Texture("Assets/Backgrounds/stage.png");
         over = new Texture("Assets/Backgrounds/gameover.png");
 
-        b2dr = new Box2DDebugRenderer();
 
         mapLoader = new TmxMapLoader();
-
-        if(Game.equals("Level1")&& mode.equals ("open")) {
-            camera = new OrthographicCamera(width,height);
-
-        }
-        else{
-            camera = new OrthographicCamera();
-            camera.setToOrtho(false,1100,660);
-        }
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false,1100f,660f);
         map = mapLoader.load("Assets/Maps/World map.tmx");
 
-        renderer = new OrthogonalTiledMapRenderer(map, PPM);
+        renderer = new OrthogonalTiledMapRenderer(map);
 
         worldcreator = new WorldCreator(world,map);
 
         world.setContactListener(new WorldContactListener());
+
+        b2dr = new Box2DDebugRenderer();
 
 	}
 
@@ -117,7 +118,7 @@ public class Main extends ApplicationAdapter {
             utils.music.play();
             mx = Gdx.input.getX();
             my = Math.abs(660 - Gdx.input.getY());
-            rect = new Rectangle(mx,my,3,3); // mouse rect made for collision (1 by 1 square)
+            rect = new Rectangle(mx,my,1,1); // mouse rect made for collision (1 by 1 square)
             if(Utils.Font.getBoundingRectangle().overlaps(rect)){
                 Utils.choice = 1;
             }
@@ -137,15 +138,18 @@ public class Main extends ApplicationAdapter {
         }
 
         if (mode.equals("battle")) {
-            camera.zoom = 0f;
             utils.worldmusic.stop();
-            battle.battle();
-            rect  = new Rectangle(200,200,20,20);
-            batch.begin();
 
+            mode = "battle";
+            battle.battle();
+
+            batch.begin();
             batch.draw(stage,0,0);
+            frieza.update(batch,400,300);
             goku.update(batch,600,200);
             vegeta.update(batch,600,300);
+            gohan.update(batch , 600 , 150);
+
             Utils.attacks.draw(batch);
             batch.end();
         }
@@ -158,7 +162,7 @@ public class Main extends ApplicationAdapter {
 
             batch.begin();
             batch.draw(over, 0, 0);
-            rect = new Rectangle (360,50,20,20);
+            rect = new Rectangle (360,50,1,1);
             Utils.contin.draw(batch);
 
             batch.end();
@@ -171,7 +175,7 @@ public class Main extends ApplicationAdapter {
         }
 
         if (Game.equals("Level1")&& mode.equals ("open")) {
-            camera.zoom = PPM;
+            //camera.zoom = PPM;
             //Rendering the map
             world.step(1/60f,6,2);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -181,6 +185,8 @@ public class Main extends ApplicationAdapter {
             renderer.setView(camera);
             renderer.render();
             batch.setProjectionMatrix(camera.combined);
+
+            b2dr.render(world,camera.combined);
 
             utils.worldmusic.play();
 
@@ -196,7 +202,7 @@ public class Main extends ApplicationAdapter {
 
     public void update(){
         player.update(batch);
-        frieza.update(batch);
+        frieza_open.update(batch);
     }
 
     public void move(){
@@ -228,11 +234,11 @@ public class Main extends ApplicationAdapter {
             player.frames = 0;
         }
 
-        player.setX(player.body.getPosition().x);
-        player.setY(player.body.getPosition().y);
-
-        camera.position.x = player.getX();
-        camera.position.y = player.getY();
+//        player.setX(player.body.getPosition().x);
+//        player.setY(player.body.getPosition().y);
+//
+//        camera.position.x = player.getX();
+//        camera.position.y = player.getY();
     }
 
 	@Override

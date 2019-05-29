@@ -141,8 +141,4 @@
   <object id="131" x="1101" y="360.5" width="15" height="299"/>
   <object id="132" x="1100.5" y="0" width="15.5" height="305"/>
  </objectgroup>
- <objectgroup name="Interactions">
-  <object id="191" x="167" y="459" width="64" height="55"/>
-  <object id="192" x="505.75" y="312.875" width="32.25" height="27"/>
- </objectgroup>
 </map>

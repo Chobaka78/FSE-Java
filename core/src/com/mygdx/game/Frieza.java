@@ -16,6 +16,7 @@ public class Frieza {
     public int frames = 0;
     private String [] movement = new String[] {"Frieza"};
     private int [] list = new int[]{10};
+    int width = 136, height = 116;
 
     int t = 0;
     Body body;
@@ -47,7 +48,7 @@ public class Frieza {
     }
 
     public void render(SpriteBatch batch){
-        batch.draw(Frieza,body.getPosition().x - Frieza.getWidth() * (float) Math.pow(Main.PPM,2),body.getPosition().y - Frieza.getHeight() * (float) Math.pow(Main.PPM, 2), Frieza.getWidth() * (float) Math.pow(Main.PPM, 2) * 3/2, Frieza.getHeight() * (float) Math.pow(Main.PPM, 2) * 3/2);
+        batch.draw(Frieza,body.getPosition().x -10,body.getPosition().y - 25, Frieza.getWidth()* 2/4,Frieza.getHeight()*2/4);
 
     }
 
@@ -69,9 +70,7 @@ public class Frieza {
     }
 
     public void createBody(){
-        Frieza.setPosition(554,367);
 
-        rect = new Rectangle((int) Frieza.getX(), (int) Frieza.getY(), (int) Frieza.getWidth(), (int) Frieza.getHeight());
 
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.StaticBody;
@@ -82,16 +81,12 @@ public class Frieza {
 
         fdef.shape = shape;
 
-        shape.setAsBox(136 * (float) Math.pow(Main.PPM, 2), 116 * (float) Math.pow(Main.PPM, 2));
+        shape.setAsBox(18,28);
 
         body.createFixture(fdef).setUserData("Frieza");
 
 
-        body.setTransform((float) rect.getX() * Main.PPM, (float) rect.getY() * Main.PPM, 0);
-
-        MassData thiccc = new MassData();
-        thiccc.mass = 90f;//in kg
-        body.setMassData(thiccc);
+        body.setTransform(522, 355, 0);
 
 
     }

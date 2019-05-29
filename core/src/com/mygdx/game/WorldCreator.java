@@ -18,11 +18,11 @@ public class WorldCreator {
             Rectangle rect = ((RectangleMapObject) obj).getRectangle();
             bdef.type = BodyDef.BodyType.StaticBody;
 
-            bdef.position.set(rect.getX() * Main.PPM + rect.getWidth() / 2 * Main.PPM, rect.getY() * Main.PPM + rect.getHeight() / 2 * Main.PPM);
+            bdef.position.set(rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() / 2 * Main.PPM, rect.getHeight() / 2 * Main.PPM);
+            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
 
             fdef.shape = shape;
             body.createFixture(fdef).setUserData("Building");
@@ -34,11 +34,11 @@ public class WorldCreator {
             Rectangle rect = ((RectangleMapObject) obj).getRectangle();
             bdef.type = BodyDef.BodyType.StaticBody;
 
-            bdef.position.set(rect.getX() * Main.PPM + rect.getWidth() / 2 * Main.PPM, rect.getY() * Main.PPM + rect.getHeight() / 2 * Main.PPM);
+            bdef.position.set(rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() / 2 * Main.PPM, rect.getHeight() / 2 * Main.PPM);
+            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
             fdef.shape = shape;
             body.createFixture(fdef).setUserData("Trees");
 
@@ -48,11 +48,11 @@ public class WorldCreator {
             Rectangle rect = ((RectangleMapObject) obj).getRectangle();
             bdef.type = BodyDef.BodyType.StaticBody;
 
-            bdef.position.set(rect.getX() * Main.PPM + rect.getWidth() / 2 * Main.PPM, rect.getY() * Main.PPM + rect.getHeight() / 2 * Main.PPM);
+            bdef.position.set(rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() / 2 * Main.PPM, rect.getHeight() / 2 * Main.PPM);
+            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
             fdef.shape = shape;
             body.createFixture(fdef).setUserData("Extra");
 
@@ -62,27 +62,13 @@ public class WorldCreator {
             Rectangle rect = ((RectangleMapObject) obj).getRectangle();
             bdef.type = BodyDef.BodyType.StaticBody;
 
-            bdef.position.set(rect.getX() * Main.PPM + rect.getWidth() / 2 * Main.PPM, rect.getY() * Main.PPM + rect.getHeight() / 2 * Main.PPM);
+            bdef.position.set(rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rect.getWidth() / 2 * Main.PPM, rect.getHeight() / 2 * Main.PPM);
+            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
             fdef.shape = shape;
             body.createFixture(fdef).setUserData("Wall");
-
-        }
-
-         //for Interactions
-        for(MapObject obj : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject) obj).getRectangle();
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rect.getX() + rect.getWidth() /2, rect.getY() + rect.getHeight()/2);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth()/2, rect.getHeight()/2);
-            fdef.shape = shape;
-            body.createFixture(fdef).setUserData("Interact");
 
         }
 
