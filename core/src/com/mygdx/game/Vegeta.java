@@ -21,13 +21,13 @@ public class Vegeta {
         this.y = y;
         V = new Sprite();
 
-        for(int i = 0; i < 1; i ++){
-            tmpv1 = new ArrayList<Texture>();
-            for (int m = 0; m < 4; m ++){
-                tmpv1.add(new Texture("Assets/Sprites/Vegeta/Stance/Stance" + m + ".png"));
-            }
-            spritesv.add(tmpv1);
-        }
+//        for(int i = 0; i < 1; i ++){
+//            tmpv1 = new ArrayList<Texture>();
+//            for (int m = 0; m < 4; m ++){
+//                tmpv1.add(new Texture("Assets/Sprites/Vegeta/Stance/Stance" + m + ".png"));
+//            }
+//            spritesv.add(tmpv1);
+//        }
 
         for (int l = 0 ; l<listv.length; l++){
             for (String h : movementv){
@@ -48,21 +48,17 @@ public class Vegeta {
 
     public int moveFramesv(){ // this is the animation for the movement of the character
         if(framev < listv[Main.movesv] ){
-            System.out.println("Work1");
             if(t < 3) {
-                System.out.println("work2");
                 t ++ ;
                 if(t == 3) {
-                    System.out.println("work3");
                     framev += 1;
                     if (framev == listv[Main.movesv]) {
                         System.out.println("work4");
                         System.out.println(" it is " + battle.turn+"turn");
                         Goku.fstat[0] = Goku.fstat[0] +(Goku.fstat[3]*1/2 - Goku.vstat[2]);
                         framev = 0;
-                        System.out.println("ITSSSSSSSSSSSSS VEGETA TIME");
                         Main.animation = false;
-                        battle.turn = "goku";
+                        battle.turn = "gohan";
                         Main.movesv = 2;
                     }
                     t = 0;
@@ -97,7 +93,7 @@ public class Vegeta {
 
         }
         else {
-            moveStance();
+            framev = 0;
         }
         V.set(new Sprite(spritesv.get(Main.movesv).get(framev)));
         V.setPosition(500,150);

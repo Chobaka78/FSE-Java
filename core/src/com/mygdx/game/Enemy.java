@@ -17,8 +17,8 @@ public class Enemy {
         private static int x,y;
         static ArrayList<Texture> tmpf;
         static ArrayList<ArrayList<Texture>> spritesf = new ArrayList<ArrayList<Texture>>();
-        int [] listf = new int [] {10,10};
-        private String [] movementf = new String[]{"Frieza_Stance_Right", "Frieza_Stance_Left"};
+        int [] listf = new int [] {7,7};
+        private String [] movementf = new String[]{"Attack_Right", "galick"};
         private static int frame = 0;
         int t =0;
         public Enemy(int x , int y){
@@ -86,7 +86,8 @@ public class Enemy {
 
             }
             else {
-                moveStance();
+              //  moveStance();
+                frame = 0 ;
             }
             F.set(new Sprite(spritesf.get(Main.movef).get(frame)));
             F.setPosition(200,300);

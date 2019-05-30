@@ -21,13 +21,13 @@ public class Gohan {
         this.y = y;
         G = new Sprite();
 
-        for(int i = 0; i < 1; i ++){
-            tmpgo1 = new ArrayList<Texture>();
-            for (int m = 0; m < 4; m ++){
-                tmpgo1.add(new Texture("Assets/Sprites/Gohan/Stance/Stance" + m + ".png"));
-            }
-            spritesgo.add(tmpgo1);
-        }
+//        for(int i = 0; i < 1; i ++){
+//            tmpgo1 = new ArrayList<Texture>();
+//            for (int m = 0; m < 4; m ++){
+//                tmpgo1.add(new Texture("Assets/Sprites/Gohan/Stance/Stance" + m + ".png"));
+//            }
+//            spritesgo.add(tmpgo1);
+//        }
         
         for (int l = 0; l < listgo.length; l++) {
             for (String h : movementgo) {
@@ -92,7 +92,7 @@ public class Gohan {
 
         }
         else {
-            moveStance();
+            frame = 0;
         }
         G.set(new Sprite(spritesgo.get(Main.movesv).get(frame)));
         G.setPosition(700,150);

@@ -37,7 +37,7 @@ public class Utils {
         tmp.add(new Texture("Assets/Buttons/Play/play0.png"));
         tmp.add(new Texture("Assets/Buttons/Play/play1.png"));
         Fonts.add(tmp);
-        attackf = new Texture("Assets/Fonts/attack2.png");
+        attackf = new Texture("Assets/Fonts/attack.png");
         attacks = new Sprite(attackf);
         cont = new Texture("Assets/Fonts/cont.png");
         contin =  new Sprite(cont);

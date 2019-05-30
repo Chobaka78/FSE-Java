@@ -14,8 +14,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 
-import java.io.IOException;
-
 import static com.mygdx.game.Utils.*;
 
 public class Main extends ApplicationAdapter {
@@ -55,8 +53,8 @@ public class Main extends ApplicationAdapter {
 
     public static int movesg;
 
-    public static int movesv =0;
-    public static int movef =0;
+    public static int movesv =2;
+    public static int movef =2;
     public static int movego = 2;
     static boolean animation;
 

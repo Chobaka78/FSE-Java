@@ -79,7 +79,7 @@ public class Player {
         this.body.getFixtureList().get(0).setUserData("Player");
         this.body.getFixtureList().get(0).setUserData("Player");
 
-        this.body.setTransform(192,175, 0);
+        this.body.setTransform(410,347, 0);
 
 
     }

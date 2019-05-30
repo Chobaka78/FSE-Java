@@ -13,7 +13,7 @@ public class DesktopLauncher {
 		config.height = 660; // set height of screen
 		config.title = "Dragon ball";
 		config.addIcon("Assets/Backgrounds/icon.png", Files.FileType.Internal);
-		config.foregroundFPS = 24;
+		config.foregroundFPS = 36;
 	}
 }
 

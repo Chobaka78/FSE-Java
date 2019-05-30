@@ -16,7 +16,6 @@ public class Frieza {
     public int frames = 0;
     private String [] movement = new String[] {"Frieza"};
     private int [] list = new int[]{10};
-    int width = 136, height = 116;
 
     int t = 0;
     Body body;
@@ -32,7 +31,7 @@ public class Frieza {
         for(int k = 0; k < 1; k ++) {
             tmp = new ArrayList<Texture>();
             for (int j = 0; j < list[k]; j++) {
-                tmp.add(new Texture("Assets/Sprites/Frieza/Frieza_Stance_Left/Frieza_Stance_Left" + j + ".png"));
+                tmp.add(new Texture("Assets/Sprites/openFrieza/Frieza_Stance_Left/Frieza_Stance_Left" + j + ".png"));
             }
             sprites.add(tmp);
         }
