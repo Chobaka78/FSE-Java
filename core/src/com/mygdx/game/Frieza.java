@@ -32,7 +32,7 @@ public class Frieza {
         for(int k = 0; k < 1; k ++) {
             tmp = new ArrayList<Texture>();
             for (int j = 0; j < list[k]; j++) {
-                tmp.add(new Texture("Assets/Sprites/Frieza/Frieza" + j + ".png"));
+                tmp.add(new Texture("Assets/Sprites/Frieza/Frieza_Stance_Left/Frieza_Stance_Left" + j + ".png"));
             }
             sprites.add(tmp);
         }

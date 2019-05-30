@@ -54,7 +54,7 @@ public class Player {
             for(String w : new String[]{"Up", "Down", "Left", "Right"}){
                 tmp = new ArrayList<Texture>();
                 for(int k = 0; k < open_list[i]; k ++){
-                    tmp.add(new Texture("Assets/Sprites/" + w + "/" + w + k + ".png"));
+                    tmp.add(new Texture("Assets/Sprites/Goku_Open/" + w + "/" + w + k + ".png"));
                 }
                 sprites.add(tmp);
             }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Vegeta {
     static Sprite V;
     private static int x,y;
-    static ArrayList<Texture> tmpv;
+    static ArrayList<Texture> tmpv, tmpv1;
     static ArrayList<ArrayList<Texture>> spritesv = new ArrayList<ArrayList<Texture>>();
     int [] listv = new int [] {7,7};
     private String [] movementv = new String[]{"attackv","galick"};
@@ -20,11 +20,20 @@ public class Vegeta {
         this.x = x;
         this.y = y;
         V = new Sprite();
+
+        for(int i = 0; i < 1; i ++){
+            tmpv1 = new ArrayList<Texture>();
+            for (int m = 0; m < 4; m ++){
+                tmpv1.add(new Texture("Assets/Sprites/Vegeta/Stance/Stance" + m + ".png"));
+            }
+            spritesv.add(tmpv1);
+        }
+
         for (int l = 0 ; l<listv.length; l++){
             for (String h : movementv){
                 tmpv = new ArrayList<Texture>();
                 for (int v = 0; v<listv[l]; v++){
-                    tmpv.add(new Texture("Assets/Sprites/" + h + "/" + h+ v + ".png"));
+                    tmpv.add(new Texture("Assets/Sprites/Vegeta/" + h + "/" + h+ v + ".png"));
                 }
                 spritesv.add(tmpv);
             }
@@ -66,12 +75,12 @@ public class Vegeta {
 
 
     public int moveStance(){ // this is the animation for the stance of the character
-        if(framev < 3) {
-            if (t < 3) {
+        if(framev < 4) {
+            if (t < 4) {
                 t++;
-                if (t == 3) {
+                if (t == 4) {
                     framev += 1;
-                    if (framev == 3) {
+                    if (framev == 4) {
                         framev = 0;
                         Main.animation = false;
                     }
@@ -88,10 +97,10 @@ public class Vegeta {
 
         }
         else {
-            framev = 0;
+            moveStance();
         }
         V.set(new Sprite(spritesv.get(Main.movesv).get(framev)));
-        V.setPosition(500,100);
+        V.setPosition(500,150);
         render(batch);
     }
 

@@ -6,15 +6,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.w3c.dom.Text;
 
 import javax.swing.text.Position;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Goku {
     static Sprite Goku;
     private static int x,y;
-    static ArrayList<Texture> tmpg;
+    static ArrayList<Texture> tmpg, tmpg1;
     static ArrayList<ArrayList<Texture>> sprites = new ArrayList<ArrayList<Texture>>();
     int [] list = new int []{7,7};
-    private String [] movement = new String[]{"attackg","kameg"};
     private static int frame = 0;
     int t = 0, r =0;
 
@@ -28,12 +28,20 @@ public class Goku {
         this.y = y;
         Goku = new Sprite();
 
-        // loading regular goku sprites
+        // loading for Stance goku
+        for(int i = 0; i < 1; i ++){
+            tmpg1 = new ArrayList<Texture>();
+            for (int m = 0; m < 4; m ++){
+                tmpg1.add(new Texture("Assets/Sprites/Goku/Stance/Stance" + m + ".png"));
+            }
+            sprites.add(tmpg1);
+        }
+
         for(int k = 0; k < list.length; k ++) {
-            for (String i : movement) {
+            for (String i : new String[]{"attackg","kameg"}){
                 tmpg = new ArrayList<Texture>();
                 for (int j = 0; j < list[k]; j++) {
-                    tmpg.add(new Texture("Assets/Sprites/" + i + "/" + i + j + ".png"));
+                    tmpg.add(new Texture("Assets/Sprites/Goku/" + i + "/" + i + j + ".png"));
                 }
                 sprites.add(tmpg);
             }
@@ -70,12 +78,12 @@ public class Goku {
     }
 
     public int moveStance(){ // this is the animation for the stance of the character
-        if(frame < 3) {
-            if (t < 3) {
+        if(frame < 4) {
+            if (t < 4) {
                 t++;
-                if (t == 3) {
+                if (t == 4) {
                     frame += 1;
-                    if (frame == 3) {
+                    if (frame == 4) {
                         frame = 0;
                         Main.animation = false;
                     }
@@ -90,10 +98,10 @@ public class Goku {
             moveFrames();
         }
         else{
-            frame = 0;
+            moveStance();
         }
         Goku.set(new Sprite(sprites.get(Main.movesg).get(frame)));
-        Goku.setPosition(500,200);
+        Goku.setPosition(500,300);
         render(batch);
 
     }
