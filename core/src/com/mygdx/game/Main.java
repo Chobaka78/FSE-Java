@@ -19,8 +19,6 @@ import static com.mygdx.game.Utils.*;
 public class Main extends ApplicationAdapter {
 	private SpriteBatch batch;
 
-	private Texture background;
-
     private Texture city;
 
     private Texture stage;
@@ -35,6 +33,8 @@ public class Main extends ApplicationAdapter {
 
     private Player player;
 
+    private Menu menu;
+
 	static Utils utils;
 
 	private Frieza frieza_open;
@@ -43,7 +43,7 @@ public class Main extends ApplicationAdapter {
 
     static WorldCreator worldcreator;
 
-	int mx, my, speed = 2000;
+	int mx, my;
 
 	static String mode = "";
 
@@ -88,8 +88,8 @@ public class Main extends ApplicationAdapter {
 		frieza_open = new Frieza();
         gohan = new Gohan (600,50);
         frieza = new Enemy(700,300);
+        menu = new Menu();
 
-		background = new Texture("Assets/Backgrounds/Mainmenu.png");
 		city = new Texture("Assets/Backgrounds/city.png");
 		stage = new Texture("Assets/Backgrounds/stage.png");
         over = new Texture("Assets/Backgrounds/gameover.png");
@@ -114,27 +114,46 @@ public class Main extends ApplicationAdapter {
 	@Override
 	public void render () {
         System.out.println(mode + ", " + (int)player.getBody().getPosition().x +", " +  (int)player.getBody().getPosition().y);
+
         if (Game.equals("Menu")) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            utils.music.play();
+            menu.music.play();
+
             mx = Gdx.input.getX();
             my = Math.abs(660 - Gdx.input.getY());
             rect = new Rectangle(mx,my,1,1); // mouse rect made for collision (1 by 1 square)
-            if(Utils.Font.getBoundingRectangle().overlaps(rect)){
-                Utils.choice = 1;
+            if(Menu.Play.getBoundingRectangle().overlaps(rect)){
+                Menu.choice = 1;
+            }
+            else if(Menu.Instructions.getBoundingRectangle().overlaps(rect)){
+                Menu.choice1 = 1;
+            }
+
+            else if(Menu.Quit.getBoundingRectangle().overlaps(rect)){
+                Menu.choice2 = 1;
             }
             else{
-                Utils.choice = 0;
+                Menu.choice = 0;
+                Menu.choice1 = 0;
+                Menu.choice2 = 0;
             }
+
             batch.begin();
-            batch.draw(background, 0, 0);
-            utils.update(batch,480,265);
+            menu.update(batch,480,355);
             batch.end();
-            if (Font.getBoundingRectangle().overlaps(rect) && Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-                utils.music.stop();
+            if (Menu.Play.getBoundingRectangle().overlaps(rect) && Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                menu.music.stop();
                 Game = "Level1";
                 mode = "open";
 
+            }
+
+            else if (Menu.Instructions.getBoundingRectangle().overlaps(rect) && Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                System.out.println("Instructions");
+
+            }
+            else if(Menu.Quit.getBoundingRectangle().overlaps(rect) && Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                Gdx.app.exit();
             }
         }
 
@@ -165,6 +184,7 @@ public class Main extends ApplicationAdapter {
         }
 
         if (Goku.fstat[0] <0 && mode != "open"){
+
             utils.bossbattle.stop();
             utils.victory.play();
 
@@ -221,22 +241,22 @@ public class Main extends ApplicationAdapter {
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
             moves1 = UP;
-            player.getBody().applyLinearImpulse(new Vector2(0,speed*2), player.getBody().getWorldCenter(),true);
+            player.getBody().applyLinearImpulse(new Vector2(0,100), player.getBody().getWorldCenter(),true);
             animation1 = true;
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             moves1 = Down;
-            player.getBody().applyLinearImpulse(new Vector2(0,-speed*2), player.getBody().getWorldCenter(),true);
+            player.getBody().applyLinearImpulse(new Vector2(0,-100), player.getBody().getWorldCenter(),true);
             animation1 = true;
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             moves1 = Left;
-            player.getBody().applyLinearImpulse(new Vector2(-speed*2,0), player.getBody().getWorldCenter(),true);
+            player.getBody().applyLinearImpulse(new Vector2(-100,0), player.getBody().getWorldCenter(),true);
             animation1 = true;
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             moves1 = Right;
-            player.getBody().applyLinearImpulse(new Vector2(speed*2,0), player.getBody().getWorldCenter(),true);
+            player.getBody().applyLinearImpulse(new Vector2(100,0), player.getBody().getWorldCenter(),true);
             animation1 = true;
         }
         else{
@@ -248,8 +268,14 @@ public class Main extends ApplicationAdapter {
         player.setX(player.body.getPosition().x);
         player.setY(player.body.getPosition().y);
 
-        camera.position.x = player.getX();
-        camera.position.y = player.getY();
+        // the following if statement is to apply a boundary on the camera
+        if(player.body.getPosition().x > 55 && player.body.getPosition().x < 275.5) {
+            camera.position.x = player.getX();
+
+        }
+        if(player.body.getPosition().y > 33 && player.body.getPosition().y < 165){
+            camera.position.y = player.getY();
+        }
     }
 
 	@Override

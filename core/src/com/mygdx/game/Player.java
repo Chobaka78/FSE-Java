@@ -34,9 +34,9 @@ public class Player {
 
     public int moveFrames(){ // this is the animation for the movement frames the character
         if(frames < open_list[Main.moves1]){
-            if(t < 2) {
+            if(t < 3) {
                 t ++;
-                if(t == 2) {
+                if(t == 3) {
                     frames += 1;
                     if (frames == open_list[Main.moves1]) {
                         frames = 0;

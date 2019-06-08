@@ -26,6 +26,7 @@ public class battle {
         mx = Gdx.input.getX();
         my = Math.abs(660 - Gdx.input.getY());
         rect = new Rectangle(mx,my,1,1); // mouse rect made for collision (1 by 1 square)
+
         if (Main.Game.equals("Level1")) {
 
             Main.utils.bossbattle.play();
