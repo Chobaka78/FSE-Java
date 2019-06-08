@@ -28,14 +28,6 @@ public class Goku {
         this.y = y;
         Goku = new Sprite();
 
-        // loading for Stance goku
-//        for(int i = 0; i < 1; i ++){
-//            tmpg1 = new ArrayList<Texture>();
-//            for (int m = 0; m < 4; m ++){
-//                tmpg1.add(new Texture("Assets/Sprites/Goku/Stance/Stance" + m + ".png"));
-//            }
-//            sprites.add(tmpg1);
-//        }
 
         for(int k = 0; k < list.length; k ++) {
             for (String i : new String[]{"attackg","kameg"}){
@@ -77,22 +69,6 @@ public class Goku {
         return frame;
     }
 
-    public int moveStance(){ // this is the animation for the stance of the character
-        if(frame < 4) {
-            if (t < 4) {
-                t++;
-                if (t == 4) {
-                    frame += 1;
-                    if (frame == 4) {
-                        frame = 0;
-                        Main.animation = false;
-                    }
-                    t = 0;
-                }
-            }
-        }
-        return frame;
-    }
     public void update(SpriteBatch batch, int x, int y){
         if(Main.animation && Main.movesg == Main.Attack){
             moveFrames();

@@ -47,15 +47,15 @@ public class Frieza {
     }
 
     public void render(SpriteBatch batch){
-        batch.draw(Frieza,body.getPosition().x -10,body.getPosition().y - 25, Frieza.getWidth()* 2/4,Frieza.getHeight()*2/4);
+        batch.draw(Frieza,body.getPosition().x * (float) Math.pow(Main.PPM,2) + 140,body.getPosition().y  * (float) Math.pow(Main.PPM, 2) + 90, Frieza.getWidth() * (float) Math.pow(Main.PPM, 2) * 3/2, Frieza.getHeight() * (float) Math.pow(Main.PPM, 2) * 3/2);
 
     }
 
     public int moveFrames(){ // this is the animation for the movement frames the character
         if(frames < 9){
-            if(t < 2) {
+            if(t < 3) {
                 t ++;
-                if(t == 2) {
+                if(t == 3) {
                     frames += 1;
                     if (frames == 9) {
                         frames = 0;
@@ -69,7 +69,9 @@ public class Frieza {
     }
 
     public void createBody(){
+        Frieza.setPosition(554,367);
 
+        rect = new Rectangle((int) 554, 367, 168, 116);
 
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.StaticBody;
@@ -80,12 +82,12 @@ public class Frieza {
 
         fdef.shape = shape;
 
-        shape.setAsBox(18,28);
+        shape.setAsBox(48 * (float) Math.pow(Main.PPM, 2), 88 * (float) Math.pow(Main.PPM, 2));
 
         body.createFixture(fdef).setUserData("Frieza");
 
 
-        body.setTransform(522, 355, 0);
+        body.setTransform((float) rect.getX() * Main.PPM - 9, (float) rect.getY() * Main.PPM - 3, 0);
 
 
     }

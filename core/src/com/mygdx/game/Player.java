@@ -28,7 +28,7 @@ public class Player {
     }
 
     public void render(SpriteBatch batch){
-        batch.draw(Goku,body.getPosition().x - width/2, body.getPosition().y - height/2);
+        batch.draw(Goku,body.getPosition().x - Goku.getWidth() * (float) Math.pow(Main.PPM,2),body.getPosition().y - Goku.getHeight() * (float) Math.pow(Main.PPM, 2), Goku.getWidth() * (float) Math.pow(Main.PPM, 2) * 3, Goku.getHeight() * (float) Math.pow(Main.PPM, 2) * 3);
 
     }
 
@@ -62,6 +62,10 @@ public class Player {
     }
 
     public void createBody(){
+        Goku.setPosition(192,175);
+
+        rect = new Rectangle((int) Goku.getX(), (int) Goku.getY(), (int) Goku.getWidth(), (int) Goku.getHeight());
+
 
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
@@ -72,14 +76,14 @@ public class Player {
 
         fdef.shape = shape;
 
-        shape.setAsBox(5,10);
+        shape.setAsBox(5 * (float) Math.pow(Main.PPM, 2), 10 * (float) Math.pow(Main.PPM, 2));
 
         this.body.createFixture(fdef);
 
         this.body.getFixtureList().get(0).setUserData("Player");
         this.body.getFixtureList().get(0).setUserData("Player");
 
-        this.body.setTransform(410,347, 0);
+        this.body.setTransform((float) rect.getX() * Main.PPM, (float) rect.getY() * Main.PPM, 0);
 
 
     }

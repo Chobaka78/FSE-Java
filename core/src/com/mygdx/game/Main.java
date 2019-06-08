@@ -43,13 +43,13 @@ public class Main extends ApplicationAdapter {
 
     static WorldCreator worldcreator;
 
-	int mx, my, speed = 5000;
+	int mx, my, speed = 2000;
 
 	static String mode = "";
 
 	public static final int Attack = 0;
 
-//	public static final float PPM = 1;
+	public static final float PPM = 0.3f;
 
     public static int movesg;
 
@@ -96,11 +96,12 @@ public class Main extends ApplicationAdapter {
 
 
         mapLoader = new TmxMapLoader();
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false,1100f,660f);
+
+        camera = new OrthographicCamera(1100f,660f);
+
         map = mapLoader.load("Assets/Maps/World map.tmx");
 
-        renderer = new OrthogonalTiledMapRenderer(map);
+        renderer = new OrthogonalTiledMapRenderer(map,PPM);
 
         worldcreator = new WorldCreator(world,map);
 
@@ -138,8 +139,17 @@ public class Main extends ApplicationAdapter {
         }
 
         if (mode.equals("battle")) {
-            utils.worldmusic.stop();
 
+            camera.zoom = 1f;
+
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            camera.update();
+            batch.setProjectionMatrix(camera.combined);
+
+            camera.position.x = 550;
+            camera.position.y = 330;
+
+            utils.worldmusic.stop();
             mode = "battle";
             battle.battle();
 
@@ -175,7 +185,7 @@ public class Main extends ApplicationAdapter {
         }
 
         if (Game.equals("Level1")&& mode.equals ("open")) {
-            //camera.zoom = PPM;
+            camera.zoom = 0.1f;
             //Rendering the map
             world.step(1/60f,6,2);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -184,6 +194,7 @@ public class Main extends ApplicationAdapter {
 
             renderer.setView(camera);
             renderer.render();
+
             batch.setProjectionMatrix(camera.combined);
 
             b2dr.render(world,camera.combined);
@@ -234,11 +245,11 @@ public class Main extends ApplicationAdapter {
             player.frames = 0;
         }
 
-//        player.setX(player.body.getPosition().x);
-//        player.setY(player.body.getPosition().y);
-//
-//        camera.position.x = player.getX();
-//        camera.position.y = player.getY();
+        player.setX(player.body.getPosition().x);
+        player.setY(player.body.getPosition().y);
+
+        camera.position.x = player.getX();
+        camera.position.y = player.getY();
     }
 
 	@Override

@@ -21,14 +21,6 @@ public class Vegeta {
         this.y = y;
         V = new Sprite();
 
-//        for(int i = 0; i < 1; i ++){
-//            tmpv1 = new ArrayList<Texture>();
-//            for (int m = 0; m < 4; m ++){
-//                tmpv1.add(new Texture("Assets/Sprites/Vegeta/Stance/Stance" + m + ".png"));
-//            }
-//            spritesv.add(tmpv1);
-//        }
-
         for (int l = 0 ; l<listv.length; l++){
             for (String h : movementv){
                 tmpv = new ArrayList<Texture>();
