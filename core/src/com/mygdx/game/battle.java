@@ -18,29 +18,31 @@ public class battle {
     static int specialm = 3 / 2;
     static String stats = "standby";
     static String turn = "goku";
-    static Rectangle r;
+    static Rectangle rect;
+    static int mx, my;
 
     public static void battle() {
         //this.mode = mode;
-        r  = new Rectangle(500,200,1,1);
+        mx = Gdx.input.getX();
+        my = Math.abs(660 - Gdx.input.getY());
+        rect = new Rectangle(mx,my,1,1); // mouse rect made for collision (1 by 1 square)
+
         if (Main.Game.equals("Level1")) {
 
             Main.utils.bossbattle.play();
             //rect = new Rectangle(mx,my,1,1);
-            if (Utils.attacks.getBoundingRectangle().overlaps(r) && Gdx.input.isButtonPressed(Input.Buttons.LEFT)&& turn.equals("goku")) {
-
-
+            if (Utils.attacks.getBoundingRectangle().overlaps(rect) && Gdx.input.isButtonPressed(Input.Buttons.LEFT)&& turn.equals("goku")) {
                 Main.movesg = Main.Attack;
                 Main.animation = true;
             }
-            if (Utils.attacks.getBoundingRectangle().overlaps(r) && Gdx.input.isButtonPressed(Input.Buttons.LEFT) && turn.equals("vegeta")){
+            if (Utils.attacks.getBoundingRectangle().overlaps(rect) && Gdx.input.isButtonPressed(Input.Buttons.LEFT) && turn.equals("vegeta")){
 
                 Main.movesv = Main.Attack;
                 Main.animation = true;
 
             }
 
-            if (Utils.attacks.getBoundingRectangle().overlaps(r) && Gdx.input.isButtonPressed(Input.Buttons.LEFT) && turn.equals("gohan")){
+            if (Utils.attacks.getBoundingRectangle().overlaps(rect) && Gdx.input.isButtonPressed(Input.Buttons.LEFT) && turn.equals("gohan")){
                 Main.movego = Main.Attack;
                 Main.animation = true;
 
