@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Vegeta {
     static Sprite V;
     private static int x,y;
-    static ArrayList<Texture> tmpv, tmpv1;
+    static ArrayList<Texture> tmpv;
     static ArrayList<ArrayList<Texture>> spritesv = new ArrayList<ArrayList<Texture>>();
 
     public Vegeta(){

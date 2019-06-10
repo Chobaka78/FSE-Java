@@ -13,8 +13,6 @@ public class Gohan {
     static ArrayList<ArrayList<Texture>> spritesgo = new ArrayList<ArrayList<Texture>>();
     int[] listgo = new int[]{7, 7};
     private String[] movementgo = new String[]{"attackgo", "kamego"};
-    private static int frame = 0;
-    int t = 0;
 
     public Gohan(){
 

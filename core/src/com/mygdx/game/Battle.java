@@ -27,9 +27,9 @@ public class Battle {
 
     private Sprite attack, special;
 
-    public static int frame = 0, type; // type is a integer that determines the move in the array list (ie Attack or special)
+    public static int frame = 0, type, timer = 0; // type is a integer that determines the move in the array list (ie Attack or special)
 
-    public static int t;
+    public static int [] t = new int[]{1,2,3,4,5,6}; //this is a counter variable for time
 
     private int[] list = new int[]{7,9}; //list of frames for the moves
 
@@ -100,11 +100,11 @@ public class Battle {
     }
 
 
-    public int moveFrames(int move, String next, String person){ // takes in the move, whose turn it will be next, and weather its player turn or enemy
+    public int moveFrames(int move, String next, String person, int time){ // takes in the move, whose turn it will be next, player turn or enemy turn, and the time for frames
         if(frame < list[move]){
-            if(t < 4) {
-                t ++;
-                if(t == 4) {
+            if(timer < t[time]) {
+                timer ++;
+                if(timer == t[time]) {
                     frame += 1;
                     if (frame == list[move]) {
                         System.out.println(" it is " + Battle.turn+"turn");
@@ -114,7 +114,7 @@ public class Battle {
                         frame = 0;
 
                     }
-                    t = 0;
+                    timer = 0;
                 }
             }
         }
@@ -125,40 +125,40 @@ public class Battle {
     public void Attack(){ //Attack method
         if(turn.equals("goku")) {
             type = 0;
-            moveFrames(0, "vegeta", "Player");
+            moveFrames(0, "vegeta", "Player",3);
         }
         if(turn.equals("vegeta")){
             type = 0;
-            moveFrames(0,"gohan", "Player");
+            moveFrames(0,"gohan", "Player",3);
         }
         if(turn.equals("gohan")){
             type = 0;
-            moveFrames(0,"frieza", "Enemy");
+            moveFrames(0,"frieza", "Enemy",3);
         }
         if(turn.equals("frieza")){
             type = 0;
-            moveFrames(0,"goku", "Player");
+            moveFrames(0,"goku", "Player",3);
         }
 
 
     }
 
-    public void Special(){
+    public void Special(){ //Controls all the special moves
         if(turn.equals("goku")) {
             type = 1;
-            moveFrames(1, "vegeta", "Player");
+            moveFrames(1, "vegeta", "Player",3);
         }
         if(turn.equals("vegeta")){
             type = 1;
-            moveFrames(0,"gohan", "Player");
+            moveFrames(0,"gohan", "Player",3);
         }
         if(turn.equals("gohan")){
             type = 1;
-            moveFrames(0,"frieza", "Enemy");
+            moveFrames(0,"frieza", "Enemy",3);
         }
         if(turn.equals("frieza")){
             type = 0;
-            moveFrames(0,"goku", "Player");
+            moveFrames(0,"goku", "Player",3);
         }
     }
 

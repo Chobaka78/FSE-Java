@@ -48,22 +48,6 @@ public class Goku {
 
     }
 
-    public int moveStance() { // this is the animation for the stance of the character
-        if (Stance_frame < 4) {
-            if (t < 4) {
-                t++;
-                if (t == 4) {
-                    Stance_frame += 1;
-                    if (Stance_frame == 4) {
-                        Stance_frame = 0;
-                        Main.animation = false;
-                    }
-                    t = 0;
-                }
-            }
-        }
-        return Stance_frame;
-    }
 
     public void update(SpriteBatch batch, int x, int y){
 
