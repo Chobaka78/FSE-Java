@@ -21,8 +21,6 @@ public class Main extends ApplicationAdapter {
 
     private Texture city;
 
-    private Texture stage;
-
     private Texture over;
 
     private Goku goku;
@@ -37,9 +35,11 @@ public class Main extends ApplicationAdapter {
 
 	static Utils utils;
 
-	private Frieza frieza_open;
+	private OpenEnemy frieza_open;
 
 	private Enemy frieza;
+
+	private Battle battle;
 
     static WorldCreator worldcreator;
 
@@ -47,15 +47,8 @@ public class Main extends ApplicationAdapter {
 
 	static String mode = "";
 
-	public static final int Attack = 0;
-
 	public static final float PPM = 0.3f;
 
-    public static int movesg;
-
-    public static int movesv =2;
-    public static int movef =2;
-    public static int movego = 2;
     static boolean animation;
 
 	static String Game = "Menu"; // this is a String that will determine what the current mode is(main menu, level, etc.)
@@ -65,7 +58,7 @@ public class Main extends ApplicationAdapter {
     public static OrthographicCamera camera;
 
     public static final int UP = 0, Down = 1, Left = 2, Right = 3;
-    static boolean animation1;
+
     public static int moves1;
 
     private TmxMapLoader mapLoader;
@@ -80,18 +73,28 @@ public class Main extends ApplicationAdapter {
 	@Override
 	public void create () {
         world = new World(new Vector2(0,0),true);
+
         batch = new SpriteBatch();
-		goku = new Goku(200,200);
-		vegeta = new Vegeta(600,100);
+
+		goku = new Goku();
+
+		vegeta = new Vegeta();
+
 		utils = new Utils();
+
 		player = new Player();
-		frieza_open = new Frieza();
-        gohan = new Gohan (600,50);
-        frieza = new Enemy(700,300);
+
+		frieza_open = new OpenEnemy();
+
+        gohan = new Gohan ();
+
+        frieza = new Enemy();
+
+        battle = new Battle();
+
         menu = new Menu();
 
 		city = new Texture("Assets/Backgrounds/city.png");
-		stage = new Texture("Assets/Backgrounds/stage.png");
         over = new Texture("Assets/Backgrounds/gameover.png");
 
 
@@ -113,7 +116,7 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-        System.out.println(mode + ", " + (int)player.getBody().getPosition().x +", " +  (int)player.getBody().getPosition().y);
+        System.out.println(Battle.turn +", " + Battle.type + ", " + Battle.Person + ", " + Battle.frame);
 
         if (Game.equals("Menu")) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -170,17 +173,10 @@ public class Main extends ApplicationAdapter {
 
             utils.worldmusic.stop();
             mode = "battle";
-            battle.battle();
-
             batch.begin();
-            batch.draw(stage,0,0);
-            frieza.update(batch,400,300);
-            goku.update(batch,600,200);
-            vegeta.update(batch,600,300);
-            gohan.update(batch , 600 , 150);
-
-            Utils.attacks.draw(batch);
+            battle.update(batch,100,50);
             batch.end();
+
         }
 
         if (Goku.fstat[0] <0 && mode != "open"){
@@ -217,7 +213,7 @@ public class Main extends ApplicationAdapter {
 
             batch.setProjectionMatrix(camera.combined);
 
-            b2dr.render(world,camera.combined);
+//            b2dr.render(world,camera.combined);
 
             utils.worldmusic.play();
 
@@ -242,26 +238,26 @@ public class Main extends ApplicationAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
             moves1 = UP;
             player.getBody().applyLinearImpulse(new Vector2(0,100), player.getBody().getWorldCenter(),true);
-            animation1 = true;
+            animation = true;
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             moves1 = Down;
             player.getBody().applyLinearImpulse(new Vector2(0,-100), player.getBody().getWorldCenter(),true);
-            animation1 = true;
+            animation = true;
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             moves1 = Left;
             player.getBody().applyLinearImpulse(new Vector2(-100,0), player.getBody().getWorldCenter(),true);
-            animation1 = true;
+            animation = true;
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             moves1 = Right;
             player.getBody().applyLinearImpulse(new Vector2(100,0), player.getBody().getWorldCenter(),true);
-            animation1 = true;
+            animation = true;
         }
         else{
             player.getBody().applyLinearImpulse(new Vector2(player.getBody().getLinearVelocity().x * -1, player.getBody().getLinearVelocity().y * -1), player.getBody().getWorldCenter(), true);
-            animation1 = false;
+            animation = false;
             player.frames = 0;
         }
 

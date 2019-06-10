@@ -17,19 +17,16 @@ public class Enemy {
         private static int x,y;
         static ArrayList<Texture> tmpf;
         static ArrayList<ArrayList<Texture>> spritesf = new ArrayList<ArrayList<Texture>>();
-        int [] listf = new int [] {7,7};
-        private String [] movementf = new String[]{"Attack_Right", "galick"};
         private static int frame = 0;
         int t =0;
-        public Enemy(int x , int y){
-            this.x = x;
-            this.y = y;
+
+        public Enemy(){
             F = new Sprite();
-            for (int l = 0 ; l<listf.length; l++){
-                for (String h : movementf){
+            for (int l = 0 ; l<7; l++){
+                for (String h : new String[]{"Frieza_Attack_Right"}){
                     tmpf = new ArrayList<Texture>();
-                    for (int v = 0; v < listf[l]; v++){
-                        tmpf.add(new Texture("Assets/Sprites/Frieza/" + h + "/" + h + v + ".png"));
+                    for (int v = 0; v < 7; v++){
+                        tmpf.add(new Texture("Assets/Sprites/Enemy/" + h + "/" + h + v + ".png"));
                     }
                     spritesf.add(tmpf);
                 }
@@ -40,56 +37,14 @@ public class Enemy {
 
         }
 
-        public int moveFramesf(){ // this is the animation for the movement of the character
-            if(frame < listf[Main.movef] ){
-                if(t < 3) {
-                    t ++ ;
-                    if(t == 3) {
-                        frame += 1;
-                        if (frame == listf[Main.movef]) {
-                            System.out.println(" it is " + battle.turn+"turn");
-                            Goku.gstat[0] = Goku.gstat[0] + (Goku.gstat[3]*1/3 - Goku.fstat[2]);
-                            frame = 0;
-                            Main.animation = false;
-                            battle.turn = "goku";
-                            Main.movef = 2;
-                        }
-                        t = 0;
-                    }
-                }
-            }
-
-            return frame;
-        }
-
-
-        public int moveStance(){ // this is the animation for the stance of the character
-            if(frame < listf[Main.movef]) {
-                if (t < 3) {
-                    t++;
-                    if (t == 3) {
-                        frame += 1;
-                        if (frame == listf[Main.movef]) {
-                            frame = 0;
-                            Main.animation = false;
-                        }
-                        t = 0;
-                    }
-                }
-            }
-            return frame;
-        }
         public void update(SpriteBatch batch, int x, int y) {
-            if (Main.animation && Main.movef == Main.Attack) {
-
-                moveFramesf();
-
+            if(Battle.turn.equals("frieza")){
+                F.set(new Sprite(spritesf.get(Battle.type).get(Battle.frame)));
             }
-            else {
-              //  moveStance();
-                frame = 0 ;
+            else{
+                F.set(new Sprite(spritesf.get(0).get(0)));
             }
-            F.set(new Sprite(spritesf.get(Main.movef).get(frame)));
+
             F.setPosition(200,300);
             render(batch);
         }

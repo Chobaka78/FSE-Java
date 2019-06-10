@@ -16,18 +16,9 @@ public class Gohan {
     private static int frame = 0;
     int t = 0;
 
-    public Gohan(int x, int y) {
-        this.x = x;
-        this.y = y;
-        G = new Sprite();
+    public Gohan(){
 
-//        for(int i = 0; i < 1; i ++){
-//            tmpgo1 = new ArrayList<Texture>();
-//            for (int m = 0; m < 4; m ++){
-//                tmpgo1.add(new Texture("Assets/Sprites/Gohan/Stance/Stance" + m + ".png"));
-//            }
-//            spritesgo.add(tmpgo1);
-//        }
+        G = new Sprite();
         
         for (int l = 0; l < listgo.length; l++) {
             for (String h : movementgo) {
@@ -45,57 +36,16 @@ public class Gohan {
         G.draw(batch);
 
     }
-    public int moveframesgo(){
-        if(frame < listgo[Main.movego] ){
-            if(t < 3) {
-                t ++ ;
-                if(t == 3) {
-                    frame += 1;
-                    if (frame == listgo[Main.movego]) {
-                        System.out.println(" it is " + battle.turn+"turn");
 
-                        Goku.fstat[0] = Goku.fstat[0] +(Goku.fstat[3]*1/2 - Goku.gostat[2]);
-                        System.out.println("frieza health : " + Goku.fstat[0]);
-                        frame = 0;
-                        Main.animation = false;
-                        battle.turn = "frieza";
-                        Main.movego = 2;
-                    }
-                    t = 0;
-                }
-            }
-        }
-
-        return frame;
-    }
-
-    public int moveStance() { // this is the animation for the stance of the character
-        if (frame < 4) {
-            if (t < 4) {
-                t++;
-                if (t == 4) {
-                    frame += 1;
-                    if (frame == 4) {
-                        frame = 0;
-                        Main.animation = false;
-                    }
-                    t = 0;
-                }
-            }
-        }
-        return frame;
-    }
     public void update(SpriteBatch batch, int x, int y) {
-        if (Main.animation && Main.movego == Main.Attack) {
-
-            moveframesgo();
-
+        if(Battle.turn.equals("gohan")) {
+            G.set(new Sprite(spritesgo.get(Battle.type).get(Battle.frame)));
         }
-        else {
-            frame = 0;
+        else{
+            G.set(new Sprite(spritesgo.get(0).get(0)));
         }
-        G.set(new Sprite(spritesgo.get(Main.movesv).get(frame)));
-        G.setPosition(700,150);
+
+        G.setPosition(x,y);
         render(batch);
     }
 

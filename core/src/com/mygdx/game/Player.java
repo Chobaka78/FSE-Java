@@ -40,7 +40,7 @@ public class Player {
                     frames += 1;
                     if (frames == open_list[Main.moves1]) {
                         frames = 0;
-                        Main.animation1 = false;
+                        Main.animation = false;
                     }
                     t = 0;
                 }
@@ -92,16 +92,16 @@ public class Player {
 
         Goku.setPosition(body.getPosition().x,body.getPosition().y);
 
-        if(Main.animation1 && Main.moves1 == Main.UP){
+        if(Main.animation && Main.moves1 == Main.UP){
             moveFrames();
         }
-        else if(Main.animation1 && Main.moves1 == Main.Down){
+        else if(Main.animation && Main.moves1 == Main.Down){
             moveFrames();
         }
-        else if(Main.animation1 && Main.moves1 == Main.Left){
+        else if(Main.animation && Main.moves1 == Main.Left){
             moveFrames();
         }
-        else if(Main.animation1 && Main.moves1 == Main.Right){
+        else if(Main.animation && Main.moves1 == Main.Right){
             moveFrames();
         }
         else{
