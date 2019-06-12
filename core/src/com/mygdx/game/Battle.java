@@ -13,7 +13,12 @@ import java.util.Arrays;
 
 public class Battle {
 
-    static String turn = "goku", Person = "Player", movement = "";
+    static String Person = "Player", movement = "";
+    //                Goku      Vegeta      Gohan      Frieza     Health   Energy  Attack   Defence
+    public static final int GOKU = 0, VEGETA = 1, GOHAN = 2, FRIEZA = 3, HP = 0, KI = 1, ATK = 2, DEF = 3;
+
+
+    public static int turn = GOKU;
 
     static Rectangle rect;
 
@@ -29,25 +34,25 @@ public class Battle {
 
     private Vegeta vegeta;
 
-    private Sprite attack, special;
+    private Sprite attack, special , defend;
 
     public static int frame = 0, type, timer = 0; // type is a integer that determines the move in the array list (ie Attack or special)
 
-    public static int [] t = new int[]{1,2,3,4,5,6}; //this is a counter variable for time
+    public static int [] t = new int[]{1,2,3,4,5,6,100}; //this is a counter variable for time
 
     private static int [] pos = new int[]{710,875,400,875};
 
     private static int [] def_pos = new int[]{710,875,400,875};
 
-    private int[] list = new int[]{6,7,9}; //list of frames for the moves
+    private int[] list = new int[]{6,7,9,1}; //list of frames for the moves
 
     private ArrayList<Integer> Goku_Stat, Vegeta_Stat, Gohan_Stat, Frieza_Stat;
+
+    public ArrayList<ArrayList<Integer>> Stats;
 
     private boolean Animate;
 
     public static Music bossbattle;
-
-    public static String[] split;
 
     public Battle(){
 
@@ -65,9 +70,18 @@ public class Battle {
 
         special = new Sprite(new Texture("Assets/Fonts/special.png"));
 
+        defend = new Sprite(new Texture("Assets/Fonts/preview.png"));
+
+
+
         bossbattle = Gdx.audio.newMusic(Gdx.files.internal("Assets/Music/boss.mp3"));
 
-        Stats();
+        Goku_Stat = new ArrayList<Integer>(Arrays.asList(8000,300,8000,200));
+        Vegeta_Stat = new ArrayList<Integer>(Arrays.asList(7000,500,10000,150));
+        Gohan_Stat = new ArrayList<Integer>(Arrays.asList(6500,350,300,300));
+        Frieza_Stat = new ArrayList<Integer>(Arrays.asList(50000,500,500,400));
+
+        Stats = new ArrayList<ArrayList<Integer>>(Arrays.asList(Goku_Stat,Vegeta_Stat,Gohan_Stat,Frieza_Stat));
 
     }
 
@@ -80,6 +94,7 @@ public class Battle {
         goku.update(batch,pos[0],300);
         attack.draw(batch);
         special.draw(batch);
+        defend.draw(batch);
 
     }
 
@@ -98,6 +113,12 @@ public class Battle {
                 movement = "Special";
                 Animate = true;
             }
+
+            if(defend.getBoundingRectangle().overlaps(rect) && Gdx.input.isKeyPressed(Input.Keys.E) && Person.equals("Player")){
+                movement = "Defend";
+                Animate = true;
+
+            }
             else if(Person.equals("Enemy")){
                 Animate = true;
             }
@@ -109,23 +130,30 @@ public class Battle {
                 else if(movement.equals("Special")){
                     Special();
                 }
+                else if (movement.equals("Defend")){
+
+                    Defend();
+                }
             }
         }
 
         attack.setPosition(x,y);
         special.setPosition(x + 300, y);
+        defend.setPosition(x+60,y);
         render(batch);
     }
 
 
-    public int moveFrames(int move, String next, String person, int time){ // takes in the move, whose turn it will be next, player turn or enemy turn, and the time for frames
+    public int moveFrames(int move, int next, String person, int time, int Enemy){ // takes in the move, whose turn it will be next, player turn or enemy turn, and the time for frames
+
         if(frame < list[move]){
             if(timer < t[time]) {
                 timer ++;
                 if(timer == t[time]) {
                     frame += 1;
                     if (frame == list[move]) {
-                        System.out.println(" it is " + Battle.turn+"turn");
+                        System.out.println(" it is " + turn+"turn");
+                        updateStats(turn,Enemy);
                         turn = next;
                         Person = person;
                         Animate = false;
@@ -144,60 +172,83 @@ public class Battle {
     }
 
     public void Attack(){ //Attack method
-        if(turn.equals("goku")) {
+        if(turn == GOKU) {
             pos[0] = (int)(Enemy.F.getX() + 100);
             type = 0;
-            moveFrames(1, "vegeta", "Player",3);
+            moveFrames(1, VEGETA, "Player",3, FRIEZA);
         }
-        if(turn.equals("vegeta")){
+        if(turn == VEGETA){
             pos[3] = (int)(Enemy.F.getX() + 100);
             type = 0;
-            moveFrames(1,"gohan", "Player",3);
+            moveFrames(1,GOHAN, "Player",3, FRIEZA);
         }
-        if(turn.equals("gohan")){
+        if(turn == GOHAN){
             pos[1] = (int)(Enemy.F.getX() + 100);
             type = 0;
-            moveFrames(1,"frieza", "Enemy",3);
+            moveFrames(1,FRIEZA, "Enemy",3, FRIEZA);
         }
-        if(turn.equals("frieza")){
+        if(turn == FRIEZA){
             pos[2] = (int)(Goku.Goku.getX() - 100);
             type = 0;
-            moveFrames(1,"goku", "Player",3);
+            moveFrames(1,GOKU, "Player",3, GOKU);
         }
 
 
     }
 
     public void Special(){ //Controls all the special moves
-        if(turn.equals("goku")) {
+        if(turn == GOKU) {
             type = 1;
-            moveFrames(2, "vegeta", "Player",3);
+            moveFrames(2, VEGETA, "Player",3, FRIEZA);
         }
-        if(turn.equals("vegeta")){
+        if(turn == VEGETA){
             type = 1;
-            moveFrames(1,"gohan", "Player",4);
+            moveFrames(1,GOHAN, "Player",4, FRIEZA);
         }
-        if(turn.equals("gohan")){
+        if(turn == GOHAN){
             type = 1;
-            moveFrames(0,"frieza", "Enemy",3);
+            moveFrames(0,FRIEZA, "Enemy",3, FRIEZA);
         }
-        if(turn.equals("frieza")){
+        if(turn == FRIEZA){
             type = 0;
-            moveFrames(1,"goku", "Player",3);
+            moveFrames(1,GOKU, "Player",3, GOKU);
         }
     }
 
-    public void Defend (){
+    public void Defend () {
+        if (turn == GOKU) {
+            type = 2;
 
-
+            moveFrames(3, VEGETA, "Player", 3 , FRIEZA);
+        }
+        if (turn == VEGETA) {
+            type = 2;
+            moveFrames(3, GOHAN, "Player", 3 , FRIEZA);
+        }
+        if (turn == GOHAN) {
+            type = 2;
+            moveFrames(3, FRIEZA, "Player", 3 , FRIEZA);
+        }
+        if (turn == FRIEZA) {
+            type = 2;
+            moveFrames(3, GOKU , "Player", 3 , FRIEZA);
+        }
     }
 
-    public void Stats() {
-        Goku_Stat = new ArrayList<Integer>(Arrays.asList(8000,300,8000,200));
+        public void updateStats ( int attacker, int attacked){
 
+            if (movement.equals("Attack")) {
+                Stats.get(attacked).set(HP, (Stats.get(attacked).get(HP) + (Stats.get(attacked).get(DEF) - Stats.get(attacker).get(ATK))));
+                Stats.get(attacker).set(KI, (Stats.get(attacker).get(KI) - 50));
+            }
 
+            if (movement.equals("Special")) {
+                Stats.get(attacked).set(HP, (Stats.get(attacked).get(HP) + (Stats.get(attacked).get(DEF) - (int) (Stats.get(attacker).get(ATK) * 1.5))));
+                Stats.get(attacker).set(KI, (Stats.get(attacker).get(KI) - 50));
+            }
 
+        }
     }
 
 
-}
+

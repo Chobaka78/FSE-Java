@@ -42,6 +42,16 @@ public class Goku {
             }
             sprites.add(tmpg);
         }
+
+        for (String i : new String[]{"defendg"}){
+            tmpg = new ArrayList<Texture>();
+            for (int j = 0; j < 1; j++) {
+                tmpg.add(new Texture("Assets/Sprites/Goku/" + i + "/" + i + j + ".png"));
+            }
+            sprites.add(tmpg);
+        }
+
+
     }
     public void render(SpriteBatch batch){
         Goku.draw(batch);
@@ -51,7 +61,7 @@ public class Goku {
 
     public void update(SpriteBatch batch, int x, int y){
 
-        if(Battle.turn.equals("goku") && Battle.Person.equals("Player")){
+        if(Battle.turn == Battle.GOKU && Battle.Person.equals("Player")){
             Goku.set(new Sprite(sprites.get(Battle.type).get(Battle.frame)));
         }
         else{
