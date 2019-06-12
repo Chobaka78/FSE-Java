@@ -25,8 +25,6 @@ public class Goku {
     public Goku(){
         Goku = new Sprite();
 
-
-
             for (String i : new String[]{"attackg"}){
                 tmpg = new ArrayList<Texture>();
                 for (int j = 0; j < 7; j++) {
@@ -42,6 +40,16 @@ public class Goku {
             }
             sprites.add(tmpg);
         }
+
+        for (String i : new String[]{"defendg"}){
+            tmpg = new ArrayList<Texture>();
+            for (int j = 0; j < 1; j++) {
+                tmpg.add(new Texture("Assets/Sprites/Goku/" + i + "/" + i + j + ".png"));
+            }
+            sprites.add(tmpg);
+        }
+
+
     }
     public void render(SpriteBatch batch){
         Goku.draw(batch);

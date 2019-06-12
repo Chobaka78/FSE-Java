@@ -29,17 +29,17 @@ public class Battle {
 
     private Vegeta vegeta;
 
-    private Sprite attack, special;
+    private Sprite attack, special , defend;
 
     public static int frame = 0, type, timer = 0; // type is a integer that determines the move in the array list (ie Attack or special)
 
-    public static int [] t = new int[]{1,2,3,4,5,6}; //this is a counter variable for time
+    public static int [] t = new int[]{1,2,3,4,5,6,100}; //this is a counter variable for time
 
     private static int [] pos = new int[]{710,875,400,875};
 
     private static int [] def_pos = new int[]{710,875,400,875};
 
-    private int[] list = new int[]{6,7,9}; //list of frames for the moves
+    private int[] list = new int[]{6,7,9,1}; //list of frames for the moves
 
     private ArrayList<Integer> Goku_Stat, Vegeta_Stat, Gohan_Stat, Frieza_Stat;
 
@@ -59,11 +59,17 @@ public class Battle {
 
         frieza = new Enemy();
 
+        String mode = " ";
+
         stage = new Texture("Assets/Backgrounds/stage.png");
 
         attack = new Sprite(new Texture("Assets/Fonts/attack.png"));
 
         special = new Sprite(new Texture("Assets/Fonts/special.png"));
+
+        defend = new Sprite(new Texture("Assets/Fonts/preview.png"));
+
+
 
         bossbattle = Gdx.audio.newMusic(Gdx.files.internal("Assets/Music/boss.mp3"));
 
@@ -80,6 +86,7 @@ public class Battle {
         goku.update(batch,pos[0],300);
         attack.draw(batch);
         special.draw(batch);
+        defend.draw(batch);
 
     }
 
@@ -98,9 +105,16 @@ public class Battle {
                 movement = "Special";
                 Animate = true;
             }
+
+            if(defend.getBoundingRectangle().overlaps(rect) && Gdx.input.isKeyPressed(Input.Keys.E) && Person.equals("Player")){
+                movement = "Defend";
+                Animate = true;
+
+            }
             else if(Person.equals("Enemy")){
                 Animate = true;
             }
+
 
             if(Animate){
                 if(movement.equals("Attack")) {
@@ -109,11 +123,16 @@ public class Battle {
                 else if(movement.equals("Special")){
                     Special();
                 }
+                else if (movement.equals("Defend")){
+
+                    Defend();
+                }
             }
         }
 
         attack.setPosition(x,y);
         special.setPosition(x + 300, y);
+        defend.setPosition(x+60,y);
         render(batch);
     }
 
@@ -143,29 +162,32 @@ public class Battle {
         return frame; // returns the frame
     }
 
-    public void Attack(){ //Attack method
-        if(turn.equals("goku")) {
-            pos[0] = (int)(Enemy.F.getX() + 100);
-            type = 0;
-            moveFrames(1, "vegeta", "Player",3);
-        }
-        if(turn.equals("vegeta")){
-            pos[3] = (int)(Enemy.F.getX() + 100);
-            type = 0;
-            moveFrames(1,"gohan", "Player",3);
-        }
-        if(turn.equals("gohan")){
-            pos[1] = (int)(Enemy.F.getX() + 100);
-            type = 0;
-            moveFrames(1,"frieza", "Enemy",3);
-        }
-        if(turn.equals("frieza")){
-            pos[2] = (int)(Goku.Goku.getX() - 100);
-            type = 0;
-            moveFrames(1,"goku", "Player",3);
-        }
+
+    public void Attack() { //Attack method
+            if (turn.equals("goku")) {
+                pos[0] = (int) (Enemy.F.getX() + 100);
+                type = 0;
+                moveFrames(1, "vegeta", "Player", 3);
+            }
+            if (turn.equals("vegeta")) {
+                pos[3] = (int) (Enemy.F.getX() + 100);
+                type = 0;
+                moveFrames(1, "gohan", "Player", 3);
+            }
+            if (turn.equals("gohan")) {
+                pos[1] = (int) (Enemy.F.getX() + 100);
+                type = 0;
+                moveFrames(1, "frieza", "Enemy", 3);
+            }
+            if (turn.equals("frieza")) {
+                pos[2] = (int) (Goku.Goku.getX() - 100);
+                type = 0;
+                moveFrames(1, "goku", "Player", 3);
+
+            }
 
 
+        }
     }
 
     public void Special(){ //Controls all the special moves
@@ -188,6 +210,26 @@ public class Battle {
     }
 
     public void Defend (){
+        if (turn.equals("goku")){
+            type = 2;
+
+            moveFrames(3, "vegeta", "Player",3);
+
+        }
+        if (turn.equals("vegeta")){
+            type = 2;
+            moveFrames(3,"gohan" , "Player" , 3);
+        }
+        if (turn.equals("gohan")){
+            type = 2;
+            moveFrames(3 , "frieza" , "Player" , 3);
+        }
+        if (turn.equals("frieza")){
+            type = 2;
+            moveFrames(3  , "goku" , "Player" , 3);
+
+
+        }
 
 
     }
