@@ -2,10 +2,14 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Battle {
 
@@ -31,9 +35,19 @@ public class Battle {
 
     public static int [] t = new int[]{1,2,3,4,5,6}; //this is a counter variable for time
 
-    private int[] list = new int[]{7,9}; //list of frames for the moves
+    private static int [] pos = new int[]{710,875,400,875};
+
+    private static int [] def_pos = new int[]{710,875,400,875};
+
+    private int[] list = new int[]{6,7,9}; //list of frames for the moves
+
+    private ArrayList<Integer> Goku_Stat, Vegeta_Stat, Gohan_Stat, Frieza_Stat;
 
     private boolean Animate;
+
+    public static Music bossbattle;
+
+    public static String[] split;
 
     public Battle(){
 
@@ -51,15 +65,19 @@ public class Battle {
 
         special = new Sprite(new Texture("Assets/Fonts/special.png"));
 
+        bossbattle = Gdx.audio.newMusic(Gdx.files.internal("Assets/Music/boss.mp3"));
+
+        Stats();
+
     }
 
     public void render(SpriteBatch batch){
         //Setting original positions
         batch.draw(stage,0,0);
-        frieza.update(batch,400,300);
-        vegeta.update(batch,875,445);
-        gohan.update(batch , 875 , 180);
-        goku.update(batch,710,300);
+        frieza.update(batch,pos[2],300);
+        vegeta.update(batch,pos[3],445);
+        gohan.update(batch , pos[1] , 180);
+        goku.update(batch,pos[0],300);
         attack.draw(batch);
         special.draw(batch);
 
@@ -68,7 +86,7 @@ public class Battle {
     public void update(SpriteBatch batch, int x, int y){
         mx = Gdx.input.getX();
         my = Math.abs(660 - Gdx.input.getY());
-        Main.utils.bossbattle.play();
+        bossbattle.play();
         rect = new Rectangle(mx,my,1,1); // mouse rect made for collision (1 by 1 square)
 
         if(Main.Game.equals("Level1")) {
@@ -112,6 +130,9 @@ public class Battle {
                         Person = person;
                         Animate = false;
                         frame = 0;
+                        for(int i = 0; i < pos.length; i ++){
+                            pos[i] = def_pos[i];
+                        }
 
                     }
                     timer = 0;
@@ -124,20 +145,24 @@ public class Battle {
 
     public void Attack(){ //Attack method
         if(turn.equals("goku")) {
+            pos[0] = (int)(Enemy.F.getX() + 100);
             type = 0;
-            moveFrames(0, "vegeta", "Player",3);
+            moveFrames(1, "vegeta", "Player",3);
         }
         if(turn.equals("vegeta")){
+            pos[3] = (int)(Enemy.F.getX() + 100);
             type = 0;
-            moveFrames(0,"gohan", "Player",3);
+            moveFrames(1,"gohan", "Player",3);
         }
         if(turn.equals("gohan")){
+            pos[1] = (int)(Enemy.F.getX() + 100);
             type = 0;
-            moveFrames(0,"frieza", "Enemy",3);
+            moveFrames(1,"frieza", "Enemy",3);
         }
         if(turn.equals("frieza")){
+            pos[2] = (int)(Goku.Goku.getX() - 100);
             type = 0;
-            moveFrames(0,"goku", "Player",3);
+            moveFrames(1,"goku", "Player",3);
         }
 
 
@@ -146,11 +171,11 @@ public class Battle {
     public void Special(){ //Controls all the special moves
         if(turn.equals("goku")) {
             type = 1;
-            moveFrames(1, "vegeta", "Player",3);
+            moveFrames(2, "vegeta", "Player",3);
         }
         if(turn.equals("vegeta")){
             type = 1;
-            moveFrames(0,"gohan", "Player",3);
+            moveFrames(1,"gohan", "Player",4);
         }
         if(turn.equals("gohan")){
             type = 1;
@@ -158,8 +183,20 @@ public class Battle {
         }
         if(turn.equals("frieza")){
             type = 0;
-            moveFrames(0,"goku", "Player",3);
+            moveFrames(1,"goku", "Player",3);
         }
+    }
+
+    public void Defend (){
+
+
+    }
+
+    public void Stats() {
+        Goku_Stat = new ArrayList<Integer>(Arrays.asList(8000,300,8000,200));
+
+
+
     }
 
 

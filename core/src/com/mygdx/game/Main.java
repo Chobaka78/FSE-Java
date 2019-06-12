@@ -14,6 +14,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 
+import java.util.Arrays;
+
 import static com.mygdx.game.Utils.*;
 
 public class Main extends ApplicationAdapter {
@@ -116,7 +118,7 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-        System.out.println(Battle.turn +", " + Battle.type + ", " + Battle.Person + ", " + Battle.frame);
+       // System.out.println(Battle.turn +", " + Battle.type + ", " + Battle.Person + ", " + Battle.frame);
 
         if (Game.equals("Menu")) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -181,7 +183,7 @@ public class Main extends ApplicationAdapter {
 
         if (Goku.fstat[0] <0 && mode != "open"){
 
-            utils.bossbattle.stop();
+            Battle.bossbattle.stop();
             utils.victory.play();
 
             mode = "win";

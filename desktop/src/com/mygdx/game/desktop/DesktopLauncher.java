@@ -6,6 +6,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.game.Main;
 
 public class DesktopLauncher {
+
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		new LwjglApplication(new Main(), config);
@@ -14,6 +15,7 @@ public class DesktopLauncher {
 		config.title = "Dragon ball";
 		config.addIcon("Assets/Backgrounds/icon.png", Files.FileType.Internal);
 		config.foregroundFPS = 36;
+
 	}
 }
 

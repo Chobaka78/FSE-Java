@@ -17,7 +17,7 @@ public class Gohan {
     public Gohan(){
 
         G = new Sprite();
-        
+
         for (int l = 0; l < listgo.length; l++) {
             for (String h : movementgo) {
                 tmpgo = new ArrayList<Texture>();
