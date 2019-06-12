@@ -27,7 +27,7 @@ public class Goku {
 
 
 
-        for (String i : new String[]{"attackg"}){
+            for (String i : new String[]{"attackg"}){
                 tmpg = new ArrayList<Texture>();
                 for (int j = 0; j < 7; j++) {
                     tmpg.add(new Texture("Assets/Sprites/Goku/" + i + "/" + i + j + ".png"));
@@ -51,7 +51,7 @@ public class Goku {
 
     public void update(SpriteBatch batch, int x, int y){
 
-        if(Battle.turn == Battle.GOKU && Battle.Person.equals("Player")){
+        if(Battle.turn.equals("goku") && Battle.Person.equals("Player")){
             Goku.set(new Sprite(sprites.get(Battle.type).get(Battle.frame)));
         }
         else{

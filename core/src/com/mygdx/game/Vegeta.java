@@ -23,6 +23,13 @@ public class Vegeta {
                 }
                 spritesv.add(tmpv);
             }
+            for (String i : new String [] {"defendv"}){
+                tmpv = new ArrayList<Texture>();
+                for (int v = 0; v < 1 ; v++){
+                    tmpv.add(new Texture("Assets/Sprites/Vegeta/" + i + "/" + i + v + ".png"));
+                }
+                spritesv.add(tmpv);
+        }
 
 
     }

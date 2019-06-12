@@ -174,7 +174,7 @@ public class Main extends ApplicationAdapter {
             camera.position.y = 330;
 
             utils.worldmusic.stop();
-            mode = "battle";
+
             batch.begin();
             battle.update(batch,100,50);
             batch.end();
