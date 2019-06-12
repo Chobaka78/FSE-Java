@@ -38,7 +38,7 @@ public class Enemy {
         }
 
         public void update(SpriteBatch batch, int x, int y) {
-            if(Battle.turn.equals("frieza")){
+            if(Battle.turn == Battle.FRIEZA){
                 F.set(new Sprite(spritesf.get(Battle.type).get(Battle.frame)));
             }
             else{

@@ -36,7 +36,7 @@ public class Gohan {
     }
 
     public void update(SpriteBatch batch, int x, int y) {
-        if(Battle.turn.equals("gohan")) {
+        if(Battle.turn == Battle.GOHAN) {
             G.set(new Sprite(spritesgo.get(Battle.type).get(Battle.frame)));
         }
         else{

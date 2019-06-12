@@ -32,7 +32,7 @@ public class Vegeta {
     }
 
     public void update(SpriteBatch batch, int x, int y) {
-        if(Battle.turn.equals("vegeta")) {
+        if(Battle.turn == Battle.VEGETA) {
             V.set(new Sprite(spritesv.get(Battle.type).get(Battle.frame)));
         }
         else{
