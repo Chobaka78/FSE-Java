@@ -11,10 +11,14 @@ public class Vegeta {
     private static int x,y;
     static ArrayList<Texture> tmpv;
     static ArrayList<ArrayList<Texture>> spritesv = new ArrayList<ArrayList<Texture>>();
+    static Texture def;
+   static boolean d ;
+
 
     public Vegeta(){
 
         V = new Sprite();
+        def = new Texture("Assets/Sprites/Vegeta/defendv/defendv0.png");
 
             for (String h : new String[]{"attackv", "Special"}){
                 tmpv = new ArrayList<Texture>();
@@ -23,13 +27,17 @@ public class Vegeta {
                 }
                 spritesv.add(tmpv);
             }
-            for (String i : new String [] {"defendv"}){
-                tmpv = new ArrayList<Texture>();
-                for (int v = 0; v < 1 ; v++){
-                    tmpv.add(new Texture("Assets/Sprites/Vegeta/" + i + "/" + i + v + ".png"));
-                }
-                spritesv.add(tmpv);
+
+        for (String h : new String[]{"vegetaheal"}){
+            tmpv = new ArrayList<Texture>();
+            for (int v = 0; v < 8 ; v++){
+                tmpv.add(new Texture("Assets/Sprites/Vegeta/" + h + "/" + h+ v + ".png"));
+            }
+            spritesv.add(tmpv);
         }
+
+
+
 
 
     }
@@ -39,11 +47,16 @@ public class Vegeta {
     }
 
     public void update(SpriteBatch batch, int x, int y) {
-        if(Battle.turn == Battle.VEGETA) {
+        if(Battle.turn == Battle.VEGETA &&  Battle.Person.equals("Player" )) {
+            System.out.println("ZZZZAAAAAAAIIIIIN SHUT UP");
+            d= false;
             V.set(new Sprite(spritesv.get(Battle.type).get(Battle.frame)));
         }
         else{
             V.set(new Sprite(spritesv.get(0).get(0)));
+        }
+        if(d){
+            V.set(new Sprite(def));
         }
 
         V.setPosition(x,y);
