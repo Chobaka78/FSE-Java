@@ -6,17 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class WorldCreator {
-    private static ArrayList<Body> Buildings  = new ArrayList<Body>();
-    private static ArrayList<Body> Trees  = new ArrayList<Body>();
-    private static ArrayList<Body> Extra  = new ArrayList<Body>();
-    private static ArrayList<Body> Wall  = new ArrayList<Body>();
-
-
-    static ArrayList<ArrayList<Body>> Bodies;
     Body body;
     public WorldCreator(World world, TiledMap map){
         BodyDef bdef = new BodyDef();
@@ -38,8 +28,6 @@ public class WorldCreator {
             fdef.shape = shape;
             body.createFixture(fdef).setUserData("Building");
 
-            Buildings.add(body);
-
         }
 
         //for trees
@@ -55,8 +43,6 @@ public class WorldCreator {
             fdef.shape = shape;
             body.createFixture(fdef).setUserData("Trees");
 
-            Trees.add(body);
-
         }
         // for extras
         for(MapObject obj : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)){
@@ -70,8 +56,6 @@ public class WorldCreator {
             shape.setAsBox(rect.getWidth() / 2 * Main.PPM, rect.getHeight() / 2 * Main.PPM);
             fdef.shape = shape;
             body.createFixture(fdef).setUserData("Extra");
-
-            Extra.add(body);
 
         }
         // for walls
@@ -87,11 +71,35 @@ public class WorldCreator {
             fdef.shape = shape;
             body.createFixture(fdef).setUserData("Wall");
 
-            Wall.add(body);
+        }
+
+        for(MapObject obj : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+
+            bdef.position.set(rect.getX() * Main.PPM + rect.getWidth() / 2 * Main.PPM, rect.getY() * Main.PPM + rect.getHeight() / 2 * Main.PPM);
+
+            body = world.createBody(bdef);
+
+            shape.setAsBox(rect.getWidth() / 2 * Main.PPM, rect.getHeight() / 2 * Main.PPM);
+            fdef.shape = shape;
+            body.createFixture(fdef).setUserData("Interaction");
 
         }
 
-        Bodies = new ArrayList<ArrayList<Body>>(Arrays.asList(Buildings, Trees, Extra, Wall));
+        for(MapObject obj : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+
+            bdef.position.set(rect.getX() * Main.PPM + rect.getWidth() / 2 * Main.PPM, rect.getY() * Main.PPM + rect.getHeight() / 2 * Main.PPM);
+
+            body = world.createBody(bdef);
+
+            shape.setAsBox(rect.getWidth() / 2 * Main.PPM, rect.getHeight() / 2 * Main.PPM);
+            fdef.shape = shape;
+            body.createFixture(fdef).setUserData("Un-Interact");
+
+        }
 
     }
 

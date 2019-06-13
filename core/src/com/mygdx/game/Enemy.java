@@ -45,7 +45,7 @@ public class Enemy {
                 F.set(new Sprite(spritesf.get(0).get(0)));
             }
 
-            F.setPosition(200,300);
+            F.setPosition(x,y);
             render(batch);
         }
 

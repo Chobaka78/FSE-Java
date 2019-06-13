@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,9 +50,9 @@ public class Battle {
 
     public static int[] t = new int[]{1, 2, 3, 4, 5, 6, 100}; //this is a counter variable for time
 
-    private static int[] pos = new int[]{710, 875, 400, 875};
+    private static int[] pos = new int[]{710, 300, 875, 180, 200, 300, 875, 445};
 
-    private static int[] def_pos = new int[]{710, 875, 400, 875};
+    private static int[] def_pos = new int[]{710, 300, 875, 180, 200, 300, 875, 445};
 
     private int[] list = new int[]{6, 7, 8, 9, 1}; //list of frames for the moves
 
@@ -62,7 +61,9 @@ public class Battle {
     static Sprite kame;
 
 
-    private ArrayList<Integer> Goku_Stat, Vegeta_Stat, Gohan_Stat, Frieza_Stat , Minion_Stat;
+    private ArrayList<Integer> Goku_Stat, Vegeta_Stat, Gohan_Stat, Frieza_Stat , Minion_Stat, red_Stat;
+
+    private ArrayList<ArrayList<Integer>> Enemy_Stats;
 
     public ArrayList<ArrayList<Integer>> Stats;
 
@@ -104,11 +105,13 @@ public class Battle {
         Goku_Stat = new ArrayList<Integer>(Arrays.asList(8000,300,1800,200));
         Vegeta_Stat = new ArrayList<Integer>(Arrays.asList(7000,500,2200,150));
         Gohan_Stat = new ArrayList<Integer>(Arrays.asList(7500,400,1900,300));
+
+
         Frieza_Stat = new ArrayList<Integer>(Arrays.asList(50000,500,500,400));
         Minion_Stat = new ArrayList<Integer>(Arrays.asList(15000,500,500,400));
+        red_Stat = new ArrayList<Integer>(Arrays.asList(1500,500,300,400));
 
-        Stats = new ArrayList<ArrayList<Integer>>(Arrays.asList(Goku_Stat,Vegeta_Stat,Gohan_Stat,Frieza_Stat,Minion_Stat));
-
+        Stats = new ArrayList<ArrayList<Integer>>(Arrays.asList(Goku_Stat,Vegeta_Stat,Gohan_Stat, Frieza_Stat, Minion_Stat, red_Stat));
     }
 
     public void render(SpriteBatch batch){
@@ -116,7 +119,7 @@ public class Battle {
         batch.draw(stage,0,0);
         if (enemy == 3) {
 
-            frieza.update(batch, pos[2], 300);
+            frieza.update(batch, pos[4], 300);
         }
         else if (enemy == 4){
             minion.update(batch,pos[2] , 300);
@@ -128,9 +131,9 @@ public class Battle {
             Main.mode = "open";
             Stats.get(4).set(HP,5000);
         }
-        vegeta.update(batch,pos[3],445);
-        gohan.update(batch , pos[1] , 180);
-        goku.update(batch,pos[0],300);
+        vegeta.update(batch,pos[6],pos[7]);
+        gohan.update(batch , pos[2] , pos[3]);
+        goku.update(batch,pos[0],pos[1]);
 
         attack.draw(batch);
         if (turn == GOKU && movement.equals("Special") && Animate){
@@ -253,7 +256,7 @@ public class Battle {
         }
         if(turn == enemy){
             System.out.println("K");
-            pos[2] = (int)(Goku.Goku.getX() - 100);
+            pos[4] = (int)(Goku.Goku.getX() - 100);
             type = 0;
 
             moveFrames(0,GOKU, "Player",3, GOKU);
