@@ -61,13 +61,18 @@ public class Goku {
 
     public void update(SpriteBatch batch, int x, int y){
 
-        if(Battle.turn == Battle.GOKU && Battle.Person.equals("Player")){
+        if(Battle.defence && Battle.Person.equals("Player")){
+            Goku.set(new Sprite(sprites.get(2).get(0)));
+        }
+
+        else if(Battle.turn == Battle.GOKU && Battle.Person.equals("Player") && !Battle.defence){
             Goku.set(new Sprite(sprites.get(Battle.type).get(Battle.frame)));
         }
         else{
             Goku.set(new Sprite(sprites.get(0).get(0)));
         }
         Goku.setPosition(x,y);
+
         render(batch);
 
     }

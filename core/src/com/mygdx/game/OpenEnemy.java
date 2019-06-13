@@ -47,7 +47,7 @@ public class OpenEnemy {
     }
 
     public void render(SpriteBatch batch){
-        batch.draw(Frieza,body.getPosition().x * (float) Math.pow(Main.PPM,2) + 140,body.getPosition().y  * (float) Math.pow(Main.PPM, 2) + 90, Frieza.getWidth() * (float) Math.pow(Main.PPM, 2) * 3/2, Frieza.getHeight() * (float) Math.pow(Main.PPM, 2) * 3/2);
+        batch.draw(Frieza,body.getPosition().x - 3 ,body.getPosition().y - 10, Frieza.getWidth() * (float) Math.pow(Main.PPM, 2) * 3/2, Frieza.getHeight() * (float) Math.pow(Main.PPM, 2) * 3/2);
 
     }
 
@@ -69,9 +69,9 @@ public class OpenEnemy {
     }
 
     public void createBody(){
-        Frieza.setPosition(554,367);
+        Frieza.setPosition(160,105);
 
-        rect = new Rectangle((int) 554, 367, 168, 116);
+        rect = new Rectangle((int)Frieza.getX(), (int)Frieza.getY(), (int)Frieza.getWidth(), (int)Frieza.getHeight());
 
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.StaticBody;
@@ -82,12 +82,12 @@ public class OpenEnemy {
 
         fdef.shape = shape;
 
-        shape.setAsBox(48 * (float) Math.pow(Main.PPM, 2), 88 * (float) Math.pow(Main.PPM, 2));
+        shape.setAsBox(48* (float) Math.pow(Main.PPM, 2), 88* (float) Math.pow(Main.PPM, 2));
 
         body.createFixture(fdef).setUserData("Frieza");
 
 
-        body.setTransform((float) rect.getX() * Main.PPM - 9, (float) rect.getY() * Main.PPM - 3, 0);
+        body.setTransform((float) rect.getX() + 3, (float) rect.getY() + 10, 0);
 
 
     }

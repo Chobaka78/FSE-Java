@@ -62,7 +62,7 @@ public class Player {
     }
 
     public void createBody(){
-        Goku.setPosition(192,175);
+        Goku.setPosition(64,60);
 
         rect = new Rectangle((int) Goku.getX(), (int) Goku.getY(), (int) Goku.getWidth(), (int) Goku.getHeight());
 
@@ -81,9 +81,8 @@ public class Player {
         this.body.createFixture(fdef);
 
         this.body.getFixtureList().get(0).setUserData("Player");
-        this.body.getFixtureList().get(0).setUserData("Player");
 
-        this.body.setTransform((float) rect.getX() * Main.PPM, (float) rect.getY() * Main.PPM, 0);
+        this.body.setTransform((float) rect.getX(), (float) rect.getY(), 0);
 
 
     }

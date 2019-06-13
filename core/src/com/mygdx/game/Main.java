@@ -2,10 +2,12 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -14,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static com.mygdx.game.Utils.*;
@@ -64,7 +67,9 @@ public class Main extends ApplicationAdapter {
     public static int moves1;
 
     private TmxMapLoader mapLoader;
+
     private TiledMap map;
+
     private OrthogonalTiledMapRenderer renderer;
 
     public static World world;
@@ -104,7 +109,7 @@ public class Main extends ApplicationAdapter {
 
         camera = new OrthographicCamera(1100f,660f);
 
-        map = mapLoader.load("Assets/Maps/World map.tmx");
+        map = mapLoader.load("Assets/Maps/Map.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map,PPM);
 
@@ -119,7 +124,7 @@ public class Main extends ApplicationAdapter {
 	@Override
 	public void render () {
        // System.out.println(Battle.turn +", " + Battle.type + ", " + Battle.Person + ", " + Battle.frame);
-
+        System.out.println(Player.Goku.getX() + ", " + Player.Goku.getY());
         if (Game.equals("Menu")) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             menu.music.play();
@@ -215,7 +220,7 @@ public class Main extends ApplicationAdapter {
 
             batch.setProjectionMatrix(camera.combined);
 
-//            b2dr.render(world,camera.combined);
+            b2dr.render(world,camera.combined);
 
             utils.worldmusic.play();
 
@@ -227,6 +232,7 @@ public class Main extends ApplicationAdapter {
             batch.end();
             move();
         }
+
     }
 
     public void update(){
@@ -267,11 +273,11 @@ public class Main extends ApplicationAdapter {
         player.setY(player.body.getPosition().y);
 
         // the following if statement is to apply a boundary on the camera
-        if(player.body.getPosition().x > 55 && player.body.getPosition().x < 275.5) {
+        if(player.body.getPosition().x > 63 && player.body.getPosition().x < 617) {
             camera.position.x = player.getX();
 
         }
-        if(player.body.getPosition().y > 33 && player.body.getPosition().y < 165){
+        if(player.body.getPosition().y > 42 && player.body.getPosition().y < 165){
             camera.position.y = player.getY();
         }
     }
