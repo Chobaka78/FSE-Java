@@ -166,8 +166,14 @@ public class Main extends ApplicationAdapter {
                 Gdx.app.exit();
             }
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.E)){
+            Battle.enemy = 4;
+            mode ="battle";
+
+        }
 
         if (mode.equals("battle")) {
+
 
             camera.zoom = 1f;
 
@@ -185,6 +191,8 @@ public class Main extends ApplicationAdapter {
             batch.end();
 
         }
+
+
 
         if (Goku.fstat[0] <0 && mode != "open"){
 

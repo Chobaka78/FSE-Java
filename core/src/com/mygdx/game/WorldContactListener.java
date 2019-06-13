@@ -8,6 +8,7 @@ public class WorldContactListener implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
         if(contact.getFixtureA().getUserData() == "Player" && contact.getFixtureB().getUserData() == "Frieza" && Main.mode != "gameover" && Goku.fstat[0] >0){
+            Battle.enemy = 3;
             Main.mode = "battle";
         }
         Gdx.app.log("Begin Contact", "");
