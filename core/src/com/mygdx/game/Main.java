@@ -50,13 +50,13 @@ public class Main extends ApplicationAdapter {
 
     static WorldCreator worldcreator;
 
-	int mx, my;
+	int mx, my, currentX, currentY;
 
 	static String mode = "", type = "";
 
 	public static final float PPM = 0.3f;
 
-    static boolean animation, shop = false, moveBody;
+    static boolean animation, shop = false, moveBody, House = false, Weirdplace = false, Map2 = false;
 
 	static String Game = "Menu"; // this is a String that will determine what the current mode is(main menu, level, etc.)
 
@@ -231,7 +231,7 @@ public class Main extends ApplicationAdapter {
             batch.setProjectionMatrix(camera.combined);
 
 
-            b2dr.render(world,camera.combined);
+//            b2dr.render(world,camera.combined);
 
             utils.worldmusic.play();
 
@@ -288,12 +288,12 @@ public class Main extends ApplicationAdapter {
 
         // the following if statement is to apply a boundary on the camera
 
-        if(!shop && !moveBody) {
-            if (player.body.getPosition().x > 54 && player.body.getPosition().x < 611) {
+        if(!shop && !moveBody && !House && !Weirdplace && !Map2) {
+            if (player.body.getPosition().x > 54 && player.body.getPosition().x < 275) {
                 camera.position.x = player.getX();
 
             }
-            if (player.body.getPosition().y > 33 && player.body.getPosition().y < 166) {
+            if (player.body.getPosition().y > 33 && player.body.getPosition().y < 165) {
                 camera.position.y = player.getY();
             }
         }
@@ -304,17 +304,99 @@ public class Main extends ApplicationAdapter {
                 camera.position.x = 726;
                 camera.position.y = 17;
             }
+
+            if(type.equals("House")) {
+                currentX = (int)player.getX();
+                currentY = (int)player.getY();
+                player.MoveBody(839, 103);
+                House = true;
+                camera.position.x = 839;
+                camera.position.y = 103;
+            }
+
+            if(type.equals("WeirdPlace")) {
+                player.MoveBody(156, 225);
+                Weirdplace = true;
+                camera.position.x = 156;
+                camera.position.y = 231;
+            }
+
+            if(type.equals("Map2")) {
+                player.MoveBody(354, 98);
+                Map2 = true;
+                camera.position.x = 392;
+                camera.position.y = 98;
+            }
+
             else if(type.equals("open")){
-                player.MoveBody(110,113);
-                shop = false;
-                camera.position.x = 110;
-                camera.position.y = 17;
+                if(shop) {
+                    player.MoveBody(110, 113);
+                    shop = false;
+                    camera.position.x = 110;
+                    camera.position.y = 17;
+                }
+
+                else if(House){
+                    player.MoveBody(currentX, currentY);
+                    House = false;
+                    camera.position.x = currentX;
+                    if(player.body.getPosition().y < 33) {
+                        camera.position.y = 33;
+                    }
+                    else{
+                        camera.position.y = currentY;
+                    }
+                }
+
+                else if(Weirdplace){
+                    player.MoveBody(156 , 189);
+                    Weirdplace = false;
+                    camera.position.x = 156;
+                    if(player.body.getPosition().y > 165) {
+                        camera.position.y = 165;
+                    }
+                    else{
+                        camera.position.y = 189;
+                    }
+                }
+
+                else if(Map2){
+                    player.MoveBody(323,98);
+                    Map2 = false;
+                    camera.position.x = 275;
+                    camera.position.y = player.getY();
+                }
             }
             moveBody = false;
         }
 
         if(shop){
             if(player.body.getPosition().y > 17 && player.body.getPosition().y < 143) {
+                camera.position.y = player.getY();
+            }
+        }
+
+        if(House){
+            if(player.body.getPosition().y > 103 && player.body.getPosition().y <  200) {
+                camera.position.y = player.getY();
+            }
+        }
+
+        if(Weirdplace){
+            if(player.body.getPosition().x > 60 && player.body.getPosition().x < 277){
+                camera.position.x = player.getX();
+
+            }
+            if(player.body.getPosition().y > 231 && player.body.getPosition().y < 358) {
+                camera.position.y = player.getY();
+            }
+        }
+
+        if(Map2){
+            if(player.body.getPosition().x > 392 && player.body.getPosition().x < 611) {
+                camera.position.x = player.getX();
+            }
+            if (player.body.getPosition().y > 33 && player.body.getPosition().y < 165) {
                 camera.position.y = player.getY();
             }
         }

@@ -28,6 +28,24 @@ public class WorldContactListener implements ContactListener {
 
         }
 
+        else if(contact.getFixtureA().getUserData() == "Player" && contact.getFixtureB().getUserData() == "Building-Intraction"){
+            Main.type = "House";
+            Main.moveBody = true;
+
+        }
+
+        else if(contact.getFixtureA().getUserData() == "Player" && contact.getFixtureB().getUserData() == "Mapchange"){
+            Main.type = "WeirdPlace";
+            Main.moveBody = true;
+
+        }
+
+        else if(contact.getFixtureA().getUserData() == "Player" && contact.getFixtureB().getUserData() == "Map2"){
+            Main.type = "Map2";
+            Main.moveBody = true;
+
+        }
+
         else if(contact.getFixtureA().getUserData() == "Player" && contact.getFixtureB().getUserData() == "Un-Interact"){
             Main.type = "open";
             Main.moveBody = true;

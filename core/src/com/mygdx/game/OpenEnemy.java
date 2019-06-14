@@ -183,7 +183,7 @@ public class OpenEnemy {
     }
 
     public void createRaditzBody(){
-        Raditz.setPosition(336,100);
+        Raditz.setPosition(318,100);
 
         rect2 = new Rectangle((int)Raditz.getX(), (int)Raditz.getY(), (int)Raditz.getWidth(), (int)Raditz.getHeight());
 
