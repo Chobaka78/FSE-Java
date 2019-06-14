@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -53,11 +54,13 @@ public class Battle {
 
     private Sprite over;
 
+    private Player p;
+
     private boolean alive;
 
     public static boolean enemyalive;
 
-
+    public static int [] inventory = new int [] {5,5,3};
 
     private ArrayList<String> E ;
     private ArrayList<String> P;
@@ -85,14 +88,17 @@ public class Battle {
 
     public ArrayList<ArrayList<Integer>> Stats;
 
-
-
+    private ArrayList<Integer> DefaultHp;
 
     private boolean Animate;
 
     public static Music bossbattle;
 
     private final int potion = 5;
+
+    private BitmapFont font;
+
+    private String[] Text = new String[]{"Goku","Vegeta","Gohan","Frieza", "Nappa","Radits"};
 
     public static String g = "alive",v = "alive" ,go = "alive";
 
@@ -142,6 +148,10 @@ public class Battle {
 
 
         Stats = new ArrayList<ArrayList<Integer>>(Arrays.asList(Goku_Stat,Vegeta_Stat,Gohan_Stat,Frieza_Stat ,Minion_Stat, rad_Stat));
+
+        font = new BitmapFont();
+        font.getData().scale(1f);
+
 
     }
 
@@ -200,7 +210,9 @@ public class Battle {
         }
 
         if (!enemyalive){
+            bossbattle.stop();
             Main.mode = "open";
+            Main.camera.position.x = 275;
         }
 
 
@@ -217,6 +229,11 @@ public class Battle {
 
         defend.draw(batch);
         items.draw(batch);
+        font.draw(batch, Text[enemy] + " Health: " + Stats.get(enemy).get(HP),2,655);
+        font.draw(batch,Text[enemy] + " Ki: " + Stats.get(enemy).get(KI),2,620);
+
+        font.draw(batch,Text[turn] + " Health: " + Stats.get(turn).get(HP),840,655);
+        font.draw(batch,Text[turn] + " Ki: " + Stats.get(turn).get(KI), 840,620);
 
     }
 
@@ -376,7 +393,7 @@ public class Battle {
     }
 
     public void Special(){ //Controls all the special moves
-        if(turn == GOKU && g == "alive") {
+        if(turn == GOKU && g.equals("alive")) {
             sx -=15;
             type = 1;
             moveFrames(2, VEGETA, "Player",3, enemy);
@@ -529,7 +546,7 @@ public class Battle {
 
            else if (item.equals("heal")){
                 Stats.get(attacker).set(HP, (Stats.get(attacker).get(HP)+1500));
-                //inventory[0] = inventory[0] -1;
+                inventory[0] = inventory[0] -1;
 
                 //System.out.println((inventory.toString()));
 
