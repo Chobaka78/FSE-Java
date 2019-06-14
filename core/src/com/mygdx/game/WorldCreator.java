@@ -101,6 +101,48 @@ public class WorldCreator {
 
         }
 
+        for(MapObject obj : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+
+            bdef.position.set(rect.getX() * Main.PPM + rect.getWidth() / 2 * Main.PPM, rect.getY() * Main.PPM + rect.getHeight() / 2 * Main.PPM);
+
+            body = world.createBody(bdef);
+
+            shape.setAsBox(rect.getWidth() / 2 * Main.PPM, rect.getHeight() / 2 * Main.PPM);
+            fdef.shape = shape;
+            body.createFixture(fdef).setUserData("Building-Intraction");
+
+        }
+
+        for(MapObject obj : map.getLayers().get(9).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+
+            bdef.position.set(rect.getX() * Main.PPM + rect.getWidth() / 2 * Main.PPM, rect.getY() * Main.PPM + rect.getHeight() / 2 * Main.PPM);
+
+            body = world.createBody(bdef);
+
+            shape.setAsBox(rect.getWidth() / 2 * Main.PPM, rect.getHeight() / 2 * Main.PPM);
+            fdef.shape = shape;
+            body.createFixture(fdef).setUserData("Mapchange");
+
+        }
+
+        for(MapObject obj : map.getLayers().get(10).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+
+            bdef.position.set(rect.getX() * Main.PPM + rect.getWidth() / 2 * Main.PPM, rect.getY() * Main.PPM + rect.getHeight() / 2 * Main.PPM);
+
+            body = world.createBody(bdef);
+
+            shape.setAsBox(rect.getWidth() / 2 * Main.PPM, rect.getHeight() / 2 * Main.PPM);
+            fdef.shape = shape;
+            body.createFixture(fdef).setUserData("Map2");
+
+        }
+
     }
 
 }
