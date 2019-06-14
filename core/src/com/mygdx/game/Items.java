@@ -1,6 +1,9 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -8,16 +11,23 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
+
 import java.awt.*;
 
 public class Items {
     private Sprite Trunks;
 
-    public static Texture fontback;
+    public static Sprite fontback;
+
+    public int [] inventory = new int [] {5,5,3};
 
     Body body;
 
     Rectangle rect;
+
+    String text;
+
+    public  BitmapFont font;
 
     private Player player;
 
@@ -26,8 +36,12 @@ public class Items {
     public Items(){
         player = new Player();
 
+        //font = new BitmapFont(Gdx.files.internal("Assets/Fonts/n.fnt"));
+        //font.setColor(Color.BLACK);
+
         Trunks = new Sprite(new Texture("Assets/Sprites/Trunks_Open/trunks.png"));
-        fontback = new Texture("Assets/Fonts/ShopFontback.png");
+        fontback = new Sprite(new Texture("Assets/Fonts/box.png"));
+        text = "hi goku welcome to my store";
         createBody();
     }
 
@@ -62,7 +76,13 @@ public class Items {
     public void render(SpriteBatch batch){
         batch.draw(Trunks,body.getPosition().x - Trunks.getWidth() * (float) Math.pow(Main.PPM,2),body.getPosition().y - Trunks.getHeight() * (float) Math.pow(Main.PPM, 2), Trunks.getWidth() * (float) Math.pow(Main.PPM, 2) * 3, Trunks.getHeight() * (float) Math.pow(Main.PPM, 2) * 3);
         if(Items.HitTrunks){
+           // batch.draw(fontback,400,300);
             batch.draw(Items.fontback,player.getX() - 58,player.getY() - 28,fontback.getWidth()* (float) Math.pow(Main.PPM,2),fontback.getHeight() *(float) Math.pow(Main.PPM,2));
+            //font.draw(batch,text,player.getX() - 58,player.getY() - 28);
+
+
         }
     }
+
+
 }
