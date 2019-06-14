@@ -25,27 +25,20 @@ public class Gohan {
         death = new Texture("Assets/Sprites/Gohan/deathgo/deathgo0.png");
 
 
-        for (int l = 0; l < listgo.length; l++) {
             for (String h : movementgo) {
                 tmpgo = new ArrayList<Texture>();
-                for (int v = 0; v < listgo[l]; v++) {
+                for (int v = 0; v < 7; v++) {
                     tmpgo.add(new Texture("Assets/Sprites/Gohan/" + h + "/" + h + v + ".png"));
 
                 }
                 spritesgo.add(tmpgo);
             }
 
-
-
-
-        }
-        for (String h : new String[]{"gohanheal"}){
-            tmpgo = new ArrayList<Texture>();
+            tmpgo1 = new ArrayList<Texture>();
             for (int v = 0; v < 8 ; v++){
-                tmpgo.add(new Texture("Assets/Sprites/Gohan/" + h + "/" + h+ v + ".png"));
+                tmpgo1.add(new Texture("Assets/Sprites/Gohan/gohanheal/gohanheal" + v + ".png"));
             }
-            spritesgo.add(tmpgo);
-        }
+            spritesgo.add(tmpgo1);
 
 
 

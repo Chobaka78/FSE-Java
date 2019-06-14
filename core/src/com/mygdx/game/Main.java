@@ -130,6 +130,7 @@ public class Main extends ApplicationAdapter {
 	@Override
 	public void render () {
        // System.out.println(Battle.turn +", " + Battle.type + ", " + Battle.Person + ", " + Battle.frame);
+        System.out.println(Battle.turn);
         if (Game.equals("Menu")) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             menu.music.play();
