@@ -14,6 +14,7 @@ public class Goku {
     private static int x,y;
     static ArrayList<Texture> tmpg, tmpg1;
     static Texture def;
+    static Texture death;
 
     static ArrayList<ArrayList<Texture>> sprites = new ArrayList<ArrayList<Texture>>();
     static ArrayList<ArrayList<Texture>> spritesd = new ArrayList<ArrayList<Texture>>();
@@ -27,9 +28,11 @@ public class Goku {
     static int[] fstat = {50000, 500, 500, 400};
     static boolean defend = false;
 
+
     public Goku(){
         Goku = new Sprite();
         def = new Texture("Assets/Sprites/Goku/defendg/defendg0.png");
+
 
 
 
