@@ -32,6 +32,7 @@ public class Goku {
     public Goku(){
         Goku = new Sprite();
         def = new Texture("Assets/Sprites/Goku/defendg/defendg0.png");
+        death = new Texture("Assets/Sprites/Goku/deathg/deathg0.png");
 
 
 
@@ -83,7 +84,9 @@ public class Goku {
 
 
         }
-
+        if (Battle.g.equals("dead")){
+            Goku.set(new Sprite(death));
+        }
         if(defend){
             Goku.set(new Sprite(def));
 

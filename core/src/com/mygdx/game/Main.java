@@ -28,6 +28,8 @@ public class Main extends ApplicationAdapter {
 
     private Texture over;
 
+    private Texture gameover;
+
     private Goku goku;
 
     private Gohan gohan;
@@ -81,6 +83,8 @@ public class Main extends ApplicationAdapter {
     public static int EnemyType = 0;
 
 
+
+
 	@Override
 	public void create () {
         world = new World(new Vector2(0,0),true);
@@ -109,6 +113,7 @@ public class Main extends ApplicationAdapter {
 
 		city = new Texture("Assets/Backgrounds/city.png");
         over = new Texture("Assets/Backgrounds/gameover.png");
+       // gameover = new Texture(" Assets/Backgrounds/quit.png");
 
 
         mapLoader = new TmxMapLoader();
@@ -167,6 +172,7 @@ public class Main extends ApplicationAdapter {
             else if (Menu.Instructions.getBoundingRectangle().overlaps(rect) && Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
                 System.out.println("Instructions");
 
+
             }
             else if(Menu.Quit.getBoundingRectangle().overlaps(rect) && Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
                 Gdx.app.exit();
@@ -211,6 +217,21 @@ public class Main extends ApplicationAdapter {
             {
                 mode = "open";
             }
+
+
+        }
+        if (mode.equals("gameover")){
+            batch.begin();
+            batch.draw(gameover, 0, 0);
+            rect = new Rectangle (360,50,1,1);
+            Utils.contin.draw(batch);
+
+            batch.end();
+            if (contin.getBoundingRectangle().overlaps(rect) && Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+            {
+                mode = "open";
+            }
+
 
 
         }
