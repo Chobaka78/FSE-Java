@@ -15,11 +15,14 @@ public class Gohan {
     private String[] movementgo = new String[]{"attackgo", "kamego"};
     public Texture def;
     static boolean defend;
+    public  Texture death;
+
 
     public Gohan(){
 
         G = new Sprite();
         def = new Texture("Assets/Sprites/Gohan/defendgo/defendgo0.png");
+        death = new Texture("Assets/Sprites/Gohan/deathgo/deathgo0.png");
 
 
         for (int l = 0; l < listgo.length; l++) {
@@ -27,6 +30,7 @@ public class Gohan {
                 tmpgo = new ArrayList<Texture>();
                 for (int v = 0; v < listgo[l]; v++) {
                     tmpgo.add(new Texture("Assets/Sprites/Gohan/" + h + "/" + h + v + ".png"));
+
                 }
                 spritesgo.add(tmpgo);
             }
@@ -58,6 +62,11 @@ public class Gohan {
         }
         else{
             G.set(new Sprite(spritesgo.get(0).get(0)));
+        }
+
+        if (Battle.go.equals("dead")){
+            G.set(new Sprite(death));
+
         }
         if (defend){
             G.set(new Sprite(def));
