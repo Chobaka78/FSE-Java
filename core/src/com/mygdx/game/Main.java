@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.Map;
+import com.badlogic.gdx.maps.tiled.BaseTmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -124,7 +125,7 @@ public class Main extends ApplicationAdapter {
 	@Override
 	public void render () {
        // System.out.println(Battle.turn +", " + Battle.type + ", " + Battle.Person + ", " + Battle.frame);
-        System.out.println(Player.Goku.getX() + ", " + Player.Goku.getY());
+        //System.out.println(Player.Goku.getX() + ", " + Player.Goku.getY());
         if (Game.equals("Menu")) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             menu.music.play();
@@ -167,10 +168,17 @@ public class Main extends ApplicationAdapter {
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.E)){
-            Battle.enemy = 4;
+            Battle.enemy = 5;
             mode ="battle";
 
         }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.T)){
+            //Battle.enemy = 4;
+            //mode ="battle";
+
+        }
+
 
         if (mode.equals("battle")) {
 
@@ -217,6 +225,7 @@ public class Main extends ApplicationAdapter {
 
         if (Game.equals("Level1")&& mode.equals ("open")) {
             camera.zoom = 0.1f;
+            Battle.enemyalive = true ;
             //Rendering the map
             world.step(1/60f,6,2);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

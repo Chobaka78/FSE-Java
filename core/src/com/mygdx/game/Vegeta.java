@@ -3,6 +3,8 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.BaseTmxMapLoader;
+import com.sun.org.apache.bcel.internal.generic.BALOAD;
 
 import java.util.ArrayList;
 
@@ -12,6 +14,7 @@ public class Vegeta {
     static ArrayList<Texture> tmpv;
     static ArrayList<ArrayList<Texture>> spritesv = new ArrayList<ArrayList<Texture>>();
     static Texture def;
+    static Texture death;
    static boolean d ;
 
 
@@ -19,8 +22,10 @@ public class Vegeta {
 
         V = new Sprite();
         def = new Texture("Assets/Sprites/Vegeta/defendv/defendv0.png");
+        death = new Texture("Assets/Sprites/Vegeta/deathv/deathv0.png");
 
-            for (String h : new String[]{"attackv", "Special"}){
+
+        for (String h : new String[]{"attackv", "Special"}){
                 tmpv = new ArrayList<Texture>();
                 for (int v = 0; v < 7; v++){
                     tmpv.add(new Texture("Assets/Sprites/Vegeta/" + h + "/" + h+ v + ".png"));
@@ -47,13 +52,15 @@ public class Vegeta {
     }
 
     public void update(SpriteBatch batch, int x, int y) {
-        if(Battle.turn == Battle.VEGETA &&  Battle.Person.equals("Player" )) {
-            System.out.println("ZZZZAAAAAAAIIIIIN SHUT UP");
+        if(Battle.turn == Battle.VEGETA &&  Battle.Person.equals("Player" ) && Battle.v.equals("alive")) {
             d= false;
             V.set(new Sprite(spritesv.get(Battle.type).get(Battle.frame)));
         }
         else{
             V.set(new Sprite(spritesv.get(0).get(0)));
+        }
+        if (Battle.v.equals("dead")){
+            V.set(new Sprite(death));
         }
         if(d){
             V.set(new Sprite(def));

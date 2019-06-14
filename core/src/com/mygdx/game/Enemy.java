@@ -23,7 +23,7 @@ public class Enemy {
         public Enemy(){
             F = new Sprite();
             for (int l = 0 ; l<7; l++){
-                for (String h : new String[]{"Frieza_Attack_Right"}){
+                for (String h : new String[]{"Frieza_Attack_Right","specialf"}){
                     tmpf = new ArrayList<Texture>();
                     for (int v = 0; v < 7; v++){
                         tmpf.add(new Texture("Assets/Sprites/Enemy/" + h + "/" + h + v + ".png"));
@@ -45,7 +45,7 @@ public class Enemy {
                 F.set(new Sprite(spritesf.get(0).get(0)));
             }
 
-            F.setPosition(200,300);
+            F.setPosition(x,y);
             render(batch);
         }
 
