@@ -134,12 +134,12 @@ public class Battle {
         E = new ArrayList<String>(Arrays.asList("frieza","minion","raditz"," "));
         P = new ArrayList<String>(Arrays.asList("goku","vegeta","gohan" , " "));
 
-        Goku_Stat = new ArrayList<Integer>(Arrays.asList(8000,300,1800,200));
-        Vegeta_Stat = new ArrayList<Integer>(Arrays.asList(7000,500,2200,150));
-        Gohan_Stat = new ArrayList<Integer>(Arrays.asList(7500,400,1900,250));
-        Frieza_Stat = new ArrayList<Integer>(Arrays.asList(50000,500,3000,400));
-        Minion_Stat = new ArrayList<Integer>(Arrays.asList(15000,500,500,400));
-        rad_Stat = new ArrayList<Integer>(Arrays.asList(10000,500,1000,400));
+        Goku_Stat = new ArrayList<Integer>(Arrays.asList(8000,150,1800,200));
+        Vegeta_Stat = new ArrayList<Integer>(Arrays.asList(7000,250,2200,150));
+        Gohan_Stat = new ArrayList<Integer>(Arrays.asList(75000,200,1900,250));
+        Frieza_Stat = new ArrayList<Integer>(Arrays.asList(60000,600,3000,400));
+        Minion_Stat = new ArrayList<Integer>(Arrays.asList(30000,500,2000,400));
+        rad_Stat = new ArrayList<Integer>(Arrays.asList(25000,500,1500,400));
 
         amountp = new ArrayList<String>(Arrays.asList("0","1","2"));
 
@@ -173,8 +173,8 @@ public class Battle {
         }
 
         if (Stats.get(4).get(HP) <=0 && E.get(1).equals("minion")){
-            turn = GOKU;
-            movement = "";
+
+
             Main.EnemyType = 1;
             E.remove("minion");
 
@@ -246,7 +246,12 @@ public class Battle {
             //mode ="battle";
 
         }
-        if (Stats.get(0).get(HP) <=0 && P.get(1).equals("goku") ){
+
+        if(Gdx.input.isKeyPressed(Input.Keys.G)){
+            Stats.get(0).set(HP,0);
+
+        }
+        if (Stats.get(0).get(HP) <=0 && P.get(0).equals("goku") ){
             P.remove("goku");
             amountp.remove("0");
             turn = VEGETA;
@@ -268,6 +273,11 @@ public class Battle {
             turn = enemy;
             go = "dead";
 
+        }
+
+        if (Stats.get(2).get(HP) <=0 && Stats.get(1).get(HP) <=0 && Stats.get(0).get(HP) <=0 || Gdx.input.isKeyPressed(Input.Keys.O) )
+        {
+            Main.mode = "gameover";
         }
 
 
@@ -414,7 +424,7 @@ public class Battle {
             moveFrames(0,enemy, "Enemy",3, enemy);
         }
         else if (go.equals("dead") && turn == GOHAN){
-            turn = GOHAN;
+            turn = enemy;
 
         }
         if(turn == enemy ){
