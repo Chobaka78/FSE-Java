@@ -130,7 +130,6 @@ public class Main extends ApplicationAdapter {
 	@Override
 	public void render () {
        // System.out.println(Battle.turn +", " + Battle.type + ", " + Battle.Person + ", " + Battle.frame);
-        System.out.println(Player.Goku.getX() + ", " + Player.Goku.getY() + ", MouseX: " + mx + ", MouseY: " + my + ", " + Items.HitTrunks);
         if (Game.equals("Menu")) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             menu.music.play();
@@ -172,12 +171,6 @@ public class Main extends ApplicationAdapter {
                 Gdx.app.exit();
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.E)){
-            Battle.enemy = 4;
-            mode ="battle";
-
-        }
-
         if (mode.equals("battle")) {
 
 
@@ -234,15 +227,6 @@ public class Main extends ApplicationAdapter {
 
             batch.setProjectionMatrix(camera.combined);
 
-            if(Gdx.input.isKeyPressed(Input.Keys.A)){
-                EnemyType = 1;
-
-            }
-
-            else if(Gdx.input.isKeyPressed(Input.Keys.S)){
-                EnemyType = 2;
-            }
-
 //            b2dr.render(world,camera.combined);
 
             utils.worldmusic.play();
@@ -269,30 +253,29 @@ public class Main extends ApplicationAdapter {
     public void move(){
         player.body.setLinearVelocity(0,0);
 
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            moves1 = UP;
-            player.getBody().applyLinearImpulse(new Vector2(0,100), player.getBody().getWorldCenter(),true);
-            animation = true;
-        }
-        else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            moves1 = Down;
-            player.getBody().applyLinearImpulse(new Vector2(0,-100), player.getBody().getWorldCenter(),true);
-            animation = true;
-        }
-        else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            moves1 = Left;
-            player.getBody().applyLinearImpulse(new Vector2(-100,0), player.getBody().getWorldCenter(),true);
-            animation = true;
-        }
-        else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            moves1 = Right;
-            player.getBody().applyLinearImpulse(new Vector2(100,0), player.getBody().getWorldCenter(),true);
-            animation = true;
-        }
-        else{
-            player.getBody().applyLinearImpulse(new Vector2(player.getBody().getLinearVelocity().x * -1, player.getBody().getLinearVelocity().y * -1), player.getBody().getWorldCenter(), true);
-            animation = false;
-            player.frames = 0;
+        if(!Items.HitTrunks) {
+
+            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                moves1 = UP;
+                player.getBody().applyLinearImpulse(new Vector2(0, 100), player.getBody().getWorldCenter(), true);
+                animation = true;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                moves1 = Down;
+                player.getBody().applyLinearImpulse(new Vector2(0, -100), player.getBody().getWorldCenter(), true);
+                animation = true;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                moves1 = Left;
+                player.getBody().applyLinearImpulse(new Vector2(-100, 0), player.getBody().getWorldCenter(), true);
+                animation = true;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                moves1 = Right;
+                player.getBody().applyLinearImpulse(new Vector2(100, 0), player.getBody().getWorldCenter(), true);
+                animation = true;
+            } else {
+                player.getBody().applyLinearImpulse(new Vector2(player.getBody().getLinearVelocity().x * -1, player.getBody().getLinearVelocity().y * -1), player.getBody().getWorldCenter(), true);
+                animation = false;
+                player.frames = 0;
+            }
         }
 
         player.setX(player.body.getPosition().x);
@@ -348,15 +331,26 @@ public class Main extends ApplicationAdapter {
                     camera.position.y = 17;
                 }
 
-                else if(House){
+                else if(House){ // this sets all the camera and player corrdinated after you exist the house (so that boundries are maintained)
                     player.MoveBody(currentX, currentY);
                     House = false;
-                    camera.position.x = currentX;
                     if(player.body.getPosition().y < 33) {
                         camera.position.y = 33;
                     }
                     else{
                         camera.position.y = currentY;
+                    }
+                    if(player.body.getPosition().x > 275 && player.body.getPosition().x < 343){
+                        camera.position.x = 275;
+                    }
+                    else if(player.body.getPosition().x > 359 && player.body.getPosition().x < 372){
+                        camera.position.x = 394;
+                    }
+                    else if(player.body.getPosition().x > 605 && player.body.getPosition().x < 645){
+                        camera.position.x = 611;
+                    }
+                    else {
+                        camera.position.x = currentX;
                     }
                 }
 

@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
-import org.omg.PortableServer.POA;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -23,6 +22,9 @@ public class OpenEnemy {
     int[] moves = new int[] {3,5,9};
 
     int t = 0;
+
+    public static int[] timer = new int[]{1, 2, 3, 4, 5, 6, 7,8,9,10}; //this is a counter variable for time
+
 
 
 
@@ -81,22 +83,28 @@ public class OpenEnemy {
             body1.setTransform(3000, 3000,0);
         }
 
+        if(Main.EnemyType == 3){
+            body.setTransform(3000, 3000,0);
+            body2.setTransform(3000, 3000,0);
+            body1.setTransform(3000, 3000,0);
+        }
+
         if(Main.EnemyType == 0){
             Nappa.set(new Sprite(sprites.get(Main.EnemyType).get(frames)));
             Nappa.setPosition(body1.getPosition().x, body1.getPosition().y);
-            moveFrames(Main.EnemyType);
+            moveFrames(Main.EnemyType,5);
         }
 
         if(Main.EnemyType == 1){
             Raditz.set(new Sprite(sprites.get(Main.EnemyType).get(frames)));
             Raditz.setPosition(body2.getPosition().x, body2.getPosition().y);
-            moveFrames(Main.EnemyType);
+            moveFrames(Main.EnemyType,4);
         }
 
         if(Main.EnemyType == 2) {
             Frieza.set(new Sprite(sprites.get(Main.EnemyType).get(frames)));
             Frieza.setPosition(body.getPosition().x, body.getPosition().y);
-            moveFrames(Main.EnemyType);
+            moveFrames(Main.EnemyType,3);
         }
 
         render(batch, Main.EnemyType);
@@ -104,7 +112,7 @@ public class OpenEnemy {
 
     public void render(SpriteBatch batch, int choice){
         if(choice == 0){
-            batch.draw(Nappa, body1.getPosition().x - 3, body1.getPosition().y - 8, Nappa.getWidth() * (float) Math.pow(Main.PPM, 2) * 3 / 2, Nappa.getHeight() * (float) Math.pow(Main.PPM, 2) * 3 / 2);
+            batch.draw(Nappa, body1.getPosition().x - 8, body1.getPosition().y - 5, Nappa.getWidth() * (float) Math.pow(Main.PPM, 2), Nappa.getHeight() * (float) Math.pow(Main.PPM, 2));
 
         }
 
@@ -117,11 +125,11 @@ public class OpenEnemy {
         }
     }
 
-    public int moveFrames(int choice){ // this is the animation for the movement frames the character
+    public int moveFrames(int choice, int time){ // this is the animation for the movement frames the character
         if(frames < moves[choice]){
-            if(t < 3) {
+            if(t < timer[time]) {
                 t ++;
-                if(t == 3) {
+                if(t == timer[time]) {
                     frames += 1;
                     if (frames == moves[choice]) {
                         frames = 0;

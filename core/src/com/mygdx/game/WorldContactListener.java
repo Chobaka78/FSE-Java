@@ -13,12 +13,12 @@ public class WorldContactListener implements ContactListener {
         }
 
         if(contact.getFixtureA().getUserData() == "Player" && contact.getFixtureB().getUserData() == "Nappa" && Main.mode != "gameover" && Goku.fstat[0] >0 && Main.EnemyType ==0){
-            Battle.enemy = 3;
+            Battle.enemy = 4;
             Main.mode = "battle";
         }
 
         if(contact.getFixtureA().getUserData() == "Player" && contact.getFixtureB().getUserData() == "Raditz" && Main.mode != "gameover" && Goku.fstat[0] >0 && Main.EnemyType == 1){
-            Battle.enemy = 3;
+            Battle.enemy = 5;
             Main.mode = "battle";
         }
 
@@ -54,6 +54,7 @@ public class WorldContactListener implements ContactListener {
         else if(contact.getFixtureA().getUserData() == "Player" && contact.getFixtureB().getUserData() == "Trunks"){
             System.out.println("WOW I HIT TRUNKS");
             Items.HitTrunks = true;
+            Items.Cancel = false;
         }
 
         Gdx.app.log("Begin Contact", "");
