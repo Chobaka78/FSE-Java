@@ -10,13 +10,14 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import java.awt.*;
+import java.util.Set;
 
 public class Items {
     private Sprite Trunks;
 
-    public static Texture fontback, Inventory, oneStar, TwoStar,ThreeStar, FourStar;
+    public static Texture fontback, Inventory, oneStar, TwoStar,ThreeStar, FourStar, FiveStar, SixStar, SevenStar; // these are the dragon ball textures
 
-    Body body;
+    Body body; // body for trunks
 
     Rectangle rect;
 
@@ -35,6 +36,9 @@ public class Items {
         TwoStar = new Texture("Assets/DragonBalls/2Star.png");
         ThreeStar = new Texture("Assets/DragonBalls/3Star.png");
         FourStar = new Texture("Assets/DragonBalls/4Star.png");
+        FiveStar = new Texture("Assets/DragonBalls/5Star.png");
+        SixStar = new Texture("Assets/DragonBalls/6Star.png");
+        SevenStar = new Texture("Assets/DragonBalls/7Star.png");
         createBody();
     }
 
@@ -42,7 +46,7 @@ public class Items {
         purchase = false;
         Trunks.setPosition(body.getPosition().x,body.getPosition().y);
 
-        if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+        if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){ // shop can be exited
             Cancel = true;
             HitTrunks = false;
         }
@@ -60,6 +64,7 @@ public class Items {
             purchase = true;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
+            Battle.sevenstar = true;
             purchase = true;
         }
 
@@ -67,7 +72,7 @@ public class Items {
         render(batch);
     }
 
-    public void createBody(){
+    public void createBody(){ // creating trunks body
         Trunks.setPosition(747,147);
 
         rect = new Rectangle((int)Trunks.getX(), (int)Trunks.getY(), (int)Trunks.getWidth(), (int)Trunks.getHeight());
@@ -89,7 +94,7 @@ public class Items {
 
     }
 
-    public void render(SpriteBatch batch){
+    public void render(SpriteBatch batch){ // render method will render if inside the shop and will also render the dragon balls
         batch.draw(Trunks,body.getPosition().x - Trunks.getWidth() * (float) Math.pow(Main.PPM,2),body.getPosition().y - Trunks.getHeight() * (float) Math.pow(Main.PPM, 2), Trunks.getWidth() * (float) Math.pow(Main.PPM, 2) * 3, Trunks.getHeight() * (float) Math.pow(Main.PPM, 2) * 3);
         if(HitTrunks && !Cancel){
             batch.draw(Items.fontback,Main.camera.position.x - 54,Main.camera.position.y - 33,fontback.getWidth()* (float) Math.pow(Main.PPM,2) + 89,fontback.getHeight() *(float) Math.pow(Main.PPM,2) + 5);

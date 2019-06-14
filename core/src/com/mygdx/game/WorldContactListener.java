@@ -52,7 +52,6 @@ public class WorldContactListener implements ContactListener {
 
         }
         else if(contact.getFixtureA().getUserData() == "Player" && contact.getFixtureB().getUserData() == "Trunks"){
-            System.out.println("WOW I HIT TRUNKS");
             Items.HitTrunks = true;
             Items.Cancel = false;
         }

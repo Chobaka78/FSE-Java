@@ -16,6 +16,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -134,9 +137,7 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-       // System.out.println(Battle.turn +", " + Battle.type + ", " + Battle.Person + ", " + Battle.frame);
-        System.out.println(player.getX()+ ", " + player.getY() + ", ");
-        if (Game.equals("Menu")) {
+	    if (Game.equals("Menu")) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             menu.music.play();
 
@@ -170,13 +171,26 @@ public class Main extends ApplicationAdapter {
             }
 
             else if (Menu.Instructions.getBoundingRectangle().overlaps(rect) && Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-                System.out.println("Instructions");
+                try {
+                    File file = new File("Assets/Instructions.txt");
+                    if (!Desktop.isDesktopSupported()) {
+                        System.out.println("Desktop is not supported");
+                        return;
+                    }
 
+                    Desktop desktop = Desktop.getDesktop();
+                    if (file.exists()) {
+                        desktop.open(file);
+                    }
+                } catch (IOException var4) {
+                    System.out.println("FILE NOT FOUND");
+                }
 
             }
             else if(Menu.Quit.getBoundingRectangle().overlaps(rect) && Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
                 Gdx.app.exit();
             }
+
         }
         if (mode.equals("battle")) {
 
@@ -237,6 +251,11 @@ public class Main extends ApplicationAdapter {
         }
 
         if (Game.equals("Level1")&& mode.equals ("open")) {
+
+            if(Battle.onestar && Battle.twostar && Battle.threestar && Battle.fourstar && Battle.fivestar && Battle.sixstar && Battle.sevenstar && player.getX() > 144 && player.getX() < 167 && player.getY() > 250 && Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+                Gdx.app.exit();
+            }
+
             camera.zoom = 0.1f;
             //Rendering the map
             world.step(1/60f,6,2);
@@ -285,6 +304,18 @@ public class Main extends ApplicationAdapter {
         if(Battle.fourstar){
             batch.draw(Items.FourStar,174,300,Items.FourStar.getWidth() *(float) Math.pow(PPM,2), Items.FourStar.getHeight() *(float) Math.pow(PPM,2));
         }
+
+        if(Battle.fivestar){
+            batch.draw(Items.FiveStar,205,300,Items.FiveStar.getWidth() *(float) Math.pow(PPM,2), Items.FiveStar.getHeight() *(float) Math.pow(PPM,2));
+        }
+        if(Battle.sixstar){
+            batch.draw(Items.SixStar,232,300,Items.SixStar.getWidth() *(float) Math.pow(PPM,2), Items.SixStar.getHeight() *(float) Math.pow(PPM,2));
+        }
+        if(Battle.sevenstar){
+            batch.draw(Items.SevenStar,262,300,Items.SevenStar.getWidth() *(float) Math.pow(PPM,2), Items.SevenStar.getHeight() *(float) Math.pow(PPM,2));
+
+        }
+
 
         player.update(batch);
         frieza_open.update(batch);
