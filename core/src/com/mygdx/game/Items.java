@@ -14,7 +14,7 @@ import java.awt.*;
 public class Items {
     private Sprite Trunks;
 
-    public static Texture fontback, Inventory;
+    public static Texture fontback, Inventory, oneStar, TwoStar,ThreeStar, FourStar;
 
     Body body;
 
@@ -30,6 +30,11 @@ public class Items {
         Trunks = new Sprite(new Texture("Assets/Sprites/Trunks_Open/trunks.png"));
         Inventory =new Texture("Assets/Inventory.png");
         fontback = new Texture("Assets/Fonts/ShopFontback.png");
+
+        oneStar = new Texture("Assets/DragonBalls/1Star.png");
+        TwoStar = new Texture("Assets/DragonBalls/2Star.png");
+        ThreeStar = new Texture("Assets/DragonBalls/3Star.png");
+        FourStar = new Texture("Assets/DragonBalls/4Star.png");
         createBody();
     }
 

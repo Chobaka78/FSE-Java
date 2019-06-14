@@ -130,7 +130,7 @@ public class Main extends ApplicationAdapter {
 	@Override
 	public void render () {
        // System.out.println(Battle.turn +", " + Battle.type + ", " + Battle.Person + ", " + Battle.frame);
-        System.out.println(Battle.turn);
+        System.out.println(player.getX()+ ", " + player.getY() + ", ");
         if (Game.equals("Menu")) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             menu.music.play();
@@ -247,6 +247,24 @@ public class Main extends ApplicationAdapter {
         if(shop){
             item.update(batch);
         }
+
+
+        if(Battle.onestar){
+            batch.draw(Items.oneStar,64,300,Items.oneStar.getWidth() *(float) Math.pow(PPM,2), Items.oneStar.getHeight() *(float) Math.pow(PPM,2));
+        }
+
+        if(Battle.twostar){
+            batch.draw(Items.TwoStar,95,300,Items.TwoStar.getWidth() *(float) Math.pow(PPM,2), Items.TwoStar.getHeight() *(float) Math.pow(PPM,2));
+        }
+
+        if(Battle.threestar){
+            batch.draw(Items.ThreeStar,130,300,Items.ThreeStar.getWidth() *(float) Math.pow(PPM,2), Items.ThreeStar.getHeight() *(float) Math.pow(PPM,2));
+        }
+
+        if(Battle.fourstar){
+            batch.draw(Items.FourStar,174,300,Items.FourStar.getWidth() *(float) Math.pow(PPM,2), Items.FourStar.getHeight() *(float) Math.pow(PPM,2));
+        }
+
         player.update(batch);
         frieza_open.update(batch);
     }

@@ -55,7 +55,7 @@ public class Battle {
 
     private boolean alive;
 
-    public static boolean enemyalive;
+    public static boolean enemyalive, onestar, twostar, threestar, fourstar, fivestar, sixstar, sevenstar;
 
     public static int [] inventory = new int [] {5,5,3};
 
@@ -76,8 +76,6 @@ public class Battle {
     public static int enemy;
 
     static Sprite kame;
-
-
 
     private ArrayList<Integer> Goku_Stat, Vegeta_Stat, Gohan_Stat, Frieza_Stat , Minion_Stat,rad_Stat;
 
@@ -139,7 +137,7 @@ public class Battle {
         Gohan_Stat = new ArrayList<Integer>(Arrays.asList(7500,400,1900,250));
         Frieza_Stat = new ArrayList<Integer>(Arrays.asList(50000,500,3000,400));
         Minion_Stat = new ArrayList<Integer>(Arrays.asList(15000,500,500,400));
-        rad_Stat = new ArrayList<Integer>(Arrays.asList(10000,500,1000,400));
+        rad_Stat = new ArrayList<Integer>(Arrays.asList(15000,500,1000,400));
 
         amountp = new ArrayList<String>(Arrays.asList("0","1","2"));
 
@@ -157,7 +155,6 @@ public class Battle {
         batch.draw(stage,0,0);
         if (enemy == 3) {
             enemyalive = true;
-
             frieza.update(batch, pos[4], pos[5]);
         }
         else if (enemy == 4){
@@ -177,32 +174,29 @@ public class Battle {
             movement = "";
             Main.EnemyType = 1;
             E.remove("minion");
-
+            onestar = true;
+            twostar = true;
             enemyalive = false;
-
-
         }
-
-
         else if (Stats.get(5).get(HP) <=0 && E.get(1).equals("raditz")){
             E.remove("raditz");
             Main.EnemyType = 2;
+            threestar = true;
+            fourstar = true;
             System.out.println(E);
             enemyalive = false;
 
         }
         else if (Stats.get(3).get(HP) <=0 && E.get(0).equals("frieza")){
             E.remove("frieza");
+            fivestar = true;
+            sixstar = true;
             Main.EnemyType = 3;
             System.out.println(E);
             enemyalive = false;
 
 
         }
-
-
-
-
         else {
             enemyalive = true;
         }
@@ -240,12 +234,8 @@ public class Battle {
         my = Math.abs(660 - Gdx.input.getY());
         bossbattle.play();
         rect = new Rectangle(mx,my,1,1); // mouse rect made for collision (1 by 1 square)
-        if (Gdx.input.isKeyPressed(Input.Keys.T)){
-            Stats.get(1).set(HP,0);
-            //Battle.enemy = 4;
-            //mode ="battle";
 
-        }
+
         if (Stats.get(0).get(HP) <=0 && P.get(1).equals("goku") ){
             P.remove("goku");
             amountp.remove("0");
@@ -278,7 +268,6 @@ public class Battle {
             }
             if(special.getBoundingRectangle().overlaps(rect) && Gdx.input.isButtonPressed(Input.Buttons.LEFT) && Person.equals("Player")){
                 sx = 705;
-                System.out.println("special mode");
                 movement = "Special";
                 Animate = true;
             }
@@ -391,7 +380,7 @@ public class Battle {
     }
 
     public void Special(){ //Controls all the special moves
-        if(turn == GOKU && g == "alive") {
+        if(turn == GOKU && g.equals("alive")) {
             sx -=15;
             type = 1;
             moveFrames(2, VEGETA, "Player",3, enemy);
@@ -400,7 +389,7 @@ public class Battle {
             turn = VEGETA;
 
         }
-        else if(turn == VEGETA && v == "alive"){
+        else if(turn == VEGETA && v.equals("alive")){
             type = 1;
             moveFrames(1,GOHAN, "Player",4, enemy);
         }
@@ -409,12 +398,13 @@ public class Battle {
 
         }
 
-        else if(turn == GOHAN && go == "alive") {
+        else if(turn == GOHAN && go.equals("alive")) {
             type = 1;
+            Gohan.defend = false;
             moveFrames(0,enemy, "Enemy",3, enemy);
         }
         else if (go.equals("dead") && turn == GOHAN){
-            turn = GOHAN;
+            turn = enemy;
 
         }
         if(turn == enemy ){
@@ -523,13 +513,7 @@ public class Battle {
         if (movement.equals("Attack")) {
             System.out.println(Stats.get(attacker).get(ATK));
             Stats.get(attacked).set(HP, (Stats.get(attacked).get(HP) + (Stats.get(attacked).get(DEF) - Stats.get(attacker).get(ATK))));
-            Stats.get(attacker).set(KI, (Stats.get(attacker).get(KI) - 50));
 
-            System.out.println(Goku_Stat);
-
-            System.out.println(Stats.get(1).get(HP));
-            System.out.println(Stats.get(0).get(HP));
-            System.out.println(Stats.get(2).get(HP));
         }
 
         else if (movement.equals("Special")) {
