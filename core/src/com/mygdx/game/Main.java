@@ -172,11 +172,7 @@ public class Main extends ApplicationAdapter {
                 Gdx.app.exit();
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.E)){
-            Battle.enemy = 4;
-            mode ="battle";
 
-        }
 
         if (mode.equals("battle")) {
 
@@ -234,14 +230,6 @@ public class Main extends ApplicationAdapter {
 
             batch.setProjectionMatrix(camera.combined);
 
-            if(Gdx.input.isKeyPressed(Input.Keys.A)){
-                EnemyType = 1;
-
-            }
-
-            else if(Gdx.input.isKeyPressed(Input.Keys.S)){
-                EnemyType = 2;
-            }
 
             b2dr.render(world,camera.combined);
 

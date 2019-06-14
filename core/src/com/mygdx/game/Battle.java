@@ -126,7 +126,7 @@ public class Battle {
 
         bossbattle = Gdx.audio.newMusic(Gdx.files.internal("Assets/Music/boss.mp3"));
 
-        E = new ArrayList<String>(Arrays.asList("frieza","minion","raditz"));
+        E = new ArrayList<String>(Arrays.asList("frieza","minion","raditz"," "));
         P = new ArrayList<String>(Arrays.asList("goku","vegeta","gohan"));
 
         Goku_Stat = new ArrayList<Integer>(Arrays.asList(8000,300,1800,200));
@@ -137,7 +137,7 @@ public class Battle {
         rad_Stat = new ArrayList<Integer>(Arrays.asList(1500,500,1000,400));
 
 
-        Stats = new ArrayList<ArrayList<Integer>>(Arrays.asList(Goku_Stat,Vegeta_Stat,Gohan_Stat,Frieza_Stat, Minion_Stat, rad_Stat));
+        Stats = new ArrayList<ArrayList<Integer>>(Arrays.asList(Goku_Stat,Vegeta_Stat,Gohan_Stat,Frieza_Stat ,Minion_Stat, rad_Stat));
 
     }
 
@@ -162,19 +162,24 @@ public class Battle {
         }
 
         if (Stats.get(4).get(HP) <=0 && E.get(1).equals("minion")){
-            System.out.println("ASDDDDASDASD");
             turn = GOKU;
             movement = "";
-
+            Main.EnemyType = 1;
             E.remove("minion");
-            System.out.println(turn);
-            System.out.println(movement);
-            System.out.println(E);
+
             enemyalive = false;
 
 
         }
 
+
+       else if (Stats.get(5).get(HP) <=0 && E.get(1).equals("raditz")){
+            E.remove("raditz");
+            Main.EnemyType = 2;
+            System.out.println(E);
+            enemyalive = false;
+
+        }
         else if (Stats.get(3).get(HP) <=0 && E.get(0).equals("frieza")){
             E.remove("frieza");
             System.out.println(E);
@@ -183,12 +188,6 @@ public class Battle {
 
         }
 
-       else if (Stats.get(5).get(HP) <=0 && E.get(1).equals("raditz")){
-            E.remove("raditz");
-            System.out.println(E);
-            enemyalive = false;
-
-        }
 
 
 
