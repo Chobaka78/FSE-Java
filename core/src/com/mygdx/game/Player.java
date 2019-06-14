@@ -61,8 +61,12 @@ public class Player {
         }
     }
 
+    public void MoveBody(int x, int y){
+        body.setTransform(x,y,0);
+    }
+
     public void createBody(){
-        Goku.setPosition(64,60);
+        Goku.setPosition(59,54);
 
         rect = new Rectangle((int) Goku.getX(), (int) Goku.getY(), (int) Goku.getWidth(), (int) Goku.getHeight());
 
@@ -86,6 +90,7 @@ public class Player {
 
 
     }
+
 
     public void update(SpriteBatch batch){
 

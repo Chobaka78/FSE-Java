@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.Map;
-import com.badlogic.gdx.maps.tiled.BaseTmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -47,15 +46,17 @@ public class Main extends ApplicationAdapter {
 
 	private Battle battle;
 
+	private Items item;
+
     static WorldCreator worldcreator;
 
 	int mx, my;
 
-	static String mode = "";
+	static String mode = "", type = "";
 
 	public static final float PPM = 0.3f;
 
-    static boolean animation;
+    static boolean animation, shop = false, moveBody;
 
 	static String Game = "Menu"; // this is a String that will determine what the current mode is(main menu, level, etc.)
 
@@ -76,6 +77,8 @@ public class Main extends ApplicationAdapter {
     public static World world;
 
     Box2DDebugRenderer b2dr;
+
+    public static int EnemyType = 0;
 
 
 	@Override
@@ -102,6 +105,8 @@ public class Main extends ApplicationAdapter {
 
         menu = new Menu();
 
+        item = new Items();
+
 		city = new Texture("Assets/Backgrounds/city.png");
         over = new Texture("Assets/Backgrounds/gameover.png");
 
@@ -125,7 +130,7 @@ public class Main extends ApplicationAdapter {
 	@Override
 	public void render () {
        // System.out.println(Battle.turn +", " + Battle.type + ", " + Battle.Person + ", " + Battle.frame);
-        //System.out.println(Player.Goku.getX() + ", " + Player.Goku.getY());
+        System.out.println(Player.Goku.getX() + ", " + Player.Goku.getY() + ", MouseX: " + mx + ", MouseY: " + my + ", " + Items.HitTrunks);
         if (Game.equals("Menu")) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             menu.music.play();
@@ -168,17 +173,10 @@ public class Main extends ApplicationAdapter {
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.E)){
-            Battle.enemy = 5;
+            Battle.enemy = 4;
             mode ="battle";
 
         }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.T)){
-            //Battle.enemy = 4;
-            //mode ="battle";
-
-        }
-
 
         if (mode.equals("battle")) {
 
@@ -225,7 +223,6 @@ public class Main extends ApplicationAdapter {
 
         if (Game.equals("Level1")&& mode.equals ("open")) {
             camera.zoom = 0.1f;
-            Battle.enemyalive = true ;
             //Rendering the map
             world.step(1/60f,6,2);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -236,6 +233,15 @@ public class Main extends ApplicationAdapter {
             renderer.render();
 
             batch.setProjectionMatrix(camera.combined);
+
+            if(Gdx.input.isKeyPressed(Input.Keys.A)){
+                EnemyType = 1;
+
+            }
+
+            else if(Gdx.input.isKeyPressed(Input.Keys.S)){
+                EnemyType = 2;
+            }
 
             b2dr.render(world,camera.combined);
 
@@ -253,6 +259,9 @@ public class Main extends ApplicationAdapter {
     }
 
     public void update(){
+        if(shop){
+            item.update(batch);
+        }
         player.update(batch);
         frieza_open.update(batch);
     }
@@ -290,12 +299,36 @@ public class Main extends ApplicationAdapter {
         player.setY(player.body.getPosition().y);
 
         // the following if statement is to apply a boundary on the camera
-        if(player.body.getPosition().x > 63 && player.body.getPosition().x < 617) {
-            camera.position.x = player.getX();
 
+        if(!shop && !moveBody) {
+            if (player.body.getPosition().x > 54 && player.body.getPosition().x < 611) {
+                camera.position.x = player.getX();
+
+            }
+            if (player.body.getPosition().y > 33 && player.body.getPosition().y < 166) {
+                camera.position.y = player.getY();
+            }
         }
-        if(player.body.getPosition().y > 42 && player.body.getPosition().y < 165){
-            camera.position.y = player.getY();
+        else if(moveBody){
+            if(type.equals("Shop")) {
+                player.MoveBody(726, 100);
+                shop = true;
+                camera.position.x = 726;
+                camera.position.y = 17;
+            }
+            else if(type.equals("open")){
+                player.MoveBody(110,113);
+                shop = false;
+                camera.position.x = 110;
+                camera.position.y = 17;
+            }
+            moveBody = false;
+        }
+
+        if(shop){
+            if(player.body.getPosition().y > 17 && player.body.getPosition().y < 143) {
+                camera.position.y = player.getY();
+            }
         }
     }
 
