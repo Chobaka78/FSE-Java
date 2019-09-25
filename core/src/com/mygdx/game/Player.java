@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,26 +10,27 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Player {
-    private static int x, y;
-    static Sprite Goku;
+    private int x,y;
+    static Sprite Lan;
     static ArrayList<Texture> tmp;
     static ArrayList<ArrayList<Texture>> sprites = new ArrayList<ArrayList<Texture>>();
-    int [] open_list = new int [] {5,5,5,5};
-    public int frames = 0;
-    int t = 0;
-    Body body;
     Rectangle rect;
+    Body body;
+    public static int frames = 0;
+    int t = 0;
     int width = 18, height = 34;
 
+    int [] open_list = new int [] {7,7,7,7,7,7,7};
 
     public Player(){
-        Goku = new Sprite();
-        createBody();
+        Lan = new Sprite();
         Load();
+        createbody();
     }
 
     public void render(SpriteBatch batch){
-        batch.draw(Goku,body.getPosition().x - Goku.getWidth() * (float) Math.pow(Main.PPM,2),body.getPosition().y - Goku.getHeight() * (float) Math.pow(Main.PPM, 2), Goku.getWidth() * (float) Math.pow(Main.PPM, 2) * 3, Goku.getHeight() * (float) Math.pow(Main.PPM, 2) * 3);
+        Lan.setPosition(100,100);
+        batch.draw(Lan,body.getPosition().x - Lan.getWidth() * (float) Math.pow(Main.PPM,2),body.getPosition().y - Lan.getHeight() * (float) Math.pow(Main.PPM, 2), Lan.getWidth() * (float) Math.pow(Main.PPM, 2) * 3, Lan.getHeight() * (float) Math.pow(Main.PPM, 2) * 3);
 
     }
 
@@ -49,31 +51,35 @@ public class Player {
         return frames;
     }
 
+
+
     public void Load(){
         for(int i = 0; i < open_list.length; i ++ ){
-            for(String w : new String[]{"Up", "Down", "Left", "Right"}){
+            for(String w : new String[]{"Lanup", "Landown", "Lanleft", "Lanright" , "LanNW", "LanSW","LanNE"}){
                 tmp = new ArrayList<Texture>();
                 for(int k = 0; k < open_list[i]; k ++){
-                    tmp.add(new Texture("Assets/Sprites/Goku_Open/" + w + "/" + w + k + ".png"));
+                    tmp.add(new Texture("Assets/Lan walk/" + w + "/" + w + k + ".png"));
                 }
                 sprites.add(tmp);
             }
         }
     }
 
+
     public void MoveBody(int x, int y){
         body.setTransform(x,y,0);
     }
 
-    public void createBody(){
-        Goku.setPosition(59,54);
 
-        rect = new Rectangle((int) Goku.getX(), (int) Goku.getY(), (int) Goku.getWidth(), (int) Goku.getHeight());
+    public void createbody(){
+
+        rect = new Rectangle((int) Lan.getX(), (int) Lan.getY(), (int) Lan.getWidth(), (int) Lan.getHeight());//create a recto take players x,y,width and height
+
 
 
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
-        this.body = Main.world.createBody(bdef);
+        body = Main.world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
@@ -88,13 +94,12 @@ public class Player {
 
         this.body.setTransform((float) rect.getX(), (float) rect.getY(), 0);
 
-
     }
 
 
     public void update(SpriteBatch batch){
 
-        Goku.setPosition(body.getPosition().x,body.getPosition().y);
+        Lan.setPosition(body.getPosition().x,body.getPosition().y);
 
         if(Main.animation && Main.moves1 == Main.UP){
             moveFrames();
@@ -112,35 +117,33 @@ public class Player {
             frames = 0;
         }
 
-        Goku.set(new Sprite(sprites.get(Main.moves1).get(frames)));
+        Lan.set(new Sprite(sprites.get(Main.moves1).get(frames)));
         this.render(batch);
     }
 
+
     public void setX(float x) {
-        Goku.setX(x);
+        Lan.setX(x);
     }
 
     public void setY(float y) {
-        Goku.setY(y);
+        Lan.setY(y);
     }
 
     public float getX() {
-        return Goku.getX();
+        return Lan.getX();
     }
 
     public float getY() {
-        return Goku.getY();
-    }
-
-    public int getWidth(){
-        return this.width;
-    }
-
-    public int getHeight(){
-        return this.height;
+        return Lan.getY();
     }
 
     public Body getBody() {
         return body;
     }
+
+
+
 }
+
+

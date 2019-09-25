@@ -124,7 +124,7 @@ public class Battle {
 
         Goku_Stat = new ArrayList<Integer>(Arrays.asList(8000,150,1800,200));
         Vegeta_Stat = new ArrayList<Integer>(Arrays.asList(7000,250,2200,150));
-        Gohan_Stat = new ArrayList<Integer>(Arrays.asList(75000,200,1900,250));
+        Gohan_Stat = new ArrayList<Integer>(Arrays.asList(7500,200,1900,250));
         Frieza_Stat = new ArrayList<Integer>(Arrays.asList(60000,600,3000,400));
         Minion_Stat = new ArrayList<Integer>(Arrays.asList(15000,500,2000,400));
         rad_Stat = new ArrayList<Integer>(Arrays.asList(25000,500,1500,400));
@@ -404,13 +404,21 @@ public class Battle {
             turn = enemy;
 
         }
-        if(turn == enemy ){
+        if(turn == enemy  && enemyalive){
             pos[5] +=5;
 
+            System.out.println(pos[5]);
             type =1;
             moveFrames(1,GOKU, "Player",5, player);
 
         }
+
+        else if (!enemyalive){
+            enemyalive = true;
+            turn = enemy;
+        }
+
+
     }
 
     public void Defend () {
@@ -513,6 +521,10 @@ public class Battle {
 
 
         }
+    }
+
+    public static int getFrame(){
+        return frame;
     }
 }
 
