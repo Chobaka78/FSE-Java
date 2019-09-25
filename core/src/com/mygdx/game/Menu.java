@@ -52,7 +52,7 @@ public class Menu {
         Instructions.set(new Sprite(tmp1.get(choice1)));
         Quit.set(new Sprite(tmp2.get(choice2)));
 
-        Play.setPosition(0,0);
+        Play.setPosition(x,y);
         Instructions.setPosition(x - 120,y - 90);
         Quit.setPosition(x - 15,y - 190);
         render(batch);
