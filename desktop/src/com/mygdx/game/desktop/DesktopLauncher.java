@@ -10,10 +10,10 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		new LwjglApplication(new Main(), config);
-		config.width = 1100; // sets the width of screen
-		config.height = 660; // set height of screen
-		config.title = "Dragon ball";
-		config.addIcon("Assets/Backgrounds/icon.png", Files.FileType.Internal);
+		config.width = 720; // sets the width of screen
+		config.height = 480; // set height of screen
+		config.title = "Mega Man Battle Network 6";
+		config.addIcon("Assets/icon.png", Files.FileType.Internal);
 		config.foregroundFPS = 36;
 
 	}
