@@ -17,9 +17,6 @@ public class Goku {
     static Texture death;
 
     static ArrayList<ArrayList<Texture>> sprites = new ArrayList<ArrayList<Texture>>();
-    static ArrayList<ArrayList<Texture>> spritesd = new ArrayList<ArrayList<Texture>>();
-    private int Stance_frame = 0;
-    int t = 0;
 
 
     static int[] gstat = {8000, 300, 8000, 200}; // hp,ki,attack,def
@@ -75,7 +72,7 @@ public class Goku {
         if(Battle.turn == Battle.GOKU && Battle.Person.equals("Player")){
             defend = false;
 
-            Goku.set(new Sprite(sprites.get(Battle.type).get(Battle.frame)));
+            Goku.set(new Sprite(sprites.get(Battle.type).get(Battle.getFrame())));
 
         }
         else{
